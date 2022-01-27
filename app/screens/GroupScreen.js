@@ -16,7 +16,6 @@ const styles = StyleSheet.create({
         justifyContent: "space-evenly",
   
     },
-    
   }); 
 
-export default GroupScreen;
+export default GroupScreen; 
