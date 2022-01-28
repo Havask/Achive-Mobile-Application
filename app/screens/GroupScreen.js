@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {StyleSheet, TouchableOpacity, Text, View, Image, Button} from "react-native"; 
 
 function GroupScreen(props) {

@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import {StyleSheet, TouchableOpacity, Text, View, Image, Button, TextInput} from "react-native"; 
+
 function LogInScreen(props) {
 
     const [state, setState] = useState()
@@ -13,7 +14,6 @@ function LogInScreen(props) {
         source={require("../assets/logo.png")}
         />
 
-      /* -----Innlogging input-------*/
         <TextInput
           placeholder="Username"
           style={styles.username}
@@ -23,7 +23,6 @@ function LogInScreen(props) {
           style={styles.password}
         />
        
-      /* -----Innlogging knapp-------*/
         <TouchableOpacity
           style = {styles.loginButton}
           onPress= {onPress}

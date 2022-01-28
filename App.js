@@ -5,6 +5,6 @@ import GroupScreen from "./app/screens/GroupScreen.js";
 import Todo from "./app/screens/Todo.js"; 
 
 export default function App() {
-  return <Todo/>;
+  return <LogInScreen/>;
   //return <GroupScreen/>;
 }
