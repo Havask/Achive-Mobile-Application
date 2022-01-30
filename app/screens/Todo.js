@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {StyleSheet, TouchableOpacity, Text, View, Image, Button, TextInput} from "react-native"; 
+import {StyleSheet, TouchableOpacity, Text, View, Image, Button, TextInput, ScrollView} from "react-native"; 
 
 function ToDo(props){
     const [enteredGoals, setEnteredGoal] = useState(""); 
@@ -11,6 +11,10 @@ function ToDo(props){
 
     const addGoalHandler = () => {
         setCourseGoals(currentGoals => [...currentGoals, enteredGoals]); 
+    }
+
+    const removeGoalHandler = () => {
+        removeCourseGoals(currentGoals)
     }
 
     return(
@@ -29,9 +33,12 @@ function ToDo(props){
                 />
                 <Button title ="Add" onPress={addGoalHandler} />
             </View>
-            <View>
-                {courseGoals.map((goal) => <text>{goal}</text>)}
-            </View>
+            <ScrollView>
+                {courseGoals.map((goal) => 
+                <View key={goal} style={styles.listItem}> 
+                    <Text > {goal}</Text> 
+                </View>)}
+            </ScrollView>
         </View>
     ); 
 }
@@ -49,13 +56,20 @@ const styles = StyleSheet.create({
         borderColor: "black", 
         borderWidth: 2, 
         padding: 10, 
-        width: 300,
-        height: 60, 
     },
 
     todo: {
         fontSize: 24,
     }, 
+
+    listItem: {
+        padding: 10, 
+        marginVertical: 10,
+        backgroundColor: "#ccc",
+        borderColor: "black", 
+        borderWidth: 1, 
+        
+    },
 }); 
 
 export default ToDo; 
