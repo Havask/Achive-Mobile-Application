@@ -1,5 +1,7 @@
 import React, {useState} from "react";
-import {StyleSheet, TouchableOpacity, Text, View, Image, Button, TextInput, ScrollView} from "react-native"; 
+import {StyleSheet, TouchableOpacity, 
+    Text, View, Image, Button, TextInput, 
+    ScrollView, FlatList} from "react-native"; 
 
 function ToDo(props){
     const [enteredGoals, setEnteredGoal] = useState(""); 
@@ -10,7 +12,9 @@ function ToDo(props){
     };
 
     const addGoalHandler = () => {
-        setCourseGoals(currentGoals => [...currentGoals, enteredGoals]); 
+        setCourseGoals(currentGoals => [
+            ...currentGoals, 
+            {id: Math.random().toString(), value: enteredGoals}]); 
     }
 
     const removeGoalHandler = () => {
@@ -33,12 +37,17 @@ function ToDo(props){
                 />
                 <Button title ="Add" onPress={addGoalHandler} />
             </View>
-            <ScrollView>
-                {courseGoals.map((goal) => 
-                <View key={goal} style={styles.listItem}> 
-                    <Text > {goal}</Text> 
-                </View>)}
-            </ScrollView>
+
+            <FlatList 
+            keyExtractor={(item,index ) => item.id} 
+            data ={courseGoals} 
+            renderItem={itemData => (
+            <View style={styles.listItem}> 
+                <Text > {itemData.item.value}</Text> 
+            </View> 
+                )} 
+            />
+
         </View>
     ); 
 }
