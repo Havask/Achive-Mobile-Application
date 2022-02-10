@@ -1,27 +1,42 @@
 import React from "react";
-import {StyleSheet, TouchableOpacity, Text, View, Image, Button} from "react-native"; 
-import LogInScreen from "./app/screens/LogInScreen.js";
-import GroupScreen from "./app/screens/GroupScreen.js";
-import Todo from "./app/screens/Todo.js"; 
-import Colors from "./app/constants/colors.js"
+import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import Header from "./app/components/Header.js"
-import StartGameScreen from "./app/screens/StartGameScreen"
+import {HomeScreen, LogInScreen, ToDo, SignIn} from "./screens";
 
-export default function App() {
-  return(
-    <View style={styles.background} >
-      <Header title="Guess the number"/>
-      <StartGameScreen/>
-    </View>
-  ); 
-}
+
+import Colors from "./constants/colors";
+
+const Stack = createStackNavigator();
+
+const App = () => (
+  <NavigationContainer>
+    <Stack.Navigator>
+      <Stack.Screen
+              name = "LogInScreen"
+              component={LogInScreen}
+            />
+      <Stack.Screen
+              name = "HomeScreen"
+              component={HomeScreen}
+            />
+      <Stack.Screen
+              name = "SignIn"
+              component={SignIn}
+            />
+    </Stack.Navigator>
+  </NavigationContainer>
+);
+
+export default App;
 
 const styles = StyleSheet.create({
-
-    background:{
-      flex: 1, 
-      backgroundColor: Colors.primary, 
-      justifyContent: "center"
-    }
-})
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
