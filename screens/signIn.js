@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-import {StyleSheet, TouchableOpacity, Text, View, Image, Button, TextInput} from "react-native"; 
+import {StyleSheet, TouchableOpacity, Text, View, Image, Button, TextInput, KeyboardAvoidingView} from "react-native"; 
+import { backgroundColor } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
 import GroupCards from "../components/GroupCard";
+import Colors from "../constants/colors.js";
 
 const SignInScreen = ({navigation}) => {
   return (
-        <View style={styles.screen}>
+        <KeyboardAvoidingView style={styles.screen}>
             <Text>SignInScreen</Text>
-            
-        </View>
+
+        </KeyboardAvoidingView>
   );
 };
 
@@ -16,7 +18,8 @@ const styles = StyleSheet.create({
   screen: {
       flex: 1, 
       padding: 10, 
-      alignItems: "center"
+      alignItems: "center", 
+      backgroundColor: Colors.primary,
   },
 }); 
 

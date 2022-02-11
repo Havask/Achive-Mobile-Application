@@ -15,10 +15,12 @@ const App = () => (
   <NavigationContainer>
     <Stack.Navigator>
       <Stack.Screen
+              options={{headerShown: false}}
               name = "LogInScreen"
               component={LogInScreen}
             />
       <Stack.Screen
+              
               name = "HomeScreen"
               component={HomeScreen}
             />

@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     card: {
         shadowColor: "black",
         elevation: 5,
-        backgroundColor: Colors.primary,
+        backgroundColor: "white",
         padding: 20
     }
 })
