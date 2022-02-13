@@ -1,24 +1,39 @@
-import React, {useState} from "react";
-import {StyleSheet, TouchableOpacity, Text, View, 
-  Image, Button, TextInput, KeyboardAvoidingView } from "react-native"; 
-import { auth } from "../firebase.js";
-
-
+import React, {useEffect, useState} from "react";
 import Colors from "../constants/colors.js";
+import { auth } from "../firebase.js";
+import {signInWithEmailAndPassword} from "firebase/auth"; 
 
+import {StyleSheet, 
+  TouchableOpacity, 
+  Text, View, 
+  Image, Button, 
+  TextInput, 
+  KeyboardAvoidingView} from "react-native"; 
+
+  
 function LogInScreen({navigation}) {
 
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
+    const [email, setEmail] = useState(""); 
+    const [password, setPassword] = useState("");
 
-    const handleSignUp = () =>{
-      auth 
-      .createUserWithEmailAndPassword(email , password)
-      .then(userCredentials => {
-        const user = userCredentials.user;
-        console.log(user.email); 
+    useEffect(() => {
+      const unsubscribe = auth.onAuthStateChanged(user => {
+        if(user){
+          navigation.navigate("HomeScreen")
+        }
       })
-      .catch(error)
+      return unsubscribe; 
+    }), [1]
+
+    const handleSignIn = () =>{
+      signInWithEmailAndPassword(auth,email,password)
+      .then((re) => {
+        console.log(re); 
+        setIsSignedIn(true); 
+      })
+      .catch((re)=>{
+        console.log(re); 
+      })
     }
 
     return(
@@ -27,9 +42,11 @@ function LogInScreen({navigation}) {
       behavior="padding">
         <View style={styles.inputContainer}>
 
-          <Image style = {styles.logo} 
-          source={require("../assets/logo.png")}
-          />
+          <View style={styles.imageStyle}>
+            <Image style = {styles.logo} 
+            source={require("../assets/logo.png")}
+            />
+          </View>
 
           <TextInput
             style={styles.username}
@@ -51,8 +68,11 @@ function LogInScreen({navigation}) {
 
           <TouchableOpacity
               style = {styles.button}
-              onPress={() => navigation.push("HomeScreen")}
-            >
+              onPress={() => {
+              navigation.push("HomeScreen"); 
+              handleSignIn(); 
+              }}>
+
               <Text style={styles.textstyle}>Log in</Text>
           </TouchableOpacity>
 
@@ -70,6 +90,13 @@ function LogInScreen({navigation}) {
 
 const styles = StyleSheet.create({
 
+  imageStyle: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '55%',
+  },
+  
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -79,7 +106,7 @@ const styles = StyleSheet.create({
 
   logo: {
     width: 320,
-    height: 300,
+    height: 400,
   },
 
   username: {
