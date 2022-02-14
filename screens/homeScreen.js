@@ -40,7 +40,7 @@ const HomeScreen = ({navigation}) => {
   }
 
   const createGroupHandler = () => {
-    
+  
   };
 
   //when creating a group the random color should make a color
