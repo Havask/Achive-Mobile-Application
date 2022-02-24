@@ -1,95 +1,113 @@
-import React, { useState } from "react";
-import {StyleSheet, TouchableOpacity, Text, View, Image, Button, TextInput} from "react-native"; 
-import GroupCards from "../components/GroupCard";
-import Colors from "../constants/colors.js";
-import { auth, db } from "../firebase.js";
-import {signInWithEmailAndPassword, signOut} from "firebase/auth"; 
-import { NavigationContainer } from "@react-navigation/native";
+import React, {useState} from "react";
+import {Platform} from "react-native"; 
+import styled from "styled-components/native"; 
+import Text from "../components/Text.js";
+
+import {AntDesign} from "@expo/vector-icons"
+import * as ImagePicker from "expo-image-picker"
+import {FirebaseContext} from "../context/FirebaseContext";
+import {UserContext} from "../context/UserContext";
+import { useContext } from "react";
+
+export default SignUpScreen = ({navigation}) => {
 
 
-const HomeScreen = ({navigation}) => {
+  const [profilePhoto, setProfilePhoto] = useState(); 
+  const firebase = useContext(FirebaseContext); 
+  const [user, setUser] = useContext(UserContext); 
 
-  const getUserData = uid => {
-    db().ref('users/' + uid).once("value", snap => {
-      console.log(snap.val())
-  })
-}; 
-  auth.onAuthStateChanged(user => {
-    if (user) {
-        const userID = getUserData(user.uid)
-        console.log(userID)
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      setProfilePhoto(result.uri);
     }
-  })
-
-  //generate a new color each time it is called
-  const generateColor = () => {
-    const randomColor = Math.floor(Math.random() * 16777215)
-      .toString(16)
-      .padStart(6, '0');
-    return `#${randomColor}`;
   };
 
-  const SignOutUser = () => {
-    
-    auth
-    .signOut()
-    .then(() => {
-      navigation.replace("LogInScreen")
-    })
-    .catch(error=> alert(error.message))
-  }
+  const signOut = async () => {
 
-  const createGroupHandler = () => {
-  
+    setLoading(true);
+    setUser({isLoggedIn: null}); 
+
   };
 
-  //when creating a group the random color should make a color
-  return (
-        <View style={styles.screen}>
-            <Button title="sign out" onPress={SignOutUser}/>
-            <Text>Email: {auth.currentUser?.email} </Text>
+  return(
+    <Container>
+       <Main>
+         <Text title semi center color="#88d498">
+              Home Screen:
+         </Text>
+        </Main>
 
-            <TouchableOpacity
-              style = {styles.button}
-              onPress={() => createGroupHandler()}
-            >
-              <Text style={styles.textstyle}>Add a group</Text>
-            </TouchableOpacity>
-  
-        </View>
-  );
-};
+        <ProfilePhotoContainer onPress={pickImage}>
+          <ProfilePhoto 
+            source={user.profilePhotoUrl == "default"
+                    ? require("../assets/logo.png")
+                    : { uri: user.profilePhotoUrl}
+            }
+          />
 
-const styles = StyleSheet.create({
+        </ProfilePhotoContainer>
 
-  screen: {
-      flex: 1, 
-      paddingTop: 50, 
-      alignItems: "center",
-      backgroundColor: Colors.primary,
-  },
+        <Text medium bold margin="16px 0 32px 0">
+          {user.username}
+        </Text>
 
-  button: {
-    backgroundColor: '#0782F9',
-    width: '60%',
-    padding: 15,
-    borderRadius: 10,
-    alignItems: 'center',
-  },
-  buttonOutline: {
-    backgroundColor: 'white',
-    marginTop: 5,
-    borderColor: '#0782F9',
-    borderWidth: 2,
-  },
+        <SignUp onPress={signOut}>
+          <Text small center> 
+              <Text bold color="#88d498">Log Out</Text></Text>
+        </SignUp>
+     </Container>
+    );
+}
 
-  textstyle: {
-    color: 'white',
-    fontWeight: '700',
-    fontSize: 16,
-  },
+const Container = styled.View`
 
-}); 
+    flex: 1; 
+`;
 
-export default HomeScreen;
-//onPress={() => navigation.push("HomeScreen")}
+const Main = styled.View`
+
+  margin-top: 80px; 
+  margin-bottom: 50px; 
+`;
+
+
+const GroupContainer = styled.TouchableOpacity`
+  margin: 0 32px; 
+  height: 48px; 
+  align-items: center; 
+  justify-content: center; 
+  background-color: #88d498;
+  border-radius: 6px;
+
+`;
+
+const SignUp = styled.TouchableOpacity`
+  margin-top: 16px; 
+`; 
+
+const ProfilePhotoContainer = styled.TouchableOpacity`
+  background-color: #e1e2e6;
+  width: 80px; 
+  height: 80px; 
+  border-radius: 40px; 
+  align-self: center; 
+  margin-top: 16px;
+  overflow: hidden; 
+`; 
+
+
+const ProfilePhoto = styled.Image`
+  width: 128px;
+  height: 128px; 
+  border-radius: 64px; 
+
+`;

@@ -1,173 +1,133 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import Colors from "../constants/colors.js";
-import { auth } from "../firebase.js";
+import { auth } from "../config/Firebase.js";
 import {signInWithEmailAndPassword} from "firebase/auth"; 
+import { useContext } from "react";
+import styled from "styled-components/native"; 
+import Text from "../components/Text.js";
+import {FirebaseContext} from "../context/FirebaseContext";
+import {UserContext} from "../context/UserContext";
 
-import {StyleSheet, 
-  TouchableOpacity, 
-  Text, View, 
-  Image, Button, 
-  TextInput, 
-  KeyboardAvoidingView} from "react-native"; 
+export default LogInScreen = ({navigation}) => {
 
-  
-function LogInScreen({navigation}) {
 
-    const [email, setEmail] = useState(""); 
-    const [password, setPassword] = useState("");
+  const [email, setEmail] = useState(); 
+  const [password, setPassword] = useState(); 
+  const [loading, setLoading] = useState(false); 
+  const firebase = useContext(FirebaseContext); 
+  const [_, setUser] = useContext(UserContext); 
 
-    useEffect(() => {
-      const unsubscribe = auth.onAuthStateChanged(user => {
-        if(user){
-          navigation.navigate("HomeScreen")
-        }
-      })
-      return unsubscribe; 
-    }), [1]
+  const LogIn = async () => {
 
-    const handleSignIn = () =>{
-      signInWithEmailAndPassword(auth,email,password)
-      .then((re) => {
-        console.log(re); 
-        setIsSignedIn(true); 
-      })
-      .catch((re)=>{
-        console.log(re); 
-      })
-    }
+    setLoading(true);
+    setUser({isLoggedIn: true}); 
+  };
 
     return(
-      <KeyboardAvoidingView 
-      style = {styles.container}
-      behavior="padding">
-        <View style={styles.inputContainer}>
+     <Container>
+       <Main>
+         
+         <Text title semi center color="#88d498">
+              Achive
+         </Text>
 
-          <View style={styles.imageStyle}>
-            <Image style = {styles.logo} 
-            source={require("../assets/logo.png")}
-            />
-          </View>
+        <Auth>
+          <AuthContainer>
+            <AuthTitle>Email address</AuthTitle>
+            <AuthField 
+              autoCapitalize="none" 
+              autoCompleteType="email" 
+              autocorrect={false} 
+              autoFocus={true} 
+              keyboardType="email-address"
+              value={email}
+              onChangeText={email => setEmail(email.trim())}
+              />
+          </AuthContainer>
 
-          <TextInput
-            style={styles.username}
-            placeholder="Email"
-            value={email}
-            onChangeText={text => setEmail(text)}
-          />
+          <AuthContainer>
+            <AuthTitle>password</AuthTitle>
+            <AuthField 
+              autoCapitalize="none" 
+              autoCompleteType="password" 
+              autocorrect={false} 
+              autoFocus={true} 
+              secureTextEntry={true}
+              value={password}
+              onChangeText={password => setPassword(password.trim())}
+              />
+          </AuthContainer>
+        </Auth>
 
-          <TextInput
-            placeholder="Passord"
-            style={styles.password}
-            value={password}
-            onChangeText={text => setPassword(text)}
-            secureTextEntry
-          />
-        </View>
-        
-        <View style ={styles.buttonContainer}>
+        <SignInContainer onPress={LogIn} disable={loading}>
+          {loading ? (<Loading/>) : (
+          <Text bold center color="#ffffff">
+            Sign In</Text>
+          )}
+        </SignInContainer>
 
-          <TouchableOpacity
-              style = {styles.button}
-              onPress={() => {
-              navigation.push("HomeScreen"); 
-              handleSignIn(); 
-              }}>
+        <SignUp onPress={() => navigation.push("SignUpScreen")}>
+          <Text small center> 
+              New to Achive? <Text bold color="#88d498">Sign Up</Text></Text>
+        </SignUp>
 
-              <Text style={styles.textstyle}>Log in</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-              style={[styles.button, styles.buttonOutline]}
-              onPress={() => navigation.push("SignIn")}
-            >
-              <Text styles={styles.buttonOutlineText}>Register</Text>
-          </TouchableOpacity>
-          
-        </View>
-      </KeyboardAvoidingView>
+       </Main>
+     </Container>
     );
 }
 
-const styles = StyleSheet.create({
+const Logo = styled.Image`
 
-  imageStyle: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '55%',
-  },
-  
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: Colors.primary
-  },
+`
 
-  logo: {
-    width: 320,
-    height: 400,
-  },
+const Container = styled.View`
 
-  username: {
-    backgroundColor: 'white',
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    borderRadius: 10,
-    marginTop: 5,
-  }, 
+    flex: 1; 
+`;
 
-  buttonContainer: {
-    width: '60%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 40,
-  },
+const Main = styled.View`
 
-  password: {
-    backgroundColor: 'white',
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    borderRadius: 10,
-    marginTop: 5,
-  }, 
+  margin-top: 192px; 
+`;
 
-  textstyle: {
-    color: 'white',
-    fontWeight: '700',
-    fontSize: 16,
-  },
 
-  button: {
-    backgroundColor: '#0782F9',
-    width: '100%',
-    padding: 15,
-    borderRadius: 10,
-    alignItems: 'center',
-  },
-  buttonOutline: {
-    backgroundColor: 'white',
-    marginTop: 5,
-    borderColor: '#0782F9',
-    borderWidth: 2,
-  },
+const Auth = styled.View`
+  margin: 64px 32px 32px; 
+`; 
 
-  buttonContainer:{
-    width: '60%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 40,
-  }, 
+const AuthContainer = styled.View`
+  margin-bottom: 32px;
+`; 
 
-  buttonOutlineText: {
-    color: '#0782F9',
-    fontWeight: '700',
-    fontSize: 16,
-  },
-  inputContainer: {
-    width: '80%'
-  },
+const AuthTitle = styled(Text)`
+  color: #8e93a1;
+  font-size: 12px; 
+  text-transform: uppercase; 
+  font-weight: 300; 
+`; 
 
-}); 
+const AuthField = styled.TextInput`
+  border-bottom-color: #8e93a1; 
+  border-bottom-width: 1px;
+  height: 48px; 
+`; 
 
-export default LogInScreen;
+const SignInContainer = styled.TouchableOpacity`
+  margin: 0 32px; 
+  height: 48px; 
+  align-items: center; 
+  justify-content: center; 
+  background-color: #88d498;
+  border-radius: 6px;
+
+`;
+
+const SignUp = styled.TouchableOpacity`
+  margin-top: 16px; 
+`; 
+
+
+const Loading = styled.ActivityIndicator.attrs(props => ({
+  color: "#fffffff",
+  size: "small", 
+}))``; 
