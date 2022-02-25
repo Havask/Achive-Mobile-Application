@@ -1,8 +1,7 @@
 import React from "react"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import {Ionicons} from "@expo/vector-icons"
-
-import { HomeScreen } from "../screens"
+import { HomeScreen, GroupScreen, RoutineScreen } from "../screens"
 
 
 export default MainStackScreens = () => {
@@ -25,11 +24,20 @@ export default MainStackScreens = () => {
     }))
 
     return(
-
         <MainStack.Navigator tabBarOptions={tabBarOptions} screenOptions={screenOptions}>
             <MainStack.Screen 
                 name="HomeScreen" 
                 component={HomeScreen} 
+                options={{headerShown: false}}   
+            />
+            <MainStack.Screen 
+                name="GroupScreen" 
+                component={GroupScreen} 
+                options={{headerShown: false}}   
+            />
+            <MainStack.Screen 
+                name="RoutineScreen" 
+                component={RoutineScreen} 
                 options={{headerShown: false}}   
             />
         </MainStack.Navigator>

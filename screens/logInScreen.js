@@ -1,15 +1,10 @@
-import React, {useState} from "react";
-import Colors from "../constants/colors.js";
-import { auth } from "../config/Firebase.js";
-import {signInWithEmailAndPassword} from "firebase/auth"; 
-import { useContext } from "react";
+import React, {useState, useContext} from "react";
 import styled from "styled-components/native"; 
 import Text from "../components/Text.js";
 import {FirebaseContext} from "../context/FirebaseContext";
 import {UserContext} from "../context/UserContext";
 
 export default LogInScreen = ({navigation}) => {
-
 
   const [email, setEmail] = useState(); 
   const [password, setPassword] = useState(); 
@@ -18,7 +13,6 @@ export default LogInScreen = ({navigation}) => {
   const [_, setUser] = useContext(UserContext); 
 
   const LogIn = async () => {
-
     setLoading(true);
     setUser({isLoggedIn: true}); 
   };
@@ -26,11 +20,9 @@ export default LogInScreen = ({navigation}) => {
     return(
      <Container>
        <Main>
-         
          <Text title semi center color="#88d498">
               Achive
          </Text>
-
         <Auth>
           <AuthContainer>
             <AuthTitle>Email address</AuthTitle>
@@ -70,7 +62,6 @@ export default LogInScreen = ({navigation}) => {
           <Text small center> 
               New to Achive? <Text bold color="#88d498">Sign Up</Text></Text>
         </SignUp>
-
        </Main>
      </Container>
     );
@@ -79,7 +70,6 @@ export default LogInScreen = ({navigation}) => {
 const Logo = styled.Image`
 
 `
-
 const Container = styled.View`
 
     flex: 1; 
@@ -119,13 +109,11 @@ const SignInContainer = styled.TouchableOpacity`
   justify-content: center; 
   background-color: #88d498;
   border-radius: 6px;
-
 `;
 
 const SignUp = styled.TouchableOpacity`
   margin-top: 16px; 
 `; 
-
 
 const Loading = styled.ActivityIndicator.attrs(props => ({
   color: "#fffffff",

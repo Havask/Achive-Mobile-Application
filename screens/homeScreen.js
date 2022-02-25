@@ -1,16 +1,13 @@
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
 import {Platform} from "react-native"; 
 import styled from "styled-components/native"; 
 import Text from "../components/Text.js";
-
 import {AntDesign} from "@expo/vector-icons"
 import * as ImagePicker from "expo-image-picker"
 import {FirebaseContext} from "../context/FirebaseContext";
 import {UserContext} from "../context/UserContext";
-import { useContext } from "react";
 
 export default SignUpScreen = ({navigation}) => {
-
 
   const [profilePhoto, setProfilePhoto] = useState(); 
   const firebase = useContext(FirebaseContext); 
@@ -25,7 +22,6 @@ export default SignUpScreen = ({navigation}) => {
     });
 
     console.log(result);
-
     if (!result.cancelled) {
       setProfilePhoto(result.uri);
     }
@@ -35,7 +31,6 @@ export default SignUpScreen = ({navigation}) => {
 
     setLoading(true);
     setUser({isLoggedIn: null}); 
-
   };
 
   return(
@@ -53,7 +48,6 @@ export default SignUpScreen = ({navigation}) => {
                     : { uri: user.profilePhotoUrl}
             }
           />
-
         </ProfilePhotoContainer>
 
         <Text medium bold margin="16px 0 32px 0">
@@ -79,7 +73,6 @@ const Main = styled.View`
   margin-bottom: 50px; 
 `;
 
-
 const GroupContainer = styled.TouchableOpacity`
   margin: 0 32px; 
   height: 48px; 
@@ -87,7 +80,6 @@ const GroupContainer = styled.TouchableOpacity`
   justify-content: center; 
   background-color: #88d498;
   border-radius: 6px;
-
 `;
 
 const SignUp = styled.TouchableOpacity`
@@ -103,7 +95,6 @@ const ProfilePhotoContainer = styled.TouchableOpacity`
   margin-top: 16px;
   overflow: hidden; 
 `; 
-
 
 const ProfilePhoto = styled.Image`
   width: 128px;

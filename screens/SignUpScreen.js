@@ -1,9 +1,6 @@
-import React, {useState} from "react";
-import {Platform} from "react-native"; 
-import { useContext } from "react";
+import React, {useState, useContext} from "react";
 import styled from "styled-components/native"; 
 import Text from "../components/Text.js";
-
 import {AntDesign} from "@expo/vector-icons"
 import * as ImagePicker from "expo-image-picker"
 import * as MediaLibrary from 'expo-media-library';
@@ -30,7 +27,6 @@ export default SignUpScreen = ({navigation}) => {
     });
 
     console.log(result);
-
     if (!result.cancelled) {
       setProfilePhoto(result.uri);
     }
@@ -44,7 +40,6 @@ export default SignUpScreen = ({navigation}) => {
     try{
       const createdUser = await firebase.createUser(user)
       setUser({...createdUser, isLoggedIn: true}); 
-
     }catch{
       console.log("Error @SignUp", error); 
     }finally{
@@ -59,7 +54,6 @@ export default SignUpScreen = ({navigation}) => {
               Sign up to get started:
          </Text>
         </Main>
-
         <ProfilePhotoContainer onPress={pickImage}>
           {profilePhoto ? ( 
             <ProfilePhoto source={{uri: profilePhoto}}/>
@@ -68,11 +62,9 @@ export default SignUpScreen = ({navigation}) => {
               <AntDesign name="plus" size={24} color="#88d498"/>
             </DefaultProfilePhoto>
           )}
-
         </ProfilePhotoContainer>
 
         <Auth>
-
           <AuthContainer>
             <AuthTitle>Name</AuthTitle>
             <AuthField 
@@ -126,12 +118,10 @@ export default SignUpScreen = ({navigation}) => {
 }
 
 const Container = styled.View`
-
     flex: 1; 
 `;
 
 const Main = styled.View`
-
   margin-top: 80px; 
   margin-bottom: 50px; 
 `;
@@ -165,7 +155,6 @@ const SignUpContainer = styled.TouchableOpacity`
   justify-content: center; 
   background-color: #88d498;
   border-radius: 6px;
-
 `;
 
 const SignUp = styled.TouchableOpacity`
@@ -195,5 +184,4 @@ const DefaultProfilePhoto = styled.View`
 
 const ProfilePhoto = styled.Image`
   flex 1: 
-
 `;

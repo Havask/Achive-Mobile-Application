@@ -1,40 +1,48 @@
-import React, {createContext} from "react";
+import React, {createContext, useContext} from "react";
 import { initializeApp } from 'firebase/app';
+import {getDatabase} from "firebase/database"; 
+
 import { getAuth} from "firebase/auth";
-import {getFirestore} from "firebase/firestore/lite";
+import {getFirestore, setDoc, doc} from "firebase/firestore/lite";
 import config from "../config/Firebase"
 import {signInWithEmailAndPassword} from "firebase/auth"; 
 import { createUserWithEmailAndPassword } from "firebase/auth";
-
-
-const FirebaseContext = createContext(); 
 
 // Initialize Firebase
 const app = initializeApp(config);
 const auth = getAuth(app);
 const db = getFirestore(app); 
+const FirebaseContext = createContext(); 
+
+// DOCS: 
+//https://firebase.google.com/docs/firestore/manage-data/add-data
 
 const Firebase = {
-
-    getCurrentUser: () => {
+  
+  getCurrentUser: () => {
       return auth.currentUser
     },
 
     createUser: async (user) => {
-
       try{
-
         await createUserWithEmailAndPassword(auth, user.email, user.password);
-
         const uid = Firebase.getCurrentUser().uid;
         let profilePhotoUrl = "default";
+
+        await setDoc(doc(db, "users", uid), {
+          username: user.username, 
+          email: user.email,
+          profilePhotoUrl
+        });
         
+        /*
         await db.collection("users").doc(uid).set({
           username: user.username, 
           email: user.email,
           profilePhotoUrl
         })
-
+        */
+      
         if(user.profilePhoto){
           profilePhotoUrl = await Firebase.uploadProfilePhoto(user.profilePhoto)
         }
@@ -47,6 +55,7 @@ const Firebase = {
       }
     },
 
+    //function to upload a photo to the firebase user
     uploadProfilePhoto: async (uri) => {
       const uid = Firebase.getCurrentUser().uid; 
 
@@ -69,6 +78,7 @@ const Firebase = {
       }
     },
     
+    //this function to retrive a picture
     getBlob: async(uri) => {
       return await new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest()
