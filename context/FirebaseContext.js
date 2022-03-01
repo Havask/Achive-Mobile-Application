@@ -1,7 +1,6 @@
 import React, {createContext, useContext} from "react";
 import { initializeApp } from 'firebase/app';
 import {getDatabase} from "firebase/database"; 
-
 import { getAuth} from "firebase/auth";
 import {getFirestore, setDoc, doc} from "firebase/firestore/lite";
 import config from "../config/Firebase"
@@ -16,6 +15,7 @@ const FirebaseContext = createContext();
 
 // DOCS: 
 //https://firebase.google.com/docs/firestore/manage-data/add-data
+
 
 const Firebase = {
   
@@ -60,7 +60,6 @@ const Firebase = {
       const uid = Firebase.getCurrentUser().uid; 
 
       try{
-
         const photo = await Firebase.getBlob(uri)
         const imageRef = storage().ref("profilePhotos").child(uid)
 
@@ -70,7 +69,6 @@ const Firebase = {
         await db.collection("users").doc(uid).update({
           profilePhotoUrl: url
         });
-
         return url; 
 
       }catch(error){
@@ -78,9 +76,10 @@ const Firebase = {
       }
     },
     
-    //this function to retrive a picture
     getBlob: async(uri) => {
       return await new Promise((resolve, reject) => {
+
+        //creates XHR object
         const xhr = new XMLHttpRequest()
         xhr.onload = () => {
           resolve(xhr.response)
@@ -88,8 +87,8 @@ const Firebase = {
         xhr.onerror = () => {
           reject(new TypeError("Network request failed"))
         };
-
         xhr.responseType = "blob";
+        //takes in three arguments, type of request, url/file, async or not
         xhr.open("GET", uri, true); 
       })
     },
@@ -107,13 +106,24 @@ const Firebase = {
 
     SignOutUser: async () => {
     
-      auth
-      .signOut()
-      .then(() => {
-        navigation.replace("LogInScreen")
-      })
-      .catch(error=> alert(error.message))
-    }
+      try{
+        auth
+        .signOut()
+      } catch(error){
+        console.log("Error @SignOutUser")
+      }
+    }, 
+
+    SignInUser: async () => {
+      try{
+        signInWithEmailAndPassword(auth,email,password)
+      } catch(error){
+        console.log("Error @SignInUser")
+      }
+    },
+
+    
+
 }; 
 
 const FirebaseProvider = (props) => {

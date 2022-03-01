@@ -15,6 +15,7 @@ export default LogInScreen = ({navigation}) => {
   const LogIn = async () => {
     setLoading(true);
     setUser({isLoggedIn: true}); 
+    
   };
 
     return(
