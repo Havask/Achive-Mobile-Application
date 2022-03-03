@@ -1,16 +1,19 @@
 import React, {createContext, useContext} from "react";
 import { initializeApp } from 'firebase/app';
 import {getDatabase} from "firebase/database"; 
-import { getAuth} from "firebase/auth";
-import { getStorage } from "firebase/storage";
+import {getAuth} from "firebase/auth";
+import {getStorage, 
+        ref,
+        uploadBytes, 
+        getDownloadURL, 
+      } from "firebase/storage";
 import {getFirestore, 
         setDoc, 
         doc, 
         updateDoc,
-        collection, 
         getDoc, 
-        
         } from "firebase/firestore";
+        
 import config from "../config/Firebase"
 import {signInWithEmailAndPassword} from "firebase/auth"; 
 import { createUserWithEmailAndPassword } from "firebase/auth";
@@ -33,10 +36,16 @@ const Firebase = {
 
     createUser: async (user) => {
       try{
+        /*
+          await db.collection("users").doc(uid).set({
+            username: user.username, 
+            email: user.email,
+            profilePhotoUrl, 
+          })
+        */
+
         await createUserWithEmailAndPassword(auth, user.email, user.password);
         const uid = Firebase.getCurrentUser().uid;
-        console.log("Create User Uid:", uid)
-
         let profilePhotoUrl = "default";
 
         await setDoc(doc(db, "users", uid), {
@@ -45,14 +54,6 @@ const Firebase = {
           profilePhotoUrl
         });
  
-      /*
-        await db.collection("users").doc(uid).set({
-          username: user.username, 
-          email: user.email,
-          profilePhotoUrl, 
-        })
-      */
-
         if(user.profilePhoto){
           profilePhotoUrl = await Firebase.uploadProfilePhoto(user.profilePhoto)
         }
@@ -70,19 +71,26 @@ const Firebase = {
       const uid = Firebase.getCurrentUser().uid; 
 
       try{
-        const photo = await Firebase.getBlob(uri)
-        const imageRef = storage().ref("profilePhotos").child(uid)
-
-        await imageRef.put(photo); 
-        const url = await imageRef.getDownloadURL()
 
         /*
+        const photo = await Firebase.getBlob(uri)
+        const imageRef = storage().ref("profilePhotos").child(uid)
+        await imageRef.put(photo); 
+        const url = await imageRef.getDownloadURL()
+        
         //fiks dette -----------------------
         await db.collection("users").doc(uid).update({
           profilePhotoUrl: url
         });
         */
 
+        //uploads a photo to firebase storage
+        const imagesRef = ref(storage, 'profilePhotos');
+        const uidRef = ref(imagesRef.parent, uid);
+        await uploadBytes(uidRef, photo); 
+        const url = await getDownloadURL(ref(storage, uidRef)); 
+
+        //updates user docs with the right url 
         const docRef = doc(db, "users", "uid");
         await updateDoc(docRef, {
           profilePhotoUrl: url
