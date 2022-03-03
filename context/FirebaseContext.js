@@ -16,7 +16,6 @@ import {getFirestore,
 import config from "../config/Firebase"
 import {signInWithEmailAndPassword, createUserWithEmailAndPassword} from "firebase/auth"; 
 
-
 // Initialize Firebase
 const app = initializeApp(config);
 const storage = getStorage(app);
@@ -34,13 +33,6 @@ const Firebase = {
     },
 
   createUser: async (user) => {
-    /*
-    await db.collection("users").doc(uid).set({
-      username: user.username, 
-      email: user.email,
-      profilePhotoUrl, 
-    })
-    */
    
     try{
       await createUserWithEmailAndPassword(auth, user.email, user.password);
@@ -65,33 +57,21 @@ const Firebase = {
     }
   },
 
-  //function to upload a photo to the firebase user
+
   uploadProfilePhoto: async (uri) => {
 
     const uid = Firebase.getCurrentUser().uid; 
 
     try{
-
-        /*
-        const photo = await Firebase.getBlob(uri)
-        const imageRef = storage().ref("profilePhotos").child(uid)
-        await imageRef.put(photo); 
-        const url = await imageRef.getDownloadURL()
-        
-        //fiks dette -----------------------
-        await db.collection("users").doc(uid).update({
-          profilePhotoUrl: url
-        });
-        */
-
-        //uploads a photo to firebase storage
+       //uploads a photo to firebase storage
+      const photo = await Firebase.getBlob(uri)
       const imagesRef = ref(storage, 'profilePhotos');
       const uidRef = ref(imagesRef.parent, uid);
       await uploadBytes(uidRef, photo); 
       const url = await getDownloadURL(ref(storage, uidRef)); 
 
-        //updates user docs with the right url 
-      const docRef = doc(db, "users", "uid");
+      //updates user docs with the right url 
+      const docRef = doc(db, "users", uid);
         await updateDoc(docRef, {
         profilePhotoUrl: url
      });
@@ -122,21 +102,15 @@ const Firebase = {
 
   getUserInfo: async (uid) => {
     try{
-        /*
-        //fiks dette -----------------------
-        const user = await db.collection("users").doc(uid).get()
-        */
 
-      const doc = doc(db, "users", "uid");
-      const user = await getDoc(doc);
+      const docRef = doc(db, "users", uid);
+      const user = await getDoc(docRef);
 
-      if(user.exist){
-        console.log("Document data:", user.data());
+      if(user.exists()){
         return user.data(); 
       } else {
         console.log("Can't get document @getUserInfo!");
       }
-
       }catch(error){
         console.log("error @getUserInfo", error)
       }

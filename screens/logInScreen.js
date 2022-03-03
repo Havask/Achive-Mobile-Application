@@ -38,7 +38,6 @@ export default LogInScreen = ({navigation}) => {
   };
 
     return(
-
      <Container>
        <Main>
          <Text title semi center color="#88d498">
