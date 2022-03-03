@@ -8,11 +8,12 @@ import {UserContext} from "../context/UserContext";
 
 export default LogInScreen = ({navigation}) => {
 
+  const firebase = useContext(FirebaseContext); 
+  const [_, setUser] = useContext(UserContext); 
+
   const [email, setEmail] = useState(); 
   const [password, setPassword] = useState(); 
   const [loading, setLoading] = useState(false); 
-  const firebase = useContext(FirebaseContext); 
-  const [_, setUser] = useContext(UserContext); 
 
   const LogIn = async () => {
     setLoading(true);
@@ -29,7 +30,6 @@ export default LogInScreen = ({navigation}) => {
         profilePhotoUrl: userInfo.profilePhotoUrl,
         isLoggedIn: true, 
       })
-
     }catch(error){
       alert(error.message)
     }finally{
@@ -88,14 +88,11 @@ export default LogInScreen = ({navigation}) => {
     );
 }
 
-
 const Container = styled.KeyboardAvoidingView`
-
     flex: 1; 
 `;
 
 const Main = styled.View`
-
   margin-top: 192px; 
 `;
 
@@ -139,7 +136,3 @@ const Loading = styled.ActivityIndicator.attrs(props => ({
   size: "small", 
 }))``; 
 
-
-const Logo = styled.Image`
-
-`
