@@ -7,6 +7,7 @@ import * as ImagePicker from "expo-image-picker"
 import {FirebaseContext} from "../context/FirebaseContext";
 import {UserContext} from "../context/UserContext";
 
+
 export default RoutineScreen = ({navigation}) => {
 
   const [profilePhoto, setProfilePhoto] = useState(); 

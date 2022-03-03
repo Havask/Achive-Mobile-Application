@@ -1,8 +1,10 @@
 import React, {useState, useContext} from "react";
 import styled from "styled-components/native"; 
+import { KeyboardAvoidingView } from "react-native";
 import Text from "../components/Text.js";
 import {FirebaseContext} from "../context/FirebaseContext";
 import {UserContext} from "../context/UserContext";
+
 
 export default LogInScreen = ({navigation}) => {
 
@@ -14,11 +16,29 @@ export default LogInScreen = ({navigation}) => {
 
   const LogIn = async () => {
     setLoading(true);
-    setUser({isLoggedIn: true}); 
-    
+
+    try{
+      await firebase.SignInUser(email, password)
+      const uid = firebase.getCurrentUser().uid; 
+      const userInfo = await firebase.getUserInfo(uid)
+
+      setUser({
+        username: userInfo.username,
+        email: userInfo.email, 
+        uid, 
+        profilePhotoUrl: userInfo.profilePhotoUrl,
+        isLoggedIn: true, 
+      })
+
+    }catch(error){
+      alert(error.message)
+    }finally{
+      setLoading(false)
+    }
   };
 
     return(
+
      <Container>
        <Main>
          <Text title semi center color="#88d498">
@@ -68,10 +88,8 @@ export default LogInScreen = ({navigation}) => {
     );
 }
 
-const Logo = styled.Image`
 
-`
-const Container = styled.View`
+const Container = styled.KeyboardAvoidingView`
 
     flex: 1; 
 `;
@@ -120,3 +138,8 @@ const Loading = styled.ActivityIndicator.attrs(props => ({
   color: "#fffffff",
   size: "small", 
 }))``; 
+
+
+const Logo = styled.Image`
+
+`

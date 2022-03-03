@@ -25,8 +25,6 @@ export default SignUpScreen = ({navigation}) => {
       aspect: [4, 3],
       quality: 1,
     });
-
-    console.log(result);
     if (!result.cancelled) {
       setProfilePhoto(result.uri);
     }
@@ -70,7 +68,6 @@ export default SignUpScreen = ({navigation}) => {
             <AuthField 
               autoCapitalize="none" 
               autocorrect={false} 
-              keyboardType="username"
               onChangeText={(username) => setUsername(username.trim())}
               value={username}
               />
@@ -87,7 +84,7 @@ export default SignUpScreen = ({navigation}) => {
               value={email}
               />
           </AuthContainer>
-
+          
           <AuthContainer>
             <AuthTitle>password</AuthTitle>
             <AuthField 
@@ -101,7 +98,7 @@ export default SignUpScreen = ({navigation}) => {
               />
           </AuthContainer>
         </Auth>
-
+        
         <SignUpContainer onPress={signUp} disable={loading}>
           {loading ? (<Loading/>) : (
           <Text bold center color="#ffffff">
@@ -117,7 +114,7 @@ export default SignUpScreen = ({navigation}) => {
     );
 }
 
-const Container = styled.View`
+const Container = styled.KeyboardAvoidingView`
     flex: 1; 
 `;
 

@@ -8,23 +8,26 @@ export default MainStackScreens = () => {
 
     const MainStack = createBottomTabNavigator()
 
-    const tabBarOptions = {
-        showLabel: false, 
-        style: {
+    const screenOptions = (({route}) => ({
+
+        tabBarShowLabel: false,
+        tabBarStyle: {
             backgroundColor: "#222222", 
             paddingBottom: 12,
-        }
-    }
+        },
 
-    const screenOptions = (({route}) => ({
         tabBarIcon: ({focused}) => {
             let iconName = "ios-home"
-            return <Ionicons name={iconName} size={24} color={focused ? "#ffffff" : "#666666"} />;
-        }
+            return <Ionicons 
+                name={iconName} 
+                size={26} 
+                color={focused ? "#ffffff" : "#666666"} 
+            />;
+        },
     }))
 
     return(
-        <MainStack.Navigator tabBarOptions={tabBarOptions} screenOptions={screenOptions}>
+        <MainStack.Navigator screenOptions={screenOptions}>
             <MainStack.Screen 
                 name="HomeScreen" 
                 component={HomeScreen} 

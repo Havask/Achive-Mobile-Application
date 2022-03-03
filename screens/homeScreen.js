@@ -29,8 +29,11 @@ export default SignUpScreen = ({navigation}) => {
 
   const signOut = async () => {
 
-    setLoading(true);
-    setUser({isLoggedIn: null}); 
+    const SignedOut = await firebase.SignOutUser();
+
+    if(SignedOut){
+      setUser(state => ({...state, isLoggedIn: null}))
+    }
   };
 
   return(
@@ -54,10 +57,11 @@ export default SignUpScreen = ({navigation}) => {
           {user.username}
         </Text>
 
-        <SignUp onPress={signOut}>
-          <Text small center> 
-              <Text bold color="#88d498">Log Out</Text></Text>
-        </SignUp>
+        <LogOut onPress={signOut}>
+          <Text medium center color="#88d498">
+            Log Out
+          </Text>
+        </LogOut>
      </Container>
     );
 }
@@ -82,8 +86,8 @@ const GroupContainer = styled.TouchableOpacity`
   border-radius: 6px;
 `;
 
-const SignUp = styled.TouchableOpacity`
-  margin-top: 16px; 
+const LogOut = styled.TouchableOpacity`
+  margin-bottom: 32px; 
 `; 
 
 const ProfilePhotoContainer = styled.TouchableOpacity`

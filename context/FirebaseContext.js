@@ -2,20 +2,28 @@ import React, {createContext, useContext} from "react";
 import { initializeApp } from 'firebase/app';
 import {getDatabase} from "firebase/database"; 
 import { getAuth} from "firebase/auth";
-import {getFirestore, setDoc, doc} from "firebase/firestore/lite";
+import { getStorage } from "firebase/storage";
+import {getFirestore, 
+        setDoc, 
+        doc, 
+        updateDoc,
+        collection, 
+        getDoc, 
+        
+        } from "firebase/firestore";
 import config from "../config/Firebase"
 import {signInWithEmailAndPassword} from "firebase/auth"; 
 import { createUserWithEmailAndPassword } from "firebase/auth";
 
 // Initialize Firebase
 const app = initializeApp(config);
+const storage = getStorage(app);
 const auth = getAuth(app);
 const db = getFirestore(app); 
 const FirebaseContext = createContext(); 
 
 // DOCS: 
 //https://firebase.google.com/docs/firestore/manage-data/add-data
-
 
 const Firebase = {
   
@@ -27,6 +35,8 @@ const Firebase = {
       try{
         await createUserWithEmailAndPassword(auth, user.email, user.password);
         const uid = Firebase.getCurrentUser().uid;
+        console.log("Create User Uid:", uid)
+
         let profilePhotoUrl = "default";
 
         await setDoc(doc(db, "users", uid), {
@@ -34,15 +44,15 @@ const Firebase = {
           email: user.email,
           profilePhotoUrl
         });
-        
-        /*
+ 
+      /*
         await db.collection("users").doc(uid).set({
           username: user.username, 
           email: user.email,
-          profilePhotoUrl
+          profilePhotoUrl, 
         })
-        */
-      
+      */
+
         if(user.profilePhoto){
           profilePhotoUrl = await Firebase.uploadProfilePhoto(user.profilePhoto)
         }
@@ -66,9 +76,18 @@ const Firebase = {
         await imageRef.put(photo); 
         const url = await imageRef.getDownloadURL()
 
+        /*
+        //fiks dette -----------------------
         await db.collection("users").doc(uid).update({
           profilePhotoUrl: url
         });
+        */
+
+        const docRef = doc(db, "users", "uid");
+        await updateDoc(docRef, {
+          profilePhotoUrl: url
+      });
+
         return url; 
 
       }catch(error){
@@ -95,35 +114,45 @@ const Firebase = {
 
     getUserInfo: async (uid) => {
       try{
+        /*
+        //fiks dette -----------------------
         const user = await db.collection("users").doc(uid).get()
+        */
+
+        const doc = doc(db, "users", "uid");
+        const user = await getDoc(doc);
+
         if(user.exist){
-          return user.data()
+          console.log("Document data:", user.data());
+          return user.data(); 
+        } else {
+          console.log("Can't get document @getUserInfo!");
         }
+
       }catch(error){
         console.log("error @getUserInfo", error)
       }
     },
 
     SignOutUser: async () => {
-    
       try{
-        auth
-        .signOut()
+        await auth.signOut();
+        return true; 
+
       } catch(error){
-        console.log("Error @SignOutUser")
+        console.log("Error @SignOutUser", error)
       }
+
+      return false; 
     }, 
 
-    SignInUser: async () => {
+    SignInUser: async (email, password) => {
       try{
-        signInWithEmailAndPassword(auth,email,password)
+       signInWithEmailAndPassword(auth, email, password); 
       } catch(error){
         console.log("Error @SignInUser")
       }
     },
-
-    
-
 }; 
 
 const FirebaseProvider = (props) => {
