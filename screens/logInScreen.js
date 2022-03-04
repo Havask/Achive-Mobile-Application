@@ -18,8 +18,8 @@ export default LogInScreen = ({navigation}) => {
     setLoading(true);
 
     try{
-      await firebase.SignInUser(email, password)
-      const uid = firebase.getCurrentUser().uid; 
+      await firebase.SignInUser(email, password);
+      const uid = await firebase.getCurrentUser().uid; 
       const userInfo = await firebase.getUserInfo(uid)
 
       setUser({
@@ -30,7 +30,7 @@ export default LogInScreen = ({navigation}) => {
         isLoggedIn: true, 
       })
     }catch(error){
-      alert(error.message)
+      alert("Unable to find this account")
     }finally{
       setLoading(false)
     }

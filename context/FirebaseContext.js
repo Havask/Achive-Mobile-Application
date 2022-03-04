@@ -1,6 +1,8 @@
 import React, {createContext} from "react";
 import { initializeApp } from 'firebase/app';
-import {getAuth} from "firebase/auth";
+import {getAuth, 
+        deleteUser
+        } from "firebase/auth";
 import {getStorage, 
         ref,
         uploadBytes, 
@@ -129,9 +131,19 @@ const Firebase = {
     try{
       signInWithEmailAndPassword(auth, email, password); 
     }catch(error){
-      console.log("Error @SignInUser")
+      console.log("Error @SignInUser", error)
     }
   },
+
+  DeleteUser: async (user) => {
+    try{
+      deleteUser(user); 
+    }catch(error){
+      console.log("Error @DeleteUser", error)
+    }
+  }, 
+
+
 }; 
 
 const FirebaseProvider = (props) => {

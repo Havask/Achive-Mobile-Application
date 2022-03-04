@@ -1,6 +1,6 @@
 export { default as LogInScreen } from "./logInScreen";
 export { default as SignUpScreen } from "./SignUpScreen";
-export { default as HomeScreen } from "./homeScreen";
-export { default as toDo } from "./toDo";
+export { default as ProfileScreen } from "./ProfileScreen";
 export { default as GroupScreen } from "./GroupScreen";
-export { default as RoutineScreen } from "./RoutineScreen";
+export { default as SettingScreen } from "./SettingScreen";
+

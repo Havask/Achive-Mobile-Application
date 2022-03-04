@@ -37,7 +37,7 @@ export default GroupScreen = ({navigation}) => {
     <Container>
        <Main>
          <Text title semi center color="#88d498">
-              Home Screen:
+              Group Screen:
          </Text>
         </Main>
 

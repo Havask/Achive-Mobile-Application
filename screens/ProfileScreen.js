@@ -7,8 +7,7 @@ import * as ImagePicker from "expo-image-picker"
 import {FirebaseContext} from "../context/FirebaseContext";
 import {UserContext} from "../context/UserContext";
 
-
-export default RoutineScreen = ({navigation}) => {
+export default ProfileScreen = ({navigation}) => {
 
   const [profilePhoto, setProfilePhoto] = useState(); 
   const firebase = useContext(FirebaseContext); 
@@ -29,48 +28,63 @@ export default RoutineScreen = ({navigation}) => {
   };
 
   const signOut = async () => {
-
-    setLoading(true);
-    setUser({isLoggedIn: null}); 
+    const SignedOut = await firebase.SignOutUser();
+    if(SignedOut){
+      setUser(state => ({...state, isLoggedIn: null}))
+    }
   };
 
   return(
     <Container>
        <Main>
          <Text title semi center color="#88d498">
-              Home Screen:
+              Profile Screen:
          </Text>
         </Main>
+
+ 
 
         <ProfilePhotoContainer onPress={pickImage}>
           <ProfilePhoto 
             source={user.profilePhotoUrl == "default"
-                    ? require("../assets/logo.png")
+                    ? require("../logo/logo.png")
                     : { uri: user.profilePhotoUrl}
             }
           />
         </ProfilePhotoContainer>
 
-        <Text medium bold margin="16px 0 32px 0">
+        <Text title bold margin="16px 0 32px 0">
           {user.username}
         </Text>
 
-        <SignUp onPress={signOut}>
-          <Text small center> 
-              <Text bold color="#88d498">Log Out</Text></Text>
-        </SignUp>
+        <StatsContainer>
+            <StatContainer>
+              <Text large light>5</Text>
+              <Text>Task assigned</Text>
+            </StatContainer>
+
+            <StatContainer>
+              <Text large light>2</Text>
+              <Text>Task completed</Text>
+            </StatContainer>
+        </StatsContainer>
+
+        <LogOut onPress={signOut}>
+          <Text medium center color="#88d498">
+            Log Out
+          </Text>
+        </LogOut>
      </Container>
     );
 }
 
 const Container = styled.View`
-
+    align-items: center; 
+    margin-top: 64px; 
     flex: 1; 
 `;
 
 const Main = styled.View`
-
-  margin-top: 80px; 
   margin-bottom: 50px; 
 `;
 
@@ -83,8 +97,8 @@ const GroupContainer = styled.TouchableOpacity`
   border-radius: 6px;
 `;
 
-const SignUp = styled.TouchableOpacity`
-  margin-top: 16px; 
+const LogOut = styled.TouchableOpacity`
+  margin-bottom: 32px; 
 `; 
 
 const ProfilePhotoContainer = styled.TouchableOpacity`
@@ -103,3 +117,15 @@ const ProfilePhoto = styled.Image`
   border-radius: 64px; 
 
 `;
+
+const StatsContainer = styled.View`
+  flex-direction: row; 
+  justify-content: space-between; 
+  margin: 0 32px; 
+  flex: 1; 
+`;
+
+const StatContainer = styled.View`
+  align-items: center; 
+  flex: 1; 
+`; 

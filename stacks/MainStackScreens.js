@@ -1,7 +1,7 @@
 import React from "react"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import {Ionicons} from "@expo/vector-icons"
-import { HomeScreen, GroupScreen, RoutineScreen } from "../screens"
+import {GroupScreen, ProfileScreen, SettingScreen } from "../screens"
 
 
 export default MainStackScreens = () => {
@@ -18,6 +18,24 @@ export default MainStackScreens = () => {
 
         tabBarIcon: ({focused}) => {
             let iconName = "ios-home"
+
+            switch(route.name){
+                case "ProfileScreen": 
+                    iconName = "ios-person"
+                    break; 
+
+                case "GroupScreen": 
+                    iconName = "ios-people-sharp"
+                    break; 
+
+                case "SettingScreen": 
+                    iconName = "ios-settings"
+                    break; 
+
+                default: 
+                    iconName = "ios-home"
+            }
+            
             return <Ionicons 
                 name={iconName} 
                 size={26} 
@@ -29,8 +47,8 @@ export default MainStackScreens = () => {
     return(
         <MainStack.Navigator screenOptions={screenOptions}>
             <MainStack.Screen 
-                name="HomeScreen" 
-                component={HomeScreen} 
+                name="ProfileScreen" 
+                component={ProfileScreen} 
                 options={{headerShown: false}}   
             />
             <MainStack.Screen 
@@ -39,8 +57,8 @@ export default MainStackScreens = () => {
                 options={{headerShown: false}}   
             />
             <MainStack.Screen 
-                name="RoutineScreen" 
-                component={RoutineScreen} 
+                name="SettingScreen" 
+                component={SettingScreen} 
                 options={{headerShown: false}}   
             />
         </MainStack.Navigator>
