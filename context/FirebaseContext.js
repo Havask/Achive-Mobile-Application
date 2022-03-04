@@ -14,9 +14,10 @@ import {getFirestore,
         updateDoc,
         getDoc, 
         } from "firebase/firestore";
-        
 import config from "../config/Firebase"
-import {signInWithEmailAndPassword, createUserWithEmailAndPassword} from "firebase/auth"; 
+import {signInWithEmailAndPassword, 
+        createUserWithEmailAndPassword
+        } from "firebase/auth"; 
 
 // Initialize Firebase
 const app = initializeApp(config);
@@ -35,7 +36,6 @@ const Firebase = {
     },
 
   createUser: async (user) => {
-   
     try{
       await createUserWithEmailAndPassword(auth, user.email, user.password);
       const uid = Firebase.getCurrentUser().uid;
@@ -46,9 +46,11 @@ const Firebase = {
         email: user.email,
         profilePhotoUrl, 
        });
+
       if(user.profilePhoto){
         profilePhotoUrl = await Firebase.uploadProfilePhoto(user.profilePhoto)
       }
+
       delete user.password; 
       return{...user, profilePhotoUrl, uid}; 
 
@@ -62,7 +64,6 @@ const Firebase = {
     const uid = Firebase.getCurrentUser().uid; 
 
     try{
-       //uploads a photo to firebase storage
       const photo = await Firebase.getBlob(uri)
       const imagesRef = ref(storage, 'profilePhotos');
       const uidRef = ref(imagesRef, uid);
@@ -70,7 +71,6 @@ const Firebase = {
       await uploadBytes(uidRef, photo); 
 
       const url = await getDownloadURL(ref(storage, uidRef)); 
-      //updates user docs with the right url 
       const docRef = doc(db, "users", uid);
 
       await updateDoc(docRef, {
@@ -102,7 +102,6 @@ const Firebase = {
 
   getUserInfo: async (uid) => {
     try{
-
       const docRef = doc(db, "users", uid);
       const user = await getDoc(docRef);
 
@@ -135,9 +134,19 @@ const Firebase = {
     }
   },
 
-  DeleteUser: async (user) => {
+  DeleteUser: async () => {
     try{
+      const user = auth.currentUser
       deleteUser(user); 
+    }catch(error){
+      console.log("Error @DeleteUser", error)
+    }
+  }, 
+
+
+  CreateNewGroup: async () => {
+    try{
+
     }catch(error){
       console.log("Error @DeleteUser", error)
     }

@@ -26,8 +26,9 @@ export default SettingScreen = ({navigation}) => {
   };
 
   const deleteUser = async () => {
-    const user = await firebase.getCurrentUser()
-    await firebase.DeleteUser(user)
+
+    await firebase.DeleteUser()
+    setUser({isLoggedIn: null}); 
   }
 
   return(
@@ -38,12 +39,10 @@ export default SettingScreen = ({navigation}) => {
          </Text>
         </Main>
 
-
         <SignUp onPress={signOut}>
           <Text small center> 
               <Text bold color="#88d498">Log Out</Text></Text>
         </SignUp>
-
 
         <SignUp onPress={deleteUser}>
           <Text small center> 
@@ -54,12 +53,10 @@ export default SettingScreen = ({navigation}) => {
 }
 
 const Container = styled.View`
-
     flex: 1; 
 `;
 
 const Main = styled.View`
-
   margin-top: 80px; 
   margin-bottom: 50px; 
 `;
@@ -91,5 +88,4 @@ const ProfilePhoto = styled.Image`
   width: 128px;
   height: 128px; 
   border-radius: 64px; 
-
 `;
