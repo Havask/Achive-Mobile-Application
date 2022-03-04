@@ -28,9 +28,7 @@ export default SignUpScreen = ({navigation}) => {
   };
 
   const signOut = async () => {
-
     const SignedOut = await firebase.SignOutUser();
-
     if(SignedOut){
       setUser(state => ({...state, isLoggedIn: null}))
     }
@@ -47,13 +45,13 @@ export default SignUpScreen = ({navigation}) => {
         <ProfilePhotoContainer onPress={pickImage}>
           <ProfilePhoto 
             source={user.profilePhotoUrl == "default"
-                    ? require("../assets/logo.png")
+                    ? require("../logo/logo.png")
                     : { uri: user.profilePhotoUrl}
             }
           />
         </ProfilePhotoContainer>
 
-        <Text medium bold margin="16px 0 32px 0">
+        <Text medium bold center>
           {user.username}
         </Text>
 

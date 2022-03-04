@@ -42,13 +42,11 @@ const Firebase = {
       await setDoc(doc(db, "users", uid), {
         username: user.username, 
         email: user.email,
-        profilePhotoUrl
+        profilePhotoUrl, 
        });
- 
       if(user.profilePhoto){
         profilePhotoUrl = await Firebase.uploadProfilePhoto(user.profilePhoto)
       }
-
       delete user.password; 
       return{...user, profilePhotoUrl, uid}; 
 
@@ -56,7 +54,6 @@ const Firebase = {
       console.log("Error @createUser:", error.message)
     }
   },
-
 
   uploadProfilePhoto: async (uri) => {
 
@@ -66,16 +63,17 @@ const Firebase = {
        //uploads a photo to firebase storage
       const photo = await Firebase.getBlob(uri)
       const imagesRef = ref(storage, 'profilePhotos');
-      const uidRef = ref(imagesRef.parent, uid);
-      await uploadBytes(uidRef, photo); 
-      const url = await getDownloadURL(ref(storage, uidRef)); 
+      const uidRef = ref(imagesRef, uid);
 
+      await uploadBytes(uidRef, photo); 
+
+      const url = await getDownloadURL(ref(storage, uidRef)); 
       //updates user docs with the right url 
       const docRef = doc(db, "users", uid);
-        await updateDoc(docRef, {
+
+      await updateDoc(docRef, {
         profilePhotoUrl: url
      });
-
       return url; 
 
     }catch(error){
@@ -85,7 +83,6 @@ const Firebase = {
     
   getBlob: async(uri) => {
     return await new Promise((resolve, reject) => {
-
       //creates XHR object
       const xhr = new XMLHttpRequest()
       xhr.onload = () => {
@@ -97,6 +94,7 @@ const Firebase = {
       xhr.responseType = "blob";
       //takes in three arguments, type of request, url/file, async or not
       xhr.open("GET", uri, true); 
+      xhr.send(null);
     })
   },
 

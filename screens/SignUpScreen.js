@@ -4,19 +4,20 @@ import Text from "../components/Text.js";
 import {AntDesign} from "@expo/vector-icons"
 import * as ImagePicker from "expo-image-picker"
 import * as MediaLibrary from 'expo-media-library';
-
+import { KeyboardAvoidingView, ScrollView} from "react-native";
 import {FirebaseContext} from "../context/FirebaseContext";
 import {UserContext} from "../context/UserContext";
 
 export default SignUpScreen = ({navigation}) => {
+
+  const firebase = useContext(FirebaseContext); 
+  const [_, setUser] = useContext(UserContext); 
 
   const [username, setUsername] = useState(); 
   const [email, setEmail] = useState(); 
   const [password, setPassword] = useState(); 
   const [loading, setLoading] = useState(false); 
   const [profilePhoto, setProfilePhoto] = useState(); 
-  const firebase = useContext(FirebaseContext); 
-  const [_, setUser] = useContext(UserContext); 
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -47,6 +48,8 @@ export default SignUpScreen = ({navigation}) => {
 
   return(
     <Container>
+      <ScrollView>
+      <KeyboardAvoidingView>
        <Main>
          <Text title semi center color="#88d498">
               Sign up to get started:
@@ -110,6 +113,8 @@ export default SignUpScreen = ({navigation}) => {
           <Text small center> 
               Already a user? <Text bold color="#88d498">Sign In</Text></Text>
         </SignUp>
+        </KeyboardAvoidingView>
+      </ScrollView>
      </Container>
     );
 }
@@ -122,7 +127,6 @@ const Main = styled.View`
   margin-top: 80px; 
   margin-bottom: 50px; 
 `;
-
 
 const Auth = styled.View`
   margin: 16px 32px 32px; 

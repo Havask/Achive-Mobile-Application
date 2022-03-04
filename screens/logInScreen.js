@@ -1,10 +1,9 @@
 import React, {useState, useContext} from "react";
 import styled from "styled-components/native"; 
-import { KeyboardAvoidingView } from "react-native";
+import { KeyboardAvoidingView, ScrollView} from "react-native";
 import Text from "../components/Text.js";
 import {FirebaseContext} from "../context/FirebaseContext";
 import {UserContext} from "../context/UserContext";
-
 
 export default LogInScreen = ({navigation}) => {
 
@@ -38,66 +37,77 @@ export default LogInScreen = ({navigation}) => {
   };
 
     return(
-     <Container>
-       <Main>
-         <Text title semi center color="#88d498">
-              Achive
-         </Text>
-        <Auth>
-          <AuthContainer>
-            <AuthTitle>Email address</AuthTitle>
-            <AuthField 
-              autoCapitalize="none" 
-              autoCompleteType="email" 
-              autocorrect={false} 
-              autoFocus={true} 
-              keyboardType="email-address"
-              value={email}
-              onChangeText={email => setEmail(email.trim())}
-              />
-          </AuthContainer>
+      <Container>
+          <Main>
+        <ScrollView>
+        <KeyboardAvoidingView>
+            <AchiveLogo source={require("../logo/logo.png")} />
 
-          <AuthContainer>
-            <AuthTitle>password</AuthTitle>
-            <AuthField 
-              autoCapitalize="none" 
-              autoCompleteType="password" 
-              autocorrect={false} 
-              autoFocus={true} 
-              secureTextEntry={true}
-              value={password}
-              onChangeText={password => setPassword(password.trim())}
-              />
-          </AuthContainer>
-        </Auth>
+            <Auth>
+              <AuthContainer>
+                <AuthTitle>Email address</AuthTitle>
+                <AuthField 
+                  autoCapitalize="none" 
+                  autoCompleteType="email" 
+                  autocorrect={false} 
+                  autoFocus={true} 
+                  keyboardType="email-address"
+                  value={email}
+                  onChangeText={email => setEmail(email.trim())}
+                />
+              </AuthContainer>
 
-        <SignInContainer onPress={LogIn} disable={loading}>
-          {loading ? (<Loading/>) : (
-          <Text bold center color="#ffffff">
-            Sign In</Text>
-          )}
-        </SignInContainer>
+              <AuthContainer>
+                <AuthTitle>password</AuthTitle>
+                <AuthField 
+                  autoCapitalize="none" 
+                  autoCompleteType="password" 
+                  autocorrect={false} 
+                  autoFocus={true} 
+                  secureTextEntry={true}
+                  value={password}
+                  onChangeText={password => setPassword(password.trim())}
+                  />
+              </AuthContainer>
+            </Auth>
 
-        <SignUp onPress={() => navigation.push("SignUpScreen")}>
-          <Text small center> 
-              New to Achive? <Text bold color="#88d498">Sign Up</Text></Text>
-        </SignUp>
-       </Main>
-     </Container>
+            <SignInContainer onPress={LogIn} disable={loading}>
+              {loading ? (<Loading/>) : (
+              <Text bold center color="#ffffff">
+                Sign In</Text>
+              )}
+            </SignInContainer>
+
+            <SignUp onPress={() => navigation.push("SignUpScreen")}>
+              <Text small center> 
+                  New to Achive? <Text bold color="#88d498">Sign Up</Text></Text>
+            </SignUp>
+          </KeyboardAvoidingView>
+        </ScrollView>
+          </Main>
+      </Container>
     );
 }
 
-const Container = styled.KeyboardAvoidingView`
+const AchiveLogo = styled.Image`
+    align-items: center; 
+    justify-content: center; 
+    width: 200px;
+    height: 100px;
+    margin: 0px 90px 30px; 
+`;
+
+const Container = styled.ScrollView`
     flex: 1; 
 `;
 
 const Main = styled.View`
-  margin-top: 192px; 
+  margin-top: 180px; 
 `;
 
 
 const Auth = styled.View`
-  margin: 64px 32px 32px; 
+  margin: 50px 32px 32px; 
 `; 
 
 const AuthContainer = styled.View`
