@@ -50,9 +50,11 @@ export default GroupScreen = ({navigation}) => {
           />
         </ProfilePhotoContainer>
 
-        <Text medium bold margin="16px 0 32px 0">
-          {user.username}
-        </Text>
+        <GroupContainer onPress={() => navigation.push("CreateGroupScreen")}>
+          <Text bold center color="#ffffff">
+              Add new group
+          </Text>
+        </GroupContainer>
 
         <SignUp onPress={signOut}>
           <Text small center> 
@@ -63,23 +65,12 @@ export default GroupScreen = ({navigation}) => {
 }
 
 const Container = styled.View`
-
     flex: 1; 
 `;
 
 const Main = styled.View`
-
   margin-top: 80px; 
   margin-bottom: 50px; 
-`;
-
-const GroupContainer = styled.TouchableOpacity`
-  margin: 0 32px; 
-  height: 48px; 
-  align-items: center; 
-  justify-content: center; 
-  background-color: #88d498;
-  border-radius: 6px;
 `;
 
 const SignUp = styled.TouchableOpacity`
@@ -101,4 +92,13 @@ const ProfilePhoto = styled.Image`
   height: 128px; 
   border-radius: 64px; 
 
+`;
+
+const GroupContainer = styled.TouchableOpacity`
+  margin: 0 32px; 
+  height: 68px; 
+  align-items: center; 
+  justify-content: center; 
+  background-color: #88d498;
+  border-radius: 6px;
 `;

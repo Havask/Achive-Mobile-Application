@@ -128,7 +128,7 @@ const Firebase = {
 
   SignInUser: async (email, password) => {
     try{
-      signInWithEmailAndPassword(auth, email, password); 
+      await signInWithEmailAndPassword(auth, email, password); 
     }catch(error){
       console.log("Error @SignInUser", error)
     }
@@ -143,14 +143,54 @@ const Firebase = {
     }
   }, 
 
-
   CreateNewGroup: async () => {
     try{
 
     }catch(error){
-      console.log("Error @DeleteUser", error)
+      console.log("Error @CreateNewGroup", error)
     }
   }, 
+
+  AddToGroup: async () => {
+    try{
+
+    }catch(error){
+      console.log("Error @AddToGroup", error)
+    }
+  }, 
+
+  AddTask: async () => {
+    try{
+
+    }catch(error){
+      console.log("Error @AddTask", error)
+    }
+  }, 
+
+  AddRutine: async () => {
+    try{
+
+    }catch(error){
+      console.log("Error @AddRutine", error)
+    }
+  }, 
+
+  TaskComplete: async () => {
+    try{
+
+    }catch(error){
+      console.log("Error @TaskComplete", error)
+    }
+  }, 
+
+  StayLoggedIn: async () => {
+    try{
+
+    }catch(error){
+      console.log("Error @StayLoggedIn", error)
+    }
+  }
+
 
 
 }; 

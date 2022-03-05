@@ -184,5 +184,5 @@ const DefaultProfilePhoto = styled.View`
 `; 
 
 const ProfilePhoto = styled.Image`
-  flex 1: 
+  flex: 1; 
 `;
