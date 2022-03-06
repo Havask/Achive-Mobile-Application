@@ -115,7 +115,6 @@ const ProfilePhoto = styled.Image`
   width: 128px;
   height: 128px; 
   border-radius: 64px; 
-
 `;
 
 const StatsContainer = styled.View`

@@ -12,7 +12,7 @@ export default CreateGroupScreen = ({navigation}) => {
 
   const firebase = useContext(FirebaseContext); 
   const [_, setUser] = useContext(UserContext); 
-
+  const [Groupname, setGroupName] = useState(); 
 
   const [loading, setLoading] = useState(false); 
   const [profilePhoto, setProfilePhoto] = useState(); 
@@ -24,7 +24,7 @@ export default CreateGroupScreen = ({navigation}) => {
       <KeyboardAvoidingView>
        <Main>
          <Text title semi center color="#88d498">
-              CreateGroupScreen:
+              Create new group:
          </Text>
         </Main>
 
@@ -34,25 +34,21 @@ export default CreateGroupScreen = ({navigation}) => {
             <AuthField 
               autoCapitalize="none" 
               autocorrect={false} 
-              onChangeText={(username) => setUsername(username.trim())}
-              value={username}
+              onChangeText={(Groupname) => setGroupName(Groupname.trim())}
+              value={Groupname}
               />
           </AuthContainer>
 
           <AuthContainer>
-            <AuthTitle>Members</AuthTitle>
+            <AuthTitle>Add members</AuthTitle>
             <AuthField 
-              autoCapitalize="none" 
-              autoCompleteType="email" 
-              autocorrect={false} 
-              keyboardType="email-address"
-              onChangeText={(email) => setEmail(email.trim())}
-              value={email}
+      
               />
           </AuthContainer>
+
         </Auth>
         
-        <SignUpContainer onPress={() => navigation.push("HomeScreen")} disable={loading}>
+        <SignUpContainer onPress={() => navigation.push("Group")} disable={loading}>
           {loading ? (<Loading/>) : (
           <Text bold center color="#ffffff">
             Create Group</Text>

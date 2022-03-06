@@ -1,10 +1,11 @@
 import React from "react"
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {Ionicons} from "@expo/vector-icons"
-import {GroupScreen, ProfileScreen, SettingScreen, CreateGroupScreen } from "../screens"
-
+import {GroupScreen, 
+        ProfileScreen, 
+        SettingScreen, 
+        CreateGroupScreen 
+        } from "../screens"
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const GroupStack = createNativeStackNavigator();
@@ -12,7 +13,7 @@ const GroupStack = createNativeStackNavigator();
 function GroupStackScreen() {
     return (
         <GroupStack.Navigator>
-            <GroupStack.Screen name="Groups" component={GroupScreen} options={{headerShown: false}}/>
+            <GroupStack.Screen name="Group" component={GroupScreen} options={{headerShown: false}}/>
             <GroupStack.Screen name="CreateGroup" component={CreateGroupScreen} options={{headerShown: false}}/>
         </GroupStack.Navigator>
     );
@@ -45,7 +46,7 @@ export default MainStackScreens = () => {
         tabBarShowLabel: false,
         tabBarStyle: {
             backgroundColor: "#222222", 
-            paddingBottom: 12,
+            paddingBottom: 8,
         },
         
         tabBarIcon: ({focused}) => {
@@ -60,7 +61,7 @@ export default MainStackScreens = () => {
                 iconName = "ios-people-sharp"
                 break; 
                 
-                case "Settings": 
+                case "Setting": 
                 iconName = "ios-settings"
                 break; 
                 
@@ -69,7 +70,7 @@ export default MainStackScreens = () => {
             }
             return <Ionicons 
                 name={iconName} 
-                size={26} 
+                size={30} 
                 color={focused ? "#ffffff" : "#666666"} 
             />;
         },
@@ -91,7 +92,7 @@ export default MainStackScreens = () => {
                     options={{headerShown: false}}
                 />
                 <TabStack.Screen 
-                    name="Settings" 
+                    name="Setting" 
                     component={SettingsStackScreen} 
                     options={{headerShown: false}}
                 />

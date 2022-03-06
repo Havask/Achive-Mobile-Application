@@ -29,6 +29,9 @@ const FirebaseContext = createContext();
 // DOCS: 
 //https://firebase.google.com/docs
 
+//Icons 
+//https://icons.expo.fyi/
+
 const Firebase = {
   
   getCurrentUser: () => {

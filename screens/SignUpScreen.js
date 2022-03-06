@@ -55,6 +55,7 @@ export default SignUpScreen = ({navigation}) => {
               Sign up to get started:
          </Text>
         </Main>
+
         <ProfilePhotoContainer onPress={pickImage}>
           {profilePhoto ? ( 
             <ProfilePhoto source={{uri: profilePhoto}}/>
@@ -184,5 +185,7 @@ const DefaultProfilePhoto = styled.View`
 `; 
 
 const ProfilePhoto = styled.Image`
-  flex: 1; 
+  width: 128px;
+  height: 128px; 
+  border-radius: 64px; 
 `;
