@@ -1,23 +1,17 @@
 import React, {useState, useContext} from "react";
-import {Platform} from "react-native"; 
 import styled from "styled-components/native"; 
 import Text from "../components/Text.js";
-import {AntDesign} from "@expo/vector-icons"
-import * as ImagePicker from "expo-image-picker"
 import {FirebaseContext} from "../context/FirebaseContext";
 import {UserContext} from "../context/UserContext";
 
-
-
+// Lag en nye stacks for alle settingsan
 export default SettingScreen = ({navigation}) => {
 
-//lag en delete user funksjon
-
-
-  const [profilePhoto, setProfilePhoto] = useState(); 
   const firebase = useContext(FirebaseContext); 
   const [user, setUser] = useContext(UserContext); 
 
+  const [NewEmail, setNewEmail] = useState(); 
+  const [NewPassword, setNewPassword] = useState(); 
 
   const signOut = async () => {
 
@@ -29,6 +23,26 @@ export default SettingScreen = ({navigation}) => {
 
     await firebase.DeleteUser()
     setUser({isLoggedIn: null}); 
+  }; 
+
+  const ResetPassword = async () => {
+
+    const uid = await firebase.getCurrentUser().uid; 
+    const userInfo = await firebase.getUserInfo(uid)
+    await firebase.ResetPassword(userInfo.email); 
+  }; 
+
+  const UpdateUserEmail = async () => {
+
+    await firebase.UpdateUserEmail(NewEmail); 
+
+    setUser({
+      email: NewEmail, 
+    })
+  }; 
+
+  const updateUserPassword = async () => {
+    await firebase.updateUserPassword(NewPassword); 
   }
 
   return(
@@ -48,6 +62,22 @@ export default SettingScreen = ({navigation}) => {
           <Text small center> 
               <Text bold color="#88d498">Delete User</Text></Text>
         </SignUp>
+
+        <SignUp onPress={ResetPassword}>
+          <Text small center> 
+              <Text bold color="#88d498">Reset Password</Text></Text>
+        </SignUp>
+
+        <SignUp onPress={UpdateUserEmail}>
+          <Text small center> 
+              <Text bold color="#88d498">Update Email</Text></Text>
+        </SignUp>
+
+        <SignUp onPress={updateUserPassword}>
+          <Text small center> 
+              <Text bold color="#88d498">Update password</Text></Text>
+        </SignUp>
+
      </Container>
     );
 }

@@ -1,7 +1,11 @@
 import React, {createContext} from "react";
 import { initializeApp } from 'firebase/app';
 import {getAuth, 
-        deleteUser
+        deleteUser, 
+        sendPasswordResetEmail, 
+        signOut, 
+        updatePassword, 
+        updateEmail, 
         } from "firebase/auth";
 import {getStorage, 
         ref,
@@ -13,6 +17,9 @@ import {getFirestore,
         doc, 
         updateDoc,
         getDoc, 
+        collection,
+        arrayUnion,
+        arrayRemove 
         } from "firebase/firestore";
 import config from "../config/Firebase"
 import {signInWithEmailAndPassword, 
@@ -146,8 +153,41 @@ const Firebase = {
     }
   }, 
 
-  CreateNewGroup: async () => {
+  ResetPassword: async (email) => {
     try{
+      return await sendPasswordResetEmail(auth, email); 
+    }catch(error){
+      console.log("Error @ResetPassword", error)
+    }
+  },
+
+  UpdateUserEmail: async (email) => {
+    try{
+      return await updateEmail(auth, email); 
+    }catch(error){
+      console.log("Error @UpdateUserEmail", error)
+    }
+  },
+
+  updateUserPassword: async (password) => {
+    try{
+      return await updatePassword(currentUser, password);
+    }catch(error){
+      console.log("Error @updateUserPassword", error)
+    }
+  },
+
+  //Trenger en liste med medlemmer 
+  CreateNewGroup: async (groupName, usernames) => {
+    try{
+
+      const SubRef = collection(db, "Groups", groupName);
+      
+      //adds all the users to the database
+      await setDoc(doc(db, SubRef, "users"), {
+        //liste med brukernavn
+        username: user.username, 
+       });
 
     }catch(error){
       console.log("Error @CreateNewGroup", error)
@@ -193,8 +233,6 @@ const Firebase = {
       console.log("Error @StayLoggedIn", error)
     }
   }
-
-
 
 }; 
 
