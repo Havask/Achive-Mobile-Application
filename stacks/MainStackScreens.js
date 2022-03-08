@@ -4,8 +4,11 @@ import {Ionicons} from "@expo/vector-icons"
 import {
             GroupScreen, 
             CreateGroupScreen, 
+            RoutineScreen, 
+            TasksScreen,
+            Scoreboard,
         
-        } from "../screens/GroupTab/GroupScreen"
+        } from "../screens/GroupTab"
 import {
             SettingScreen, 
             NewPassword,
@@ -25,6 +28,9 @@ function GroupStackScreen() {
         <GroupStack.Navigator>
             <GroupStack.Screen name="Group" component={GroupScreen} options={{headerShown: false}}/>
             <GroupStack.Screen name="CreateGroup" component={CreateGroupScreen} options={{headerShown: false}}/>
+            <GroupStack.Screen name="Routine" component={RoutineScreen} options={{headerShown: false}}/>
+            <GroupStack.Screen name="Tasks" component={TasksScreen} options={{headerShown: false}}/>
+            <GroupStack.Screen name="Scoreboard" component={Scoreboard} options={{headerShown: false}}/>
         </GroupStack.Navigator>
     );
 }
