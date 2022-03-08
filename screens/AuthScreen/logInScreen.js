@@ -41,7 +41,7 @@ export default LogInScreen = ({navigation}) => {
           <Main>
         <ScrollView>
         <KeyboardAvoidingView>
-            <AchiveLogo source={require("../logo/logo.png")} />
+            <AchiveLogo source={require("../../logo/logo.png")} />
 
             <Auth>
               <AuthContainer>

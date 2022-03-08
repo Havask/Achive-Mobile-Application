@@ -42,12 +42,10 @@ export default ProfileScreen = ({navigation}) => {
          </Text>
         </Main>
 
- 
-
         <ProfilePhotoContainer onPress={pickImage}>
           <ProfilePhoto 
             source={user.profilePhotoUrl == "default"
-                    ? require("../logo/logo.png")
+                    ? require("../../logo/logo.png")
                     : { uri: user.profilePhotoUrl}
             }
           />

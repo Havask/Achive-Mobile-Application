@@ -32,7 +32,7 @@ export default NewPasswordScreen = ({navigation}) => {
     }),
   });
 
-  const NewPassword = async () => {
+  const password = async () => {
     stepOneValidationSchema(); 
     await firebase.UpdatePassword(newUser.Password); 
   }
@@ -63,7 +63,6 @@ export default NewPasswordScreen = ({navigation}) => {
               autoFocus={true} 
               secureTextEntry={true}
               onChangeText={handleChange("ConfirmPassword")}
-              value={password}
             />
           </AuthContainer>
 
@@ -81,7 +80,7 @@ export default NewPasswordScreen = ({navigation}) => {
           </AuthContainer>
         </Auth>
 
-        <SignUpContainer onPress={NewPassword} disable={loading}>
+        <SignUpContainer onPress={password} disable={loading}>
           {loading ? (<Loading/>) : (
             <Text bold center color="#ffffff">
             Change password</Text>
@@ -90,13 +89,8 @@ export default NewPasswordScreen = ({navigation}) => {
 
         <SignUp onPress={ResetPassword}>
           <Text small center> 
-              <Text bold color="#88d498">Reset Password</Text>
+              Forgot the password? <Text bold color="#88d498">Reset password</Text>
           </Text>
-        </SignUp>
-
-        <SignUp onPress={ResetPassword}>
-          <Text small center> 
-              Forgot the password? <Text bold color="#88d498">Reset password</Text></Text>
         </SignUp>
         </KeyboardAvoidingView>
       </ScrollView>
@@ -147,3 +141,7 @@ const Loading = styled.ActivityIndicator.attrs(props => ({
   color: "#fffffff",
   size: "small", 
 }))``; 
+
+const SignUp = styled.TouchableOpacity`
+  margin-top: 16px; 
+`; 

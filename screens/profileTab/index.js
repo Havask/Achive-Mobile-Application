@@ -1,3 +1,3 @@
 
-export { default as ProfileScreen } from "./profileTab/ProfileScreen";
+export { default as ProfileScreen } from "./ProfileScreen";
 

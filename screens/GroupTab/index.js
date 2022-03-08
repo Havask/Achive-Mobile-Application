@@ -1,7 +1,7 @@
 
 
-export { default as GroupScreen } from "./GroupTab/GroupScreen";
-export { default as CreateGroupScreen } from "./GroupTab/CreateGroupScreen";
-export { default as RoutineScreen } from "./GroupTab/RoutineScreen";
-export { default as TasksScreen } from "./GroupTab/TasksScreen";
-export { default as Scoreboard } from "./GroupTab/Scoreboard";
+export { default as GroupScreen } from "./GroupScreen";
+export { default as CreateGroupScreen } from "./CreateGroupScreen";
+export { default as RoutineScreen } from "./RoutineScreen";
+export { default as TasksScreen } from "./TasksScreen";
+export { default as Scoreboard } from "./Scoreboard";

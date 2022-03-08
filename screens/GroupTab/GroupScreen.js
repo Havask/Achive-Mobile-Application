@@ -44,7 +44,7 @@ export default GroupScreen = ({navigation}) => {
         <ProfilePhotoContainer onPress={pickImage}>
           <ProfilePhoto 
             source={user.profilePhotoUrl == "default"
-                    ? require("../assets/logo.png")
+                    ? require("../../assets/logo.png")
                     : { uri: user.profilePhotoUrl}
             }
           />

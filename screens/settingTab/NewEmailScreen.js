@@ -9,6 +9,8 @@ import {UserContext} from "../../context/UserContext";
 export default NewEmailScreen = ({navigation}) => {
 
   const firebase = useContext(FirebaseContext); 
+  const [_, setUser] = useContext(UserContext); 
+  
   const [loading, setLoading] = useState(false); 
   const [NewEmail, setNewEmail] = useState(); 
 
@@ -33,6 +35,7 @@ export default NewEmailScreen = ({navigation}) => {
           <AuthContainer>
             <AuthTitle> New Email:</AuthTitle>
             <AuthField 
+              keyboardType="email-address"
               onChangeText={(email) => setNewEmail(email.trim())}
               value={email}
             />

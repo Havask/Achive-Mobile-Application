@@ -14,9 +14,11 @@ import {
             NewPassword,
             NewUsername, 
             NewEmail
+
         } from "../screens/settingTab"
 import {
             ProfileScreen, 
+
         } from "../screens/profileTab"
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -50,10 +52,10 @@ const SettingsStack = createNativeStackNavigator();
 function SettingsStackScreen() {
     return (
         <SettingsStack.Navigator>
-            <SettingsStack.Screen name="Settings" component={SettingScreen} options={{headerShown: false}} />
-            <SettingsStack.Screen name="Password" component={NewPassword} options={{headerShown: false}} />
-            <SettingsStack.Screen name="Username" component={NewUsername} options={{headerShown: false}} />
-            <SettingsStack.Screen name="Email" component={NewEmail} options={{headerShown: false}} />
+            <SettingsStack.Screen name="Settings" component={SettingScreen} options={{headerShown: false}}/>
+            <SettingsStack.Screen name="Password" component={NewPassword} options={{headerShown: false}}/>
+            <SettingsStack.Screen name="Username" component={NewUsername} options={{headerShown: false}}/>
+            <SettingsStack.Screen name="Email" component={NewEmail} options={{headerShown: false}}/>
         </SettingsStack.Navigator>
     );
 }
@@ -72,7 +74,7 @@ export default MainStackScreens = () => {
             let iconName = "ios-home"
             
             switch(route.name){
-                case "Profile": 
+                case "Profiles": 
                 iconName = "ios-person"
                 break; 
                 
@@ -101,7 +103,7 @@ export default MainStackScreens = () => {
         
             <TabStack.Navigator screenOptions={screenOptions}>
                 <TabStack.Screen 
-                    name="Profile" 
+                    name="Profiles" 
                     component={ProfileStackScreen}  
                     options={{headerShown: false}}
                 />
