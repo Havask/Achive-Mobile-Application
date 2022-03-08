@@ -1,13 +1,13 @@
 import React, {useState, useContext} from "react";
 import {Platform} from "react-native"; 
 import styled from "styled-components/native"; 
-import Text from "../components/Text.js";
+import Text from "../../components/Text.js";
 import {AntDesign} from "@expo/vector-icons"
 import * as ImagePicker from "expo-image-picker"
-import {FirebaseContext} from "../context/FirebaseContext";
-import {UserContext} from "../context/UserContext";
+import {FirebaseContext} from "../../context/FirebaseContext";
+import {UserContext} from "../../context/UserContext";
 
-export default ProfileScreen = ({navigation}) => {
+export default GroupScreen = ({navigation}) => {
 
   const [profilePhoto, setProfilePhoto] = useState(); 
   const firebase = useContext(FirebaseContext); 
@@ -28,77 +28,53 @@ export default ProfileScreen = ({navigation}) => {
   };
 
   const signOut = async () => {
-    const SignedOut = await firebase.SignOutUser();
-    if(SignedOut){
-      setUser(state => ({...state, isLoggedIn: null}))
-    }
+
+    setLoading(true);
+    setUser({isLoggedIn: null}); 
   };
 
   return(
     <Container>
        <Main>
          <Text title semi center color="#88d498">
-              Profile Screen:
+              Group Screen:
          </Text>
         </Main>
-
- 
 
         <ProfilePhotoContainer onPress={pickImage}>
           <ProfilePhoto 
             source={user.profilePhotoUrl == "default"
-                    ? require("../logo/logo.png")
+                    ? require("../assets/logo.png")
                     : { uri: user.profilePhotoUrl}
             }
           />
         </ProfilePhotoContainer>
 
-        <Text title bold margin="16px 0 32px 0">
-          {user.username}
-        </Text>
-
-        <StatsContainer>
-            <StatContainer>
-              <Text large light>5</Text>
-              <Text>Task assigned</Text>
-            </StatContainer>
-
-            <StatContainer>
-              <Text large light>2</Text>
-              <Text>Task completed</Text>
-            </StatContainer>
-        </StatsContainer>
-
-        <LogOut onPress={signOut}>
-          <Text medium center color="#88d498">
-            Log Out
+        <GroupContainer onPress={() => navigation.push("CreateGroup")}>
+          <Text bold center color="#ffffff">
+              Add new group
           </Text>
-        </LogOut>
+        </GroupContainer>
+
+        <GroupContainer >
+            {}
+        </GroupContainer>
+
      </Container>
     );
 }
 
 const Container = styled.View`
-    align-items: center; 
-    margin-top: 64px; 
     flex: 1; 
 `;
 
 const Main = styled.View`
+  margin-top: 80px; 
   margin-bottom: 50px; 
 `;
 
-const GroupContainer = styled.TouchableOpacity`
-  margin: 0 32px; 
-  height: 48px; 
-  align-items: center; 
-  justify-content: center; 
-  background-color: #88d498;
-  border-radius: 6px;
-`;
-
-const LogOut = styled.TouchableOpacity`
-  margin-bottom: 32px; 
+const SignUp = styled.TouchableOpacity`
+  margin-top: 16px; 
 `; 
 
 const ProfilePhotoContainer = styled.TouchableOpacity`
@@ -109,22 +85,22 @@ const ProfilePhotoContainer = styled.TouchableOpacity`
   align-self: center; 
   margin-top: 16px;
   overflow: hidden; 
+  margin-bottom: 32px;
 `; 
 
 const ProfilePhoto = styled.Image`
   width: 128px;
   height: 128px; 
   border-radius: 64px; 
+
 `;
 
-const StatsContainer = styled.View`
-  flex-direction: row; 
-  justify-content: space-between; 
+const GroupContainer = styled.TouchableOpacity`
   margin: 0 32px; 
-  flex: 1; 
-`;
-
-const StatContainer = styled.View`
+  height: 68px; 
   align-items: center; 
-  flex: 1; 
-`; 
+  justify-content: center; 
+  background-color: #88d498;
+  border-radius: 6px;
+  margin-bottom: 32px;
+`;

@@ -1,8 +1,8 @@
 import React, {useState, useContext} from "react";
 import styled from "styled-components/native"; 
-import Text from "../components/Text.js";
-import {FirebaseContext} from "../context/FirebaseContext";
-import {UserContext} from "../context/UserContext";
+import Text from "../../components/Text.js";
+import {FirebaseContext} from "../../context/FirebaseContext";
+import {UserContext} from "../../context/UserContext";
 
 // Lag en nye stacks for alle settingsan
 export default SettingScreen = ({navigation}) => {

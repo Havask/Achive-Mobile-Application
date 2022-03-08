@@ -1,12 +1,12 @@
 import React, {useState, useContext} from "react";
 import styled from "styled-components/native"; 
-import Text from "../components/Text.js";
+import Text from "../../components/Text.js";
 import {AntDesign} from "@expo/vector-icons"
 import * as ImagePicker from "expo-image-picker"
 import * as MediaLibrary from 'expo-media-library';
 import { KeyboardAvoidingView, ScrollView} from "react-native";
-import {FirebaseContext} from "../context/FirebaseContext";
-import {UserContext} from "../context/UserContext";
+import {FirebaseContext} from "../../context/FirebaseContext";
+import {UserContext} from "../../context/UserContext";
 
 export default CreateGroupScreen = ({navigation}) => {
 

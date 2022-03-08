@@ -1,11 +1,19 @@
 import React from "react"
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {Ionicons} from "@expo/vector-icons"
-import {GroupScreen, 
-        ProfileScreen, 
-        SettingScreen, 
-        CreateGroupScreen 
-        } from "../screens"
+import {
+            GroupScreen, 
+            CreateGroupScreen 
+        
+        } from "../screens/GroupTab/GroupScreen"
+import {
+            SettingScreen, 
+
+        } from "../screens/settingTab"
+import {
+            ProfileScreen, 
+        } from "../screens/profileTab"
+
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const GroupStack = createNativeStackNavigator();
