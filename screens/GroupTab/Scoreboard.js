@@ -6,7 +6,6 @@ TODO:
 -Koble til en scoreboard docs til hver gruppe. 
 -Der alle grupper starter med 0 i poeng til hver, 
 -
-
 */
 
 import React, {useState, useContext} from "react";
@@ -19,7 +18,6 @@ export default Scoreboard = ({navigation}) => {
 
     const firebase = useContext(FirebaseContext); 
     const [user, setUser] = useContext(UserContext); 
-    
     
     return(
       <Container>

@@ -163,7 +163,7 @@ const Firebase = {
 
   UpdateEmail: async (email) => {
     try{
-      return await updateEmail(auth, email); 
+      return await updateEmail(auth.currentUser, email); 
     }catch(error){
       console.log("Error @UpdateEmail", error)
     }
