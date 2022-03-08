@@ -19,7 +19,7 @@ import {getFirestore,
         getDoc, 
         collection,
         arrayUnion,
-        arrayRemove 
+        arrayRemove,
         } from "firebase/firestore";
 import config from "../config/Firebase"
 import {signInWithEmailAndPassword, 
@@ -161,22 +161,36 @@ const Firebase = {
     }
   },
 
-  UpdateUserEmail: async (email) => {
+  UpdateEmail: async (email) => {
     try{
       return await updateEmail(auth, email); 
     }catch(error){
-      console.log("Error @UpdateUserEmail", error)
+      console.log("Error @UpdateEmail", error)
     }
   },
 
-  updateUserPassword: async (password) => {
+  UpdatePassword: async (password) => {
     try{
       return await updatePassword(currentUser, password);
     }catch(error){
-      console.log("Error @updateUserPassword", error)
+      console.log("Error @UpdatePassword", error)
     }
   },
 
+  updateUsername: async (NewUsername) => {
+    try{
+      const uid = Firebase.getCurrentUser().uid; 
+      const docRef = doc(db, "users", uid);
+
+      await updateDoc(docRef, {
+        username: NewUsername, 
+      });
+      
+    }catch(error){
+      console.log("Error @updateUsername", error)
+    }
+  },
+  
   //Trenger en liste med medlemmer 
   CreateNewGroup: async (groupName, usernames) => {
     try{

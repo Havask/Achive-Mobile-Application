@@ -5,27 +5,23 @@ import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
 import { Alert } from "react-native";
 
-// Lag en nye stacks for alle settingsan
 export default SettingScreen = ({navigation}) => {
 
   const firebase = useContext(FirebaseContext); 
   const [user, setUser] = useContext(UserContext); 
 
-  const [NewEmail, setNewEmail] = useState(); 
-  const [NewPassword, setNewPassword] = useState(); 
-
   const ButtonAlert = () =>
-  Alert.alert(
-    "Alert Title",
-    "My Alert Msg",
-    [
-      {
-        text: "Cancel",
-        onPress: () => console.log("Cancel Pressed"),
-        style: "cancel"
-      },
-      { text: "Delete the account", onPress: () => console.log("Delete Pressed") }
-    ]
+    Alert.alert(
+      "Alert Title",
+      "My Alert Msg",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "Delete the account", onPress: () => console.log("Delete Pressed") }
+      ]
   );
 
   const signOut = async () => {
@@ -40,21 +36,6 @@ export default SettingScreen = ({navigation}) => {
     setUser({isLoggedIn: null}); 
   }; 
 
- 
-
-  const UpdateUserEmail = async () => {
-
-    await firebase.UpdateUserEmail(NewEmail); 
-
-    setUser({
-      email: NewEmail, 
-    })
-  }; 
-
-  const updateUserPassword = async () => {
-    await firebase.updateUserPassword(NewPassword); 
-  }
-
   return(
     <Container>
        <Main>
@@ -63,31 +44,35 @@ export default SettingScreen = ({navigation}) => {
          </Text>
         </Main>
 
-        <SignUp onPress={signOut}>
+        <SignUp onPress={() => navigation.push("Username")}>
           <Text small center> 
-              <Text bold color="#88d498">Log Out</Text></Text>
+            <Text bold color="#88d498">Update username</Text>
+          </Text>
         </SignUp>
 
-        <SignUp onPress={ResetPassword}>
+        <SignUp onPress={() => navigation.push("Email")}>
           <Text small center> 
-              <Text bold color="#88d498">Reset Password</Text></Text>
+            <Text bold color="#88d498">Update Email</Text>
+          </Text>
         </SignUp>
 
-        <SignUp onPress={UpdateUserEmail}>
+        <SignUp onPress={() => navigation.push("Password")}>
           <Text small center> 
-              <Text bold color="#88d498">Update Email</Text></Text>
-        </SignUp>
-
-        <SignUp onPress={updateUserPassword}>
-          <Text small center> 
-              <Text bold color="#88d498">Update password</Text></Text>
+            <Text bold color="#88d498">Update password</Text>
+          </Text>
         </SignUp>
 
         <SignUp onPress={deleteUser}>
           <Text small center> 
-              <Text bold color="#88d498">Delete User</Text></Text>
+            <Text bold color="#88d498">Delete User</Text>
+          </Text>
         </SignUp>
 
+        <SignUp onPress={signOut}>
+          <Text small center> 
+            <Text bold color="#88d498">Log Out</Text>
+          </Text>
+        </SignUp>
      </Container>
     );
 }

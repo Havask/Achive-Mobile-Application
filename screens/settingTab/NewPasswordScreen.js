@@ -6,13 +6,15 @@ import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
 import * as Yup from "yup";
 
-
 export default NewPasswordScreen = ({navigation}) => {
 
   const firebase = useContext(FirebaseContext); 
-  const [_, setUser] = useContext(UserContext); 
-  const [password, setPassword] = useState(); 
   const [loading, setLoading] = useState(false); 
+
+  const [newUser, setNewUser] = useState({
+    Password: "",
+    ConfirmPassword: "",
+  });
 
   const handleChange = (prop) => (event) => {
     setNewUser({ ...newUser, [prop]: event.target.value });
@@ -30,18 +32,16 @@ export default NewPasswordScreen = ({navigation}) => {
     }),
   });
 
-  const [newUser, setNewUser] = useState({
-    Password: "",
-    ConfirmPassword: "",
-  });
+  const NewPassword = async () => {
+    stepOneValidationSchema(); 
+    await firebase.UpdatePassword(newUser.Password); 
+  }
 
   const ResetPassword = async () => {
 
-    stepOneValidationSchema(); 
-
     const uid = await firebase.getCurrentUser().uid; 
     const userInfo = await firebase.getUserInfo(uid)
-    await firebase.ResetPassword(userInfo.email); 
+    await firebase.updateUserPassword(userInfo.email); 
   }; 
 
   return(
@@ -64,7 +64,7 @@ export default NewPasswordScreen = ({navigation}) => {
               secureTextEntry={true}
               onChangeText={handleChange("ConfirmPassword")}
               value={password}
-              />
+            />
           </AuthContainer>
 
           <AuthContainer>
@@ -77,20 +77,31 @@ export default NewPasswordScreen = ({navigation}) => {
               secureTextEntry={true}
               onChangeText={handleChange("Password")}
               value={password}
-              />
+            />
           </AuthContainer>
         </Auth>
-        
-        <SignUpContainer onPress={ResetPassword} disable={loading}>
+
+        <SignUpContainer onPress={NewPassword} disable={loading}>
           {loading ? (<Loading/>) : (
-          <Text bold center color="#ffffff">
+            <Text bold center color="#ffffff">
             Change password</Text>
           )}
         </SignUpContainer>
+
+        <SignUp onPress={ResetPassword}>
+          <Text small center> 
+              <Text bold color="#88d498">Reset Password</Text>
+          </Text>
+        </SignUp>
+
+        <SignUp onPress={ResetPassword}>
+          <Text small center> 
+              Forgot the password? <Text bold color="#88d498">Reset password</Text></Text>
+        </SignUp>
         </KeyboardAvoidingView>
       </ScrollView>
      </Container>
-    );
+  );
 }
 
 const Container = styled.KeyboardAvoidingView`
@@ -132,33 +143,7 @@ const SignUpContainer = styled.TouchableOpacity`
   border-radius: 6px;
 `;
 
-const SignUp = styled.TouchableOpacity`
-  margin-top: 16px; 
-`; 
-
 const Loading = styled.ActivityIndicator.attrs(props => ({
   color: "#fffffff",
   size: "small", 
 }))``; 
-
-const ProfilePhotoContainer = styled.TouchableOpacity`
-  background-color: #e1e2e6;
-  width: 80px; 
-  height: 80px; 
-  border-radius: 40px; 
-  align-self: center; 
-  margin-top: 16px;
-  overflow: hidden; 
-`; 
-
-const DefaultProfilePhoto = styled.View`
-  align-items: center; 
-  justify-content: center; 
-  flex: 1; 
-`; 
-
-const ProfilePhoto = styled.Image`
-  width: 128px;
-  height: 128px; 
-  border-radius: 64px; 
-`;

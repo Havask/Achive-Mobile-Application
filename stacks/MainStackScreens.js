@@ -3,12 +3,14 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {Ionicons} from "@expo/vector-icons"
 import {
             GroupScreen, 
-            CreateGroupScreen 
+            CreateGroupScreen, 
         
         } from "../screens/GroupTab/GroupScreen"
 import {
             SettingScreen, 
-
+            NewPassword,
+            NewUsername, 
+            NewEmail
         } from "../screens/settingTab"
 import {
             ProfileScreen, 
@@ -43,6 +45,9 @@ function SettingsStackScreen() {
     return (
         <SettingsStack.Navigator>
             <SettingsStack.Screen name="Settings" component={SettingScreen} options={{headerShown: false}} />
+            <SettingsStack.Screen name="Password" component={NewPassword} options={{headerShown: false}} />
+            <SettingsStack.Screen name="Username" component={NewUsername} options={{headerShown: false}} />
+            <SettingsStack.Screen name="Email" component={NewEmail} options={{headerShown: false}} />
         </SettingsStack.Navigator>
     );
 }
