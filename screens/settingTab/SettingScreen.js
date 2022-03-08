@@ -3,6 +3,7 @@ import styled from "styled-components/native";
 import Text from "../../components/Text.js";
 import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
+import { Alert } from "react-native";
 
 // Lag en nye stacks for alle settingsan
 export default SettingScreen = ({navigation}) => {
@@ -13,24 +14,33 @@ export default SettingScreen = ({navigation}) => {
   const [NewEmail, setNewEmail] = useState(); 
   const [NewPassword, setNewPassword] = useState(); 
 
-  const signOut = async () => {
+  const ButtonAlert = () =>
+  Alert.alert(
+    "Alert Title",
+    "My Alert Msg",
+    [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel"
+      },
+      { text: "Delete the account", onPress: () => console.log("Delete Pressed") }
+    ]
+  );
 
+  const signOut = async () => {
+    ButtonAlert(); 
     setLoading(true);
     setUser({isLoggedIn: null}); 
   };
 
   const deleteUser = async () => {
-
+    //promt the user with "Are you sure you want to delete?"
     await firebase.DeleteUser()
     setUser({isLoggedIn: null}); 
   }; 
 
-  const ResetPassword = async () => {
-
-    const uid = await firebase.getCurrentUser().uid; 
-    const userInfo = await firebase.getUserInfo(uid)
-    await firebase.ResetPassword(userInfo.email); 
-  }; 
+ 
 
   const UpdateUserEmail = async () => {
 
@@ -58,11 +68,6 @@ export default SettingScreen = ({navigation}) => {
               <Text bold color="#88d498">Log Out</Text></Text>
         </SignUp>
 
-        <SignUp onPress={deleteUser}>
-          <Text small center> 
-              <Text bold color="#88d498">Delete User</Text></Text>
-        </SignUp>
-
         <SignUp onPress={ResetPassword}>
           <Text small center> 
               <Text bold color="#88d498">Reset Password</Text></Text>
@@ -76,6 +81,11 @@ export default SettingScreen = ({navigation}) => {
         <SignUp onPress={updateUserPassword}>
           <Text small center> 
               <Text bold color="#88d498">Update password</Text></Text>
+        </SignUp>
+
+        <SignUp onPress={deleteUser}>
+          <Text small center> 
+              <Text bold color="#88d498">Delete User</Text></Text>
         </SignUp>
 
      </Container>

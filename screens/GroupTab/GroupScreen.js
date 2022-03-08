@@ -56,9 +56,6 @@ export default GroupScreen = ({navigation}) => {
           </Text>
         </GroupContainer>
 
-        <GroupContainer >
-            {}
-        </GroupContainer>
 
      </Container>
     );
