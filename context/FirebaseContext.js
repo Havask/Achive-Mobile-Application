@@ -127,7 +127,7 @@ const Firebase = {
 
   SignOutUser: async () => {
     try{
-      await auth.signOut();
+      await signOut();
       return true; 
 
     }catch(error){
