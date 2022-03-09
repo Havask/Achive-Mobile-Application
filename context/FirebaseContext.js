@@ -163,7 +163,15 @@ const Firebase = {
 
   UpdateEmail: async (email) => {
     try{
-      return await updateEmail(auth.currentUser, email); 
+      const uid = Firebase.getCurrentUser().uid; 
+      await updateEmail(uid, email); 
+
+      const docRef = doc(db, "users", uid);
+      //Update the database with the new email address
+      await updateDoc(docRef, {
+        email: email, 
+      });
+
     }catch(error){
       console.log("Error @UpdateEmail", error)
     }
@@ -171,13 +179,13 @@ const Firebase = {
 
   UpdatePassword: async (password) => {
     try{
-      return await updatePassword(currentUser, password);
+      await updatePassword(currentUser, password);
     }catch(error){
       console.log("Error @UpdatePassword", error)
     }
   },
 
-  updateUsername: async (NewUsername) => {
+  UpdateUsername: async (NewUsername) => {
     try{
       const uid = Firebase.getCurrentUser().uid; 
       const docRef = doc(db, "users", uid);

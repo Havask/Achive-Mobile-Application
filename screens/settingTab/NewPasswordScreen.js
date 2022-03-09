@@ -32,7 +32,7 @@ export default NewPasswordScreen = ({navigation}) => {
     }),
   });
 
-  const password = async () => {
+  const NewPassword = async () => {
     stepOneValidationSchema(); 
     await firebase.UpdatePassword(newUser.Password); 
   }
@@ -60,9 +60,8 @@ export default NewPasswordScreen = ({navigation}) => {
               autoCapitalize="none" 
               autoCompleteType="password" 
               autocorrect={false} 
-              autoFocus={true} 
               secureTextEntry={true}
-              onChangeText={handleChange("ConfirmPassword")}
+              onChange={handleChange("ConfirmPassword")}
             />
           </AuthContainer>
 
@@ -72,15 +71,13 @@ export default NewPasswordScreen = ({navigation}) => {
               autoCapitalize="none" 
               autoCompleteType="password" 
               autocorrect={false} 
-              autoFocus={true} 
               secureTextEntry={true}
-              onChangeText={handleChange("Password")}
-              value={password}
+              onChange={handleChange("Password")}   
             />
           </AuthContainer>
         </Auth>
 
-        <SignUpContainer onPress={password} disable={loading}>
+        <SignUpContainer onPress={NewPassword} disable={loading}>
           {loading ? (<Loading/>) : (
             <Text bold center color="#ffffff">
             Change password</Text>

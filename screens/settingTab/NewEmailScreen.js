@@ -36,8 +36,8 @@ export default NewEmailScreen = ({navigation}) => {
             <AuthTitle> New Email:</AuthTitle>
             <AuthField 
               keyboardType="email-address"
-              onChangeText={(email) => setNewEmail(email.trim())}
-              value={email}
+              onChangeText={(NewEmail) => setNewEmail(NewEmail.trim())}
+              value={NewEmail}
             />
           </AuthContainer>
         </Auth>

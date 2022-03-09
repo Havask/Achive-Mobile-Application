@@ -70,7 +70,6 @@ export default SignUpScreen = ({navigation}) => {
           <AuthContainer>
             <AuthTitle>Name</AuthTitle>
             <AuthField 
-              autoCapitalize="none" 
               autocorrect={false} 
               onChangeText={(username) => setUsername(username.trim())}
               value={username}
@@ -81,7 +80,6 @@ export default SignUpScreen = ({navigation}) => {
             <AuthTitle>Email address</AuthTitle>
             <AuthField 
               autoCapitalize="none" 
-              autoCompleteType="email" 
               autocorrect={false} 
               keyboardType="email-address"
               onChangeText={(email) => setEmail(email.trim())}
@@ -93,9 +91,7 @@ export default SignUpScreen = ({navigation}) => {
             <AuthTitle>password</AuthTitle>
             <AuthField 
               autoCapitalize="none" 
-              autoCompleteType="password" 
               autocorrect={false} 
-              autoFocus={true} 
               secureTextEntry={true}
               onChangeText={(password) => setPassword(password.trim())}
               value={password}

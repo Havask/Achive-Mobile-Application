@@ -12,8 +12,9 @@ export default NewUsername = ({navigation}) => {
   const [Username, setUsername] = useState(); 
 
   const NewUsername = async () => {
-
-    await firebase.updateUsername(Username); 
+    setLoading(true);
+    await firebase.UpdateUsername(Username); 
+    navigation.push("Settings"); 
   }
 
   return(
@@ -29,7 +30,7 @@ export default NewUsername = ({navigation}) => {
           <AuthContainer>
             <AuthTitle> New Username</AuthTitle>
             <AuthField 
-              onChangeText={(username) => setUsername(email.trim())}
+              onChangeText={(username) => setUsername(username.trim())}
               value={Username}
             />
           </AuthContainer>
