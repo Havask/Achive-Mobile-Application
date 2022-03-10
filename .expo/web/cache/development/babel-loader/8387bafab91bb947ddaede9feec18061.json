@@ -1,0 +1,1 @@
+{"ast":null,"code":"export { default as ProfileScreen } from \"./ProfileScreen\";","map":{"version":3,"sources":["/home/havard/Desktop/Achive/screens/profileTab/index.js"],"names":["default","ProfileScreen"],"mappings":"AACA,SAASA,OAAO,IAAIC,aAApB","sourcesContent":["\nexport { default as ProfileScreen } from \"./ProfileScreen\";\n\n"]},"metadata":{},"sourceType":"module"}

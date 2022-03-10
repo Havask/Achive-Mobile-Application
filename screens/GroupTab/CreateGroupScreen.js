@@ -1,4 +1,4 @@
-import React, {useState, useContext} from "react";
+import React, {useState, useContext, useEffect} from "react";
 import styled from "styled-components/native"; 
 import Text from "../../components/Text.js";
 import {AntDesign} from "@expo/vector-icons"
@@ -10,13 +10,30 @@ import {UserContext} from "../../context/UserContext";
 
 export default CreateGroupScreen = ({navigation}) => {
 
+  useEffect(() => {
+
+  }, [Members])
+
   const firebase = useContext(FirebaseContext); 
   const [_, setUser] = useContext(UserContext); 
   const [Groupname, setGroupName] = useState(); 
-
+  const [Members, setMember] = useState([]); 
   const [loading, setLoading] = useState(false); 
   const [profilePhoto, setProfilePhoto] = useState(); 
 
+  //lag sånn at gruppa får et profilbilde
+
+  const goalInputHandler = (enteredText) =>{
+    setEnteredGoal(enteredText)
+  };
+
+  const CreateNewGroup = async () => {
+
+    await firebase.CreateGroup(Groupname, Members); 
+
+    //lag en liste med folk som skal bli adda
+    navigation.push("Group"); 
+  };
 
   return(
     <Container>
@@ -36,19 +53,27 @@ export default CreateGroupScreen = ({navigation}) => {
               autocorrect={false} 
               onChangeText={(Groupname) => setGroupName(Groupname.trim())}
               value={Groupname}
-              />
+            />
           </AuthContainer>
 
           <AuthContainer>
             <AuthTitle>Add members</AuthTitle>
             <AuthField 
-      
               />
+          </AuthContainer>
+
+          <AuthContainer>
+            <AuthTitle>members</AuthTitle>
+            <AuthField 
+              autocorrect={false} 
+              onChangeText={goalInputHandler}
+              value={enteredText}
+            />
           </AuthContainer>
 
         </Auth>
         
-        <SignUpContainer onPress={() => navigation.push("Group")} disable={loading}>
+        <SignUpContainer onPress={CreateNewGroup} disable={loading}>
           {loading ? (<Loading/>) : (
           <Text bold center color="#ffffff">
             Create Group</Text>
