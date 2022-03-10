@@ -25,11 +25,9 @@ const GoalInput = props => {
                 onChangeText = {goalInputHandler}
                 value={enteredGoal}
                 />
-
                 <View style={styles.button}>
                     <Button title = "Legg til" onPress={addGoalHandler}/>
                 </View>
-
                 <View style={styles.button}>
                     <Button title = "Avbryt" color = "red" onPress={props.onCancel}/>
                 </View>

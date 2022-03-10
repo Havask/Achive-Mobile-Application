@@ -20,7 +20,6 @@ const styles = StyleSheet.create({
         backgroundColor: "#ccc",
         borderColor: "black", 
         borderWidth: 1, 
-        
     },
 }); 
 export default GoalItem; 

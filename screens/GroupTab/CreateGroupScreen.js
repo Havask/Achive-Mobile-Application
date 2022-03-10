@@ -8,6 +8,8 @@ import { KeyboardAvoidingView, ScrollView} from "react-native";
 import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
 
+import {FlatList} from "react-native"; 
+
 export default CreateGroupScreen = ({navigation}) => {
 
   useEffect(() => {
@@ -16,15 +18,15 @@ export default CreateGroupScreen = ({navigation}) => {
 
   const firebase = useContext(FirebaseContext); 
   const [_, setUser] = useContext(UserContext); 
-  const [Groupname, setGroupName] = useState(); 
+  const [Groupname, setGroupName] = useState(""); 
   const [Members, setMember] = useState([]); 
   const [loading, setLoading] = useState(false); 
   const [profilePhoto, setProfilePhoto] = useState(); 
 
   //lag sånn at gruppa får et profilbilde
 
-  const goalInputHandler = (enteredText) =>{
-    setEnteredGoal(enteredText)
+  const MemberInputHandler = (enteredText) =>{
+    setMember(enteredText)
   };
 
   const CreateNewGroup = async () => {
@@ -34,6 +36,29 @@ export default CreateGroupScreen = ({navigation}) => {
     //lag en liste med folk som skal bli adda
     navigation.push("Group"); 
   };
+
+  const AddMemberHandler = goalTitle => {
+    setCourseGoals(currentGoals => [
+        ...currentGoals, 
+        {id: Math.random().toString(), value: goalTitle}
+    ]); 
+    setIsAddMode(false); 
+  }
+
+  const removeMemberHandler = goalId => {
+    setCourseGoals(currentGoals =>{
+        /* return a new array filter based on a new critiria */
+        return currentGoals.filter((goal) => goal.id !== goalId); 
+    });
+  }
+
+  const MemberItem = props => {
+    return (
+    <SignUpContainer onPress={props.onDelete.bind(this, props.id)}> 
+            <Text bold center color="#ffffff"> {props.title}</Text> 
+    </SignUpContainer>
+    );
+  }; 
 
   return(
     <Container>
@@ -59,15 +84,9 @@ export default CreateGroupScreen = ({navigation}) => {
           <AuthContainer>
             <AuthTitle>Add members</AuthTitle>
             <AuthField 
-              />
-          </AuthContainer>
-
-          <AuthContainer>
-            <AuthTitle>members</AuthTitle>
-            <AuthField 
               autocorrect={false} 
-              onChangeText={goalInputHandler}
-              value={enteredText}
+              onChangeText={MemberInputHandler}
+              value={Members}
             />
           </AuthContainer>
 
@@ -82,6 +101,15 @@ export default CreateGroupScreen = ({navigation}) => {
 
         </KeyboardAvoidingView>
       </ScrollView>
+
+      <FlatList 
+            keyExtractor={(item,index) => item.id} 
+            data ={Members} 
+            renderItem={itemData => <MemberItem 
+            id={itemData.item.id} 
+            onDelete ={removeMemberHandler} 
+            title={itemData.item.value}/>} 
+          />
      </Container>
     );
 }
