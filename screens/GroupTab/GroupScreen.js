@@ -27,17 +27,11 @@ export default GroupScreen = ({navigation}) => {
     }
   };
 
-  const signOut = async () => {
-
-    setLoading(true);
-    setUser({isLoggedIn: null}); 
-  };
-
   return(
     <Container>
        <Main>
          <Text title semi center color="#88d498">
-              Group Screen:
+              Groups:
          </Text>
         </Main>
 
@@ -55,8 +49,6 @@ export default GroupScreen = ({navigation}) => {
               Add new group
           </Text>
         </GroupContainer>
-
-
      </Container>
     );
 }
@@ -76,9 +68,9 @@ const SignUp = styled.TouchableOpacity`
 
 const ProfilePhotoContainer = styled.TouchableOpacity`
   background-color: #e1e2e6;
-  width: 80px; 
-  height: 80px; 
-  border-radius: 40px; 
+  width: 100px; 
+  height: 100px; 
+  border-radius: 48px; 
   align-self: center; 
   margin-top: 16px;
   overflow: hidden; 
@@ -86,8 +78,9 @@ const ProfilePhotoContainer = styled.TouchableOpacity`
 `; 
 
 const ProfilePhoto = styled.Image`
-  width: 128px;
-  height: 128px; 
+  width: 100px;
+  height: 100px; 
+  
   border-radius: 64px; 
 
 `;

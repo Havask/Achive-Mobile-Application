@@ -71,7 +71,7 @@ export default NewPasswordScreen = ({navigation}) => {
               autoCapitalize="none" 
               autoCompleteType="password" 
               autocorrect={false} 
-              secureTextEntry={true}
+              secureTextEntry={true} 
               onChange={handleChange("Password")}   
             />
           </AuthContainer>

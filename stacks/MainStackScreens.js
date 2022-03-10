@@ -13,7 +13,8 @@ import {
             SettingScreen, 
             NewPassword,
             NewUsername, 
-            NewEmail
+            NewEmail,
+            UserSettingScreen,
 
         } from "../screens/settingTab"
 import {
@@ -56,6 +57,8 @@ function SettingsStackScreen() {
             <SettingsStack.Screen name="Password" component={NewPassword} options={{headerShown: false}}/>
             <SettingsStack.Screen name="Username" component={NewUsername} options={{headerShown: false}}/>
             <SettingsStack.Screen name="Email" component={NewEmail} options={{headerShown: false}}/>
+            <SettingsStack.Screen name="UsersSetting" component={UserSetting} options={{headerShown: false}}/>
+
         </SettingsStack.Navigator>
     );
 }

@@ -38,7 +38,7 @@ export default ProfileScreen = ({navigation}) => {
     <Container>
        <Main>
          <Text title semi center color="#88d498">
-              Profile Screen:
+              Profile:
          </Text>
         </Main>
 
@@ -50,10 +50,12 @@ export default ProfileScreen = ({navigation}) => {
             }
           />
         </ProfilePhotoContainer>
-
-        <Text title bold margin="16px 0 32px 0">
-          {user.username}
-        </Text>
+        <UsernameContainer>
+          <Text title bold margin="16px 0 32px 0">
+            {user.username}
+          </Text>
+        </UsernameContainer>
+ 
 
         <StatsContainer>
             <StatContainer>
@@ -77,22 +79,16 @@ export default ProfileScreen = ({navigation}) => {
 }
 
 const Container = styled.View`
-    align-items: center; 
-    margin-top: 64px; 
     flex: 1; 
 `;
 
-const Main = styled.View`
-  margin-bottom: 50px; 
+const UsernameContainer = styled.View`
+    align-items: center; 
 `;
 
-const GroupContainer = styled.TouchableOpacity`
-  margin: 0 32px; 
-  height: 48px; 
-  align-items: center; 
-  justify-content: center; 
-  background-color: #88d498;
-  border-radius: 6px;
+const Main = styled.View`
+  margin-top: 80px; 
+  margin-bottom: 50px; 
 `;
 
 const LogOut = styled.TouchableOpacity`
@@ -101,17 +97,18 @@ const LogOut = styled.TouchableOpacity`
 
 const ProfilePhotoContainer = styled.TouchableOpacity`
   background-color: #e1e2e6;
-  width: 80px; 
-  height: 80px; 
-  border-radius: 40px; 
+  width: 100px; 
+  height: 100px; 
+  border-radius: 48px; 
   align-self: center; 
   margin-top: 16px;
   overflow: hidden; 
+  margin-bottom: 32px;
 `; 
 
 const ProfilePhoto = styled.Image`
-  width: 128px;
-  height: 128px; 
+  width: 100px;
+  height: 100px; 
   border-radius: 64px; 
 `;
 

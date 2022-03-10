@@ -5,61 +5,35 @@ import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
 import { Alert } from "react-native";
 
-export default SettingScreen = ({navigation}) => {
+export default UserSetting = ({navigation}) => {
 
   const firebase = useContext(FirebaseContext); 
   const [user, setUser] = useContext(UserContext); 
 
-  const ButtonAlert = () =>
-    Alert.alert(
-      "Alert Title",
-      "My Alert Msg",
-      [
-        {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
-        },
-        { text: "Delete the account", onPress: () => console.log("Delete Pressed") }
-      ]
-  );
-
-  const signOut = async () => {
-    ButtonAlert(); 
-    setLoading(true);
-    setUser({isLoggedIn: null}); 
-  };
-
-  const deleteUser = async () => {
-    //promt the user with "Are you sure you want to delete?"
-    await firebase.DeleteUser()
-    setUser({isLoggedIn: null}); 
-  }; 
 
   return(
     <Container>
        <Main>
          <Text title semi center color="#88d498">
-              Settings:
+              User settings:
          </Text>
         </Main>
 
-        <SignUp onPress={() => navigation.push("UsersSetting")}>
+        <SignUp onPress={() => navigation.push("Username")}>
           <Text small center> 
-            <Text bold color="#ffffff">User settings</Text>
+            <Text bold color="#ffffff">Update username</Text>
           </Text>
         </SignUp>
 
-
-        <SignUp onPress={deleteUser}>
-          <Text small center> 
-            <Text bold color="#ffffff">Delete User</Text>
+        <SignUp onPress={() => navigation.push("Email")}>
+          <Text small center > 
+            <Text bold color="#ffffff">Update Email</Text>
           </Text>
         </SignUp>
 
-        <SignUp onPress={signOut}>
+        <SignUp onPress={() => navigation.push("Password")}>
           <Text small center> 
-            <Text bold color="#ffffff">Log Out</Text>
+            <Text bold color="#ffffff">Update password</Text>
           </Text>
         </SignUp>
      </Container>
