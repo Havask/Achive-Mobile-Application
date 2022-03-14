@@ -200,7 +200,7 @@ const Firebase = {
   },
   
   //Trenger en liste med medlemmer 
-  CreateNewGroup: async (groupName, usernames) => {
+  CreateNewGroup: async (groupName, members) => {
     try{
 
       const SubRef = collection(db, "Groups", groupName);
@@ -216,8 +216,14 @@ const Firebase = {
     }
   }, 
 
-  AddToGroup: async () => {
+  AddMemberToGroup: async (member) => {
     try{
+
+      const docRef = doc(db, "users", uid);
+      //Update the database with the new email address
+      await updateDoc(docRef, {
+        Member: member, 
+      });
 
     }catch(error){
       console.log("Error @AddToGroup", error)
@@ -226,17 +232,59 @@ const Firebase = {
 
   AddTask: async () => {
     try{
+      await setDoc(doc(db, "users", uid), {
+        username: user.username, 
+        email: user.email,
+        profilePhotoUrl, 
+       });
 
     }catch(error){
       console.log("Error @AddTask", error)
     }
   }, 
 
-  AddRutine: async () => {
+  UpdateTask: async () => {
     try{
+
+      const docRef = doc(db, "users", uid);
+      //Update the database with the new email address
+      await updateDoc(docRef, {
+        TaskName: TaskName, 
+        Frequency: Frequency
+
+      });
+
+    }catch(error){
+      console.log("Error @UpdateTask", error)
+    }
+  }, 
+
+  AddRoutine: async (TaskName, frequency, Members) => {
+    try{
+
+      await setDoc(doc(db, "users", uid), {
+        username: user.username, 
+        email: user.email,
+        profilePhotoUrl, 
+       });
 
     }catch(error){
       console.log("Error @AddRutine", error)
+    }
+  }, 
+
+  UpdateRoutine: async (TaskName, frequency, Members) => {
+    try{
+      const docRef = doc(db, "users", uid);
+      //Update the database with the new email address
+      await updateDoc(docRef, {
+        TaskName: TaskName, 
+        Frequency: Frequency
+
+      });
+
+    }catch(error){
+      console.log("Error @UpdateRutine", error)
     }
   }, 
 
