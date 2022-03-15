@@ -1,14 +1,10 @@
 import React, {useState, useContext, useEffect} from "react";
 import styled from "styled-components/native"; 
 import Text from "../../components/Text.js";
-import {AntDesign} from "@expo/vector-icons"
-import * as ImagePicker from "expo-image-picker"
-import * as MediaLibrary from 'expo-media-library';
 import { KeyboardAvoidingView, ScrollView} from "react-native";
 import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
 import {FlatList} from "react-native"; 
-
 import MemberItem from "../../components/MemberItem";
 
 /*
@@ -105,6 +101,8 @@ export default CreateGroupScreen = ({navigation}) => {
           )}
         </SignUpContainer>
 
+        </KeyboardAvoidingView>
+      </ScrollView>
 
         <FlatList 
               keyExtractor={(item,index) => item.id} 
@@ -113,9 +111,7 @@ export default CreateGroupScreen = ({navigation}) => {
               id={itemData.item.id} 
               onDelete ={removeMemberHandler} 
               title={itemData.item.value}/>} 
-          />
-        </KeyboardAvoidingView>
-      </ScrollView>
+        />
      </Container>
     );
 }
