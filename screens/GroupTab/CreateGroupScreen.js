@@ -7,27 +7,25 @@ import * as MediaLibrary from 'expo-media-library';
 import { KeyboardAvoidingView, ScrollView} from "react-native";
 import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
-
 import {FlatList} from "react-native"; 
 
+import MemberItem from "../../components/MemberItem";
+
+/*
+Trenger kun å legge til navn på medlemmene
+*/
 export default CreateGroupScreen = ({navigation}) => {
 
+  const [loading, setLoading] = useState(false); 
+  const [profilePhoto, setProfilePhoto] = useState(); 
+  const firebase = useContext(FirebaseContext); 
+  const [_, setUser] = useContext(UserContext); 
+  //lag sånn at gruppa får et profilbilde
+  
+  
   useEffect(() => {
 
   }, [Members])
-
-  const firebase = useContext(FirebaseContext); 
-  const [_, setUser] = useContext(UserContext); 
-  const [Groupname, setGroupName] = useState(""); 
-  const [Members, setMember] = useState([]); 
-  const [loading, setLoading] = useState(false); 
-  const [profilePhoto, setProfilePhoto] = useState(); 
-
-  //lag sånn at gruppa får et profilbilde
-
-  const MemberInputHandler = (enteredText) =>{
-    setMember(enteredText)
-  };
 
   const CreateNewGroup = async () => {
 
@@ -36,29 +34,34 @@ export default CreateGroupScreen = ({navigation}) => {
     //lag en liste med folk som skal bli adda
     navigation.push("Group"); 
   };
+  
+  const [Groupname, setGroupName] = useState(""); 
+  const [enteredMember, setenteredMember] = useState(""); 
+  const [Members, setMember] = useState([]); 
 
-  const AddMemberHandler = goalTitle => {
-    setCourseGoals(currentGoals => [
-        ...currentGoals, 
-        {id: Math.random().toString(), value: goalTitle}
+
+  const MemberInputHandler = (enteredText) =>{
+    setenteredMember(enteredText)
+  };
+
+  const AddHandler = member => {
+    setMember(currentmember => [
+        ...currentmember, 
+        {id: Math.random().toString(), value: member}
     ]); 
-    setIsAddMode(false); 
   }
 
   const removeMemberHandler = goalId => {
-    setCourseGoals(currentGoals =>{
+    setMember(currentmember =>{
         /* return a new array filter based on a new critiria */
-        return currentGoals.filter((goal) => goal.id !== goalId); 
+        return currentmember.filter((goal) => goal.id !== goalId); 
     });
   }
 
-  const MemberItem = props => {
-    return (
-    <SignUpContainer onPress={props.onDelete.bind(this, props.id)}> 
-            <Text bold center color="#ffffff"> {props.title}</Text> 
-    </SignUpContainer>
-    );
-  }; 
+  const addMemberHandler = () => {
+    AddHandler(enteredMember);
+    setenteredMember(""); 
+  }
 
   return(
     <Container>
@@ -76,7 +79,7 @@ export default CreateGroupScreen = ({navigation}) => {
             <AuthField 
               autoCapitalize="none" 
               autocorrect={false} 
-              onChangeText={(Groupname) => setGroupName(Groupname.trim())}
+              onChangeText={(Groupname) => setGroupName(Groupname)}
               value={Groupname}
             />
           </AuthContainer>
@@ -86,10 +89,13 @@ export default CreateGroupScreen = ({navigation}) => {
             <AuthField 
               autocorrect={false} 
               onChangeText={MemberInputHandler}
-              value={Members}
+              value={enteredMember}
             />
           </AuthContainer>
+        </Auth>
 
+        <Auth>
+          <Button title="Add New Goal" onPress={addMemberHandler}/>
         </Auth>
         
         <SignUpContainer onPress={CreateNewGroup} disable={loading}>
@@ -99,20 +105,25 @@ export default CreateGroupScreen = ({navigation}) => {
           )}
         </SignUpContainer>
 
+
+        <FlatList 
+              keyExtractor={(item,index) => item.id} 
+              data ={Members} 
+              renderItem={itemData => <MemberItem 
+              id={itemData.item.id} 
+              onDelete ={removeMemberHandler} 
+              title={itemData.item.value}/>} 
+          />
         </KeyboardAvoidingView>
       </ScrollView>
-
-      <FlatList 
-            keyExtractor={(item,index) => item.id} 
-            data ={Members} 
-            renderItem={itemData => <MemberItem 
-            id={itemData.item.id} 
-            onDelete ={removeMemberHandler} 
-            title={itemData.item.value}/>} 
-          />
      </Container>
     );
 }
+
+
+const Button = styled.Button`
+
+`;
 
 const Container = styled.KeyboardAvoidingView`
     flex: 1; 
@@ -146,6 +157,7 @@ const AuthField = styled.TextInput`
 
 const SignUpContainer = styled.TouchableOpacity`
   margin: 0 32px; 
+  margin-bottom: 10px; 
   height: 48px; 
   align-items: center; 
   justify-content: center; 

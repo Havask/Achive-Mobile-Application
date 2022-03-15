@@ -20,10 +20,10 @@ const GoalInput = props => {
             <View style={styles.container}>
 
                 <TextInput 
-                placeholder = "Goal" 
-                style = {styles.input}
-                onChangeText = {goalInputHandler}
-                value={enteredGoal}
+                    placeholder = "Goal" 
+                    style = {styles.input}
+                    onChangeText = {goalInputHandler}
+                    value={enteredGoal}
                 />
                 <View style={styles.button}>
                     <Button title = "Legg til" onPress={addGoalHandler}/>
