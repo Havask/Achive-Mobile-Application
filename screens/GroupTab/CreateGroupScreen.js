@@ -9,15 +9,20 @@ import MemberItem from "../../components/MemberItem";
 
 /*
 Trenger kun å legge til navn på medlemmene
+
+Lag kun gruppe navn osv. og generer en egen kode slik 
+at andre kan finne gruppa som på kahoot og en QR. 
+
+
+Si bare hva gruppa skal hete så ordner appen alt behind the scenes. 
 */
+
 export default CreateGroupScreen = ({navigation}) => {
 
   const [loading, setLoading] = useState(false); 
   const [profilePhoto, setProfilePhoto] = useState(); 
   const firebase = useContext(FirebaseContext); 
-  const [_, setUser] = useContext(UserContext); 
-  //lag sånn at gruppa får et profilbilde
-  
+  const [_, setUser] = useContext(UserContext);   
   
   useEffect(() => {
 
@@ -25,7 +30,10 @@ export default CreateGroupScreen = ({navigation}) => {
 
   const CreateNewGroup = async () => {
 
-    await firebase.CreateGroup(Groupname, Members); 
+    id = makeid(5); 
+    console.log(id);
+
+    await firebase.CreateGroup(Groupname, id); 
 
     //lag en liste med folk som skal bli adda
     navigation.push("Group"); 
@@ -57,6 +65,17 @@ export default CreateGroupScreen = ({navigation}) => {
   const addMemberHandler = () => {
     AddHandler(enteredMember);
     setenteredMember(""); 
+  }
+
+  const makeid = length => {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * 
+      charactersLength));
+   }
+   return result;
   }
 
   return(
@@ -91,7 +110,7 @@ export default CreateGroupScreen = ({navigation}) => {
         </Auth>
 
         <Auth>
-          <Button title="Add New Goal" onPress={addMemberHandler}/>
+          <Button title="Add New member" onPress={addMemberHandler}/>
         </Auth>
         
         <SignUpContainer onPress={CreateNewGroup} disable={loading}>
