@@ -49,6 +49,11 @@ export default GroupScreen = ({navigation}) => {
               Add new group
           </Text>
         </GroupContainer>
+
+        <SignUp>
+              <Text small center> 
+                  Want to join a existing group? <Text bold color="#88d498">Press here</Text></Text>
+            </SignUp>
      </Container>
     );
 }
