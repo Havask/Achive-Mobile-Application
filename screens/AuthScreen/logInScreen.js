@@ -52,7 +52,8 @@ export default LogInScreen = ({navigation}) => {
                   autocorrect={false} 
                   autoFocus={true} 
                   keyboardType="email-address"
-                  value={email}
+                  value={"haask333@gmail.com"}
+                  //value={email}
                   onChangeText={email => setEmail(email.trim())}
                 />
               </AuthContainer>
@@ -65,7 +66,8 @@ export default LogInScreen = ({navigation}) => {
                   autocorrect={false} 
                   autoFocus={true} 
                   secureTextEntry={true}
-                  value={password}
+                  value={"havard100"}
+                  //value={password}
                   onChangeText={password => setPassword(password.trim())}
                   />
               </AuthContainer>

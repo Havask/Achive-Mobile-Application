@@ -216,7 +216,7 @@ const Firebase = {
     }
   }, 
 
-  AddMemberToGroup: async (id) = {
+  AddMemberToGroup: async (id) => {
 
 
   }, 

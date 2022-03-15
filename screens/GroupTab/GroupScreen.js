@@ -1,11 +1,9 @@
 import React, {useState, useContext} from "react";
-import {Platform} from "react-native"; 
 import styled from "styled-components/native"; 
 import Text from "../../components/Text.js";
-import {AntDesign} from "@expo/vector-icons"
-import * as ImagePicker from "expo-image-picker"
 import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
+import {JoinGroup} from "./index.js";
 
 export default GroupScreen = ({navigation}) => {
 
@@ -13,19 +11,16 @@ export default GroupScreen = ({navigation}) => {
   const firebase = useContext(FirebaseContext); 
   const [user, setUser] = useContext(UserContext); 
 
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
+  const [Visable, setVisable] = useState(false);
 
-    console.log(result);
-    if (!result.cancelled) {
-      setProfilePhoto(result.uri);
-    }
-  };
+
+  const cancelJoinHandler = () => {
+    setVisable(false); 
+  }; 
+
+  const JoinHandler = () => {
+    
+  }; 
 
   return(
     <Container>
@@ -35,7 +30,7 @@ export default GroupScreen = ({navigation}) => {
          </Text>
         </Main>
 
-        <ProfilePhotoContainer onPress={pickImage}>
+        <ProfilePhotoContainer>
           <ProfilePhoto 
             source={user.profilePhotoUrl == "default"
                     ? require("../../assets/logo.png")
@@ -46,14 +41,23 @@ export default GroupScreen = ({navigation}) => {
 
         <GroupContainer onPress={() => navigation.push("CreateGroup")}>
           <Text bold center color="#ffffff">
-              Add new group
+              Create new group
           </Text>
         </GroupContainer>
 
-        <SignUp>
-              <Text small center> 
-                  Want to join a existing group? <Text bold color="#88d498">Press here</Text></Text>
-            </SignUp>
+
+        <JoinGroup 
+          onCancel={cancelJoinHandler}
+          visible={Visable} 
+          onAddGoal={JoinHandler}
+          navigation={navigation}
+        />
+        
+        <SignUp onPress={() => setVisable(true)}>
+          <Text small center> 
+              Join an existing group? <Text bold color="#88d498">Press here</Text>
+          </Text>
+        </SignUp>
      </Container>
     );
 }
@@ -68,10 +72,11 @@ const Main = styled.View`
 `;
 
 const SignUp = styled.TouchableOpacity`
-  margin-top: 16px; 
+  margin-top: 100px; 
+ 
 `; 
 
-const ProfilePhotoContainer = styled.TouchableOpacity`
+const ProfilePhotoContainer = styled.View`
   background-color: #e1e2e6;
   width: 100px; 
   height: 100px; 
@@ -85,7 +90,6 @@ const ProfilePhotoContainer = styled.TouchableOpacity`
 const ProfilePhoto = styled.Image`
   width: 100px;
   height: 100px; 
-  
   border-radius: 64px; 
 
 `;

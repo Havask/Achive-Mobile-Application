@@ -7,6 +7,8 @@ import {
             RoutineScreen, 
             TasksScreen,
             Scoreboard,
+            JoinGroup, 
+            CameraView,
         
         } from "../screens/GroupTab"
 import {
@@ -34,6 +36,7 @@ function GroupStackScreen() {
             <GroupStack.Screen name="Routine" component={RoutineScreen} options={{headerShown: false}}/>
             <GroupStack.Screen name="Tasks" component={TasksScreen} options={{headerShown: false}}/>
             <GroupStack.Screen name="Scoreboard" component={Scoreboard} options={{headerShown: false}}/>
+            <GroupStack.Screen name="Camera" component={CameraView} options={{headerShown: false}}/>
         </GroupStack.Navigator>
     );
 }
@@ -106,13 +109,13 @@ export default MainStackScreens = () => {
         
             <TabStack.Navigator screenOptions={screenOptions}>
                 <TabStack.Screen 
-                    name="Profiles" 
-                    component={ProfileStackScreen}  
+                    name="Groups" 
+                    component={GroupStackScreen}     
                     options={{headerShown: false}}
                 />
                 <TabStack.Screen 
-                    name="Groups" 
-                    component={GroupStackScreen}     
+                    name="Profiles" 
+                    component={ProfileStackScreen}  
                     options={{headerShown: false}}
                 />
                 <TabStack.Screen 
