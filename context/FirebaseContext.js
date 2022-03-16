@@ -92,6 +92,7 @@ const Firebase = {
       console.log("Error @uploadProfilePhoto", error)
     }
   },
+
     
   getBlob: async(uri) => {
     return await new Promise((resolve, reject) => {
@@ -198,23 +199,42 @@ const Firebase = {
       console.log("Error @updateUsername", error)
     }
   },
-  
-  //Trenger en liste med medlemmer 
-  CreateNewGroup: async (Groupname, id, qr) => {
+
+  retrieveQR: async () => {
     try{
 
-      const SubRef = collection(db, "Groups", groupName);
-      
-      //adds all the users to the database
-      await setDoc(doc(db, SubRef, "users"), {
-        //liste med brukernavn
-        groupname: Groupname, 
-       });
+    } catch {
+      console.log("Could not retrive QR")
+    }
+  }, 
+  
+  //Trenger en liste med medlemmer 
+  CreateNewGroup: async (Groupname, id) => {
+    try{
 
+      //Lagre docsan på id, ikke navn
+      const docRef = doc(db, "groups", id);
+      const docSnap = await getDoc(docRef);
+      //Kan være greit å sjekke om brukernavnet finnes fra før
+      if (docSnap.exists()) {
+        console.log("Error: GroupCode already exist");
+        //generer en ny kode og putt den som ref
+
+      } else {
+        //adds all the users to the database
+        await setDoc(doc(db, "groups", id), {
+          groupname: Groupname, 
+          groupID: id, 
+          //EncodedSVG: encodedData
+          //GroupPicture: picture
+         });
+      }
     }catch(error){
       console.log("Error @CreateNewGroup", error)
     }
   }, 
+
+  
 
   AddMemberToGroup: async (id) => {
 

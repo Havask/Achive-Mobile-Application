@@ -10,7 +10,6 @@ export default JoinGroup = ({navigation}) => {
         setEnteredCode(enteredText)
     };
 
-    
     const JoinHandler = () => {
         //Search the code in the database and add this user to the group
         () => navigation.push("groups")
@@ -31,10 +30,10 @@ export default JoinGroup = ({navigation}) => {
                     value={enteredCode}
                 />
                 <ButtonView>
-                    <Button title = "Join" onPress={UseCodeHandler}/>
+                    <Button title = "Join" onPress={JoinHandler}/>
                 </ButtonView>
                 <ButtonView>
-                    <Button title = "Cancel" color = "red" onPress={() => navigation.push("groups")}/>
+                    <Button title = "Cancel" color = "red" onPress={() => navigation.push("group")}/>
                 </ButtonView>
 
                 <SignUp onPress={() => navigation.push("Scanner")}>

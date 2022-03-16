@@ -1,10 +1,10 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": null,
+  "expoServerPort": 19000,
   "packagerPort": 19000,
   "packagerPid": null,
   "expoServerNgrokUrl": "https://jt-aqh.anonymous.achive.exp.direct",
   "packagerNgrokUrl": "https://packager.jt-aqh.anonymous.achive.exp.direct",
-  "ngrokPid": 12026,
+  "ngrokPid": 20250,
   "webpackServerPort": null
 }

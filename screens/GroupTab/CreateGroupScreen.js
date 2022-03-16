@@ -5,7 +5,8 @@ import { KeyboardAvoidingView, ScrollView} from "react-native";
 import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
 import QRCode from 'react-native-qrcode-svg';
-
+import { Svg } from "react-native-svg";
+import ReactDOMServer from "react-dom/server";
 
 export default CreateGroupScreen = ({navigation}) => {
 
@@ -14,14 +15,15 @@ export default CreateGroupScreen = ({navigation}) => {
   const [_, setUser] = useContext(UserContext);   
   const [Groupname, setGroupName] = useState(""); 
 
+
   const CreateNewGroup = async () => {
 
-    id = makeid(5); 
+    id = makeid(6); 
     console.log(id);
 
     qr = generateQR(id); 
 
-    await firebase.CreateGroup(Groupname, id, qr); 
+    await firebase.CreateNewGroup(Groupname, id); 
 
     //lag en liste med folk som skal bli adda
     navigation.push("Group"); 
@@ -31,8 +33,8 @@ export default CreateGroupScreen = ({navigation}) => {
 
     return(
       <QRCode
-      value= {text}
-    />
+        value= {text}
+      />
     ); 
   }; 
 
