@@ -17,11 +17,11 @@ export default JoinGroup = ({navigation}) => {
 
     return(
             <Container>
-            <Main>
-                <Text title semi center color="#88d498">
-                    Enter code to join
-                </Text>
-            </Main>
+                <Main>
+                    <Text title semi center color="#88d498">
+                        Enter code to join
+                    </Text>
+                </Main>
                 <Input 
                     placeholder = "Code" 
                     maxLength = {5}

@@ -1,9 +1,9 @@
 import React, {useState, useContext} from "react";
+import { FlatList } from "react-native-gesture-handler";
 import styled from "styled-components/native"; 
 import Text from "../../components/Text.js";
 import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
-import {JoinGroup} from "./index.js";
 
 export default GroupScreen = ({navigation}) => {
 
@@ -13,6 +13,19 @@ export default GroupScreen = ({navigation}) => {
 
 
   const JoinHandler = () => {
+
+    //Send en bekreftelse til de som er i gruppen. Hvis de sier
+    //ja så oppdateres databasen med navnet til han. 
+
+    //De som eier gruppen må da godkjenne deg 
+
+    //lag en flatlist som inneholder de gruppene du er med i
+
+    // display også 
+
+    //kanskje mekke notifications på de liste elementene
+
+    // 
     
   }; 
 
@@ -38,6 +51,8 @@ export default GroupScreen = ({navigation}) => {
               Create new group
           </Text>
         </GroupContainer>
+
+       <FlatList /> 
 
         <SignUp onPress={() => navigation.push("joingroup")}>
           <Text small center> 
