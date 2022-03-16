@@ -4,68 +4,37 @@ import Text from "../../components/Text.js";
 import { KeyboardAvoidingView, ScrollView} from "react-native";
 import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
-import {FlatList} from "react-native"; 
-import MemberItem from "../../components/MemberItem";
+import QRCode from 'react-native-qrcode-svg';
 
-/*
-Trenger kun å legge til navn på medlemmene
-
-Lag kun gruppe navn osv. og generer en egen kode slik 
-at andre kan finne gruppa som på kahoot og en QR. 
-
-
-Si bare hva gruppa skal hete så ordner appen alt behind the scenes. 
-*/
 
 export default CreateGroupScreen = ({navigation}) => {
 
   const [loading, setLoading] = useState(false); 
-  const [profilePhoto, setProfilePhoto] = useState(); 
   const firebase = useContext(FirebaseContext); 
   const [_, setUser] = useContext(UserContext);   
-  
-  useEffect(() => {
-
-  }, [Members])
+  const [Groupname, setGroupName] = useState(""); 
 
   const CreateNewGroup = async () => {
 
     id = makeid(5); 
     console.log(id);
 
-    await firebase.CreateGroup(Groupname, id); 
+    qr = generateQR(id); 
+
+    await firebase.CreateGroup(Groupname, id, qr); 
 
     //lag en liste med folk som skal bli adda
     navigation.push("Group"); 
   };
-  
-  const [Groupname, setGroupName] = useState(""); 
-  const [enteredMember, setenteredMember] = useState(""); 
-  const [Members, setMember] = useState([]); 
 
+  const generateQR = async (text) => {
 
-  const MemberInputHandler = (enteredText) =>{
-    setenteredMember(enteredText)
-  };
-
-  const AddHandler = member => {
-    setMember(currentmember => [
-        ...currentmember, 
-        {id: Math.random().toString(), value: member}
-    ]); 
-  }
-
-  const removeMemberHandler = goalId => {
-    setMember(currentmember =>{
-        /* return a new array filter based on a new critiria */
-        return currentmember.filter((goal) => goal.id !== goalId); 
-    });
-  }
-
-  const addMemberHandler = () => {
-    AddHandler(enteredMember);
-    setenteredMember(""); 
-  }
+    return(
+      <QRCode
+      value= {text}
+    />
+    ); 
+  }; 
 
   const makeid = length => {
     var result           = '';
@@ -75,7 +44,7 @@ export default CreateGroupScreen = ({navigation}) => {
       result += characters.charAt(Math.floor(Math.random() * 
       charactersLength));
    }
-   return result;
+    return result;
   }
 
   return(
@@ -98,19 +67,6 @@ export default CreateGroupScreen = ({navigation}) => {
               value={Groupname}
             />
           </AuthContainer>
-
-          <AuthContainer>
-            <AuthTitle>Add members</AuthTitle>
-            <AuthField 
-              autocorrect={false} 
-              onChangeText={MemberInputHandler}
-              value={enteredMember}
-            />
-          </AuthContainer>
-        </Auth>
-
-        <Auth>
-          <Button title="Add New member" onPress={addMemberHandler}/>
         </Auth>
         
         <SignUpContainer onPress={CreateNewGroup} disable={loading}>
@@ -120,25 +76,16 @@ export default CreateGroupScreen = ({navigation}) => {
           )}
         </SignUpContainer>
 
+        <QRCode
+          value= "text"
+        
+        />
+        
         </KeyboardAvoidingView>
       </ScrollView>
-
-        <FlatList 
-              keyExtractor={(item,index) => item.id} 
-              data ={Members} 
-              renderItem={itemData => <MemberItem 
-              id={itemData.item.id} 
-              onDelete ={removeMemberHandler} 
-              title={itemData.item.value}/>} 
-        />
      </Container>
     );
 }
-
-
-const Button = styled.Button`
-
-`;
 
 const Container = styled.KeyboardAvoidingView`
     flex: 1; 
@@ -180,31 +127,7 @@ const SignUpContainer = styled.TouchableOpacity`
   border-radius: 6px;
 `;
 
-const SignUp = styled.TouchableOpacity`
-  margin-top: 16px; 
-`; 
-
 const Loading = styled.ActivityIndicator.attrs(props => ({
   color: "#fffffff",
   size: "small", 
 }))``; 
-
-const ProfilePhotoContainer = styled.TouchableOpacity`
-  background-color: #e1e2e6;
-  width: 80px; 
-  height: 80px; 
-  border-radius: 40px; 
-  align-self: center; 
-  margin-top: 16px;
-  overflow: hidden; 
-`; 
-
-const DefaultProfilePhoto = styled.View`
-  align-items: center; 
-  justify-content: center; 
-  flex: 1; 
-`; 
-
-const ProfilePhoto = styled.Image`
-  flex: 1; 
-`;

@@ -36,6 +36,8 @@ export default LogInScreen = ({navigation}) => {
     }
   };
 
+ 
+
     return(
       <Container>
           <Main>
@@ -52,8 +54,7 @@ export default LogInScreen = ({navigation}) => {
                   autocorrect={false} 
                   autoFocus={true} 
                   keyboardType="email-address"
-                  value={"haask333@gmail.com"}
-                  //value={email}
+                  value={email}
                   onChangeText={email => setEmail(email.trim())}
                 />
               </AuthContainer>
@@ -61,13 +62,13 @@ export default LogInScreen = ({navigation}) => {
               <AuthContainer>
                 <AuthTitle>password</AuthTitle>
                 <AuthField 
+                  let password = "havard100"
                   autoCapitalize="none" 
                   autoCompleteType="password" 
                   autocorrect={false} 
                   autoFocus={true} 
                   secureTextEntry={true}
-                  value={"havard100"}
-                  //value={password}
+                  value={password}
                   onChangeText={password => setPassword(password.trim())}
                   />
               </AuthContainer>

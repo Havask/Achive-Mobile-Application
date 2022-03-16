@@ -11,12 +11,6 @@ export default GroupScreen = ({navigation}) => {
   const firebase = useContext(FirebaseContext); 
   const [user, setUser] = useContext(UserContext); 
 
-  const [Visable, setVisable] = useState(false);
-
-
-  const cancelJoinHandler = () => {
-    setVisable(false); 
-  }; 
 
   const JoinHandler = () => {
     
@@ -45,15 +39,7 @@ export default GroupScreen = ({navigation}) => {
           </Text>
         </GroupContainer>
 
-
-        <JoinGroup 
-          onCancel={cancelJoinHandler}
-          visible={Visable} 
-          onAddGoal={JoinHandler}
-          navigation={navigation}
-        />
-        
-        <SignUp onPress={() => setVisable(true)}>
+        <SignUp onPress={() => navigation.push("joingroup")}>
           <Text small center> 
               Join an existing group? <Text bold color="#88d498">Press here</Text>
           </Text>

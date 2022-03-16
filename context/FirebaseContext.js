@@ -200,7 +200,7 @@ const Firebase = {
   },
   
   //Trenger en liste med medlemmer 
-  CreateNewGroup: async (groupName, members) => {
+  CreateNewGroup: async (Groupname, id, qr) => {
     try{
 
       const SubRef = collection(db, "Groups", groupName);
@@ -208,7 +208,7 @@ const Firebase = {
       //adds all the users to the database
       await setDoc(doc(db, SubRef, "users"), {
         //liste med brukernavn
-        username: user.username, 
+        groupname: Groupname, 
        });
 
     }catch(error){

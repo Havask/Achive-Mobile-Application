@@ -8,7 +8,7 @@ import {
             TasksScreen,
             Scoreboard,
             JoinGroup, 
-            CameraView,
+            Scanner,
         
         } from "../screens/GroupTab"
 import {
@@ -36,7 +36,9 @@ function GroupStackScreen() {
             <GroupStack.Screen name="Routine" component={RoutineScreen} options={{headerShown: false}}/>
             <GroupStack.Screen name="Tasks" component={TasksScreen} options={{headerShown: false}}/>
             <GroupStack.Screen name="Scoreboard" component={Scoreboard} options={{headerShown: false}}/>
-            <GroupStack.Screen name="Camera" component={CameraView} options={{headerShown: false}}/>
+            <GroupStack.Screen name="Scanner" component={Scanner} options={{headerShown: false}}/>
+            <GroupStack.Screen name="joingroup" component={JoinGroup} options={{headerShown: false}}/>
+
         </GroupStack.Navigator>
     );
 }

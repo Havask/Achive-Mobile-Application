@@ -7,5 +7,5 @@ export { default as TasksScreen } from "./TasksScreen";
 export { default as Scoreboard } from "./Scoreboard";
 export { default as JoinGroup } from "./JoinGroupScreen";
 
-export { default as CameraView } from "./CameraScreen";
+export { default as Scanner } from "./ScannerScreen";
 

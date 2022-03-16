@@ -2,27 +2,21 @@ import React, {useState} from "react";
 import {Button} from "react-native"; 
 import styled from "styled-components/native"; 
 import Text from "../../components/Text.js";
-import { Camera } from 'expo-camera';
 
-
-const JoinGroup = props => {
-
+export default JoinGroup = ({navigation}) => {
     const [enteredCode, setEnteredCode] = useState(""); 
 
     const CodeInputHandler = (enteredText) =>{
         setEnteredCode(enteredText)
     };
 
-    const UseCodeHandler = () => {
-        
-    }
-
-    const startCamera = async () => {
-        
-        }
+    
+    const JoinHandler = () => {
+        //Search the code in the database and add this user to the group
+        () => navigation.push("groups")
+    }; 
 
     return(
-        <Modal visible ={props.visible} animationType="slide">
             <Container>
             <Main>
                 <Text title semi center color="#88d498">
@@ -31,6 +25,8 @@ const JoinGroup = props => {
             </Main>
                 <Input 
                     placeholder = "Code" 
+                    maxLength = {5}
+                    textAlign="center"
                     onChangeText = {CodeInputHandler}
                     value={enteredCode}
                 />
@@ -38,17 +34,17 @@ const JoinGroup = props => {
                     <Button title = "Join" onPress={UseCodeHandler}/>
                 </ButtonView>
                 <ButtonView>
-                    <Button title = "Cancel" color = "red" onPress={props.onCancel}/>
+                    <Button title = "Cancel" color = "red" onPress={() => navigation.push("groups")}/>
                 </ButtonView>
 
-                <SignUp onPress={() => props.navigation.push("Camera")}>
+                <SignUp onPress={() => navigation.push("Scanner")}>
                     <Text small center> 
                         Got a QR code? <Text bold color="#88d498">Scan here</Text></Text>
                 </SignUp>
             </Container>
-        </Modal>
     ); 
 };
+
 const SignUp = styled.TouchableOpacity`
   margin-top: 16px; 
 `; 
@@ -69,7 +65,7 @@ const ButtonView = styled.View`
 const Input = styled.TextInput`
   border-bottom-color: #8e93a1; 
   border-bottom-width: 1px;
-  height: 48px; 
+  height: 68px; 
   margin: 16px 32px 32px; 
 `; 
 const Main = styled.View`
@@ -80,5 +76,4 @@ const Main = styled.View`
     justify-content: center; 
 `;
 
-export default JoinGroup; 
 
