@@ -4,6 +4,7 @@ import styled from "styled-components/native";
 import Text from "../../components/Text.js";
 import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default GroupScreen = ({navigation}) => {
 
@@ -11,6 +12,7 @@ export default GroupScreen = ({navigation}) => {
   const firebase = useContext(FirebaseContext); 
   const [user, setUser] = useContext(UserContext); 
 
+  const [Groups, setGroups] = useState([]); 
 
   const JoinHandler = () => {
 
@@ -27,7 +29,18 @@ export default GroupScreen = ({navigation}) => {
 
     // 
     
+    //søk også markedsavklaringspenga
   }; 
+
+  const DisplayGroups = () => {
+
+    //Go to the user 
+    //Må oppdatere user i databasen. Gå dit hent navnet forså 
+    //hente gruppene. 
+
+    //Must retrive the groups and idsplay them in a list
+
+  }
 
   return(
     <Container>
