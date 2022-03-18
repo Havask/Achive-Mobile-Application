@@ -51,35 +51,6 @@ export default CreateGroupScreen = ({navigation}) => {
   }
 
 
-  const save = async () => {
-    try{
-        await AsyncStorage.setItem("GroupName", Groupname)
-    } catch(err){
-      alert(err)
-    }
-  }; 
-
-  const load = async () => {
-    try{
-      let group = await AsyncStorage.getItem("GroupName")
-      if(group !== null){
-        setGroupName(group); 
-      }
-    } catch{
-      alert(err)
-    }
-  }; 
-
-  const remove = async () => {
-    try{
-        await AsyncStorage.removeItem("GroupName")
-    } catch(err){
-      alert(err)
-    } finally{
-      setGroupName(""); 
-    }
-  }; 
-
   //to save object
   let GroupName ={
     

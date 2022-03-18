@@ -4,15 +4,18 @@ import AppStackScreen from "./stacks/AppStackScreens";
 
 import {UserProvider} from "./context/UserContext";
 import {FirebaseProvider} from "./context/FirebaseContext";
+import { LocalStorageContext } from "./context/LocalStorageContext";
 
 export default App = () =>{
   return (
     <FirebaseProvider>
-      <UserProvider>
-        <NavigationContainer>
-            <AppStackScreen/>
-        </NavigationContainer>
-      </UserProvider>
+      <LocalStorageContext>
+        <UserProvider>
+          <NavigationContainer>
+              <AppStackScreen/>
+          </NavigationContainer>
+        </UserProvider>
+      </LocalStorageContext>
     </FirebaseProvider>
   )
 }
