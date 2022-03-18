@@ -15,3 +15,7 @@ const UserProvider = (props) => {
 }
 
 export {UserContext, UserProvider}
+
+
+
+//bruk async storage til å lagre user settings usv

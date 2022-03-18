@@ -6,7 +6,8 @@ import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
 import QRCode from 'react-native-qrcode-svg';
 import { Svg } from "react-native-svg";
-import ReactDOMServer from "react-dom/server";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export default CreateGroupScreen = ({navigation}) => {
 
@@ -48,6 +49,43 @@ export default CreateGroupScreen = ({navigation}) => {
    }
     return result;
   }
+
+
+  const save = async () => {
+    try{
+        await AsyncStorage.setItem("GroupName", Groupname)
+    } catch(err){
+      alert(err)
+    }
+  }; 
+
+  const load = async () => {
+    try{
+      let group = await AsyncStorage.getItem("GroupName")
+      if(group !== null){
+        setGroupName(group); 
+      }
+    } catch{
+      alert(err)
+    }
+  }; 
+
+  const remove = async () => {
+    try{
+        await AsyncStorage.removeItem("GroupName")
+    } catch(err){
+      alert(err)
+    } finally{
+      setGroupName(""); 
+    }
+  }; 
+
+  //to save object
+  let GroupName ={
+    
+  }
+
+  //await AsyncStorage.setItem("GroupName", JSON.stringify(GroupName))
 
   return(
     <Container>

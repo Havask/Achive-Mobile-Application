@@ -65,12 +65,12 @@ export default GroupScreen = ({navigation}) => {
           </Text>
         </GroupContainer>
 
-       <FlatList /> 
 
         <SignUp onPress={() => navigation.push("joingroup")}>
           <Text small center> 
               Join an existing group? <Text bold color="#88d498">Press here</Text>
           </Text>
+       <FlatList /> 
         </SignUp>
      </Container>
     );
@@ -86,7 +86,7 @@ const Main = styled.View`
 `;
 
 const SignUp = styled.TouchableOpacity`
-  margin-top: 100px; 
+  margin-top: 10px; 
  
 `; 
 
