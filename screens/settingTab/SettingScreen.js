@@ -4,6 +4,9 @@ import Text from "../../components/Text.js";
 import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
 import { Alert } from "react-native";
+import AsyncStorageAdapter from '../../context/LocalStorageContext';
+
+const {clearAll} = new AsyncStorageAdapter("@Achive");
 
 export default SettingScreen = ({navigation}) => {
 
@@ -36,6 +39,14 @@ export default SettingScreen = ({navigation}) => {
     setUser({isLoggedIn: null}); 
   }; 
 
+  const clearCache = async () => {
+    try {
+      const isClear = await clearAll(); // Return Boolean value
+    } catch (err) {
+      throw err;
+    }
+  }; 
+
   return(
     <Container>
        <Main>
@@ -60,6 +71,12 @@ export default SettingScreen = ({navigation}) => {
         <SignUp onPress={signOut}>
           <Text small center> 
             <Text bold color="#ffffff">Log Out</Text>
+          </Text>
+        </SignUp>
+
+        <SignUp onPress={clearCache}>
+          <Text small center> 
+            <Text bold color="#ffffff">Clear Cache</Text>
           </Text>
         </SignUp>
      </Container>

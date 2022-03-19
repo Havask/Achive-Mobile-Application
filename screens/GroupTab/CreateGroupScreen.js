@@ -6,8 +6,11 @@ import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
 import QRCode from 'react-native-qrcode-svg';
 import { Svg } from "react-native-svg";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorageAdapter from '../../context/LocalStorageContext';
 
+const { getData, storeData, storeMultipleData,
+  getMultipleData, getAllData, removeData, removeMultipleData,
+  getAllKeys, clearAll} = new AsyncStorageAdapter("@Achive");
 
 export default CreateGroupScreen = ({navigation}) => {
 
@@ -16,6 +19,7 @@ export default CreateGroupScreen = ({navigation}) => {
   const [_, setUser] = useContext(UserContext);   
   const [Groupname, setGroupName] = useState(""); 
 
+  
 
   const CreateNewGroup = async () => {
 

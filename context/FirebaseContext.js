@@ -327,6 +327,10 @@ const Firebase = {
     }catch(error){
       console.log("Error @StayLoggedIn", error)
     }
+  },
+
+  SendMessage: async (message ) => {
+
   }
 
 }; 
