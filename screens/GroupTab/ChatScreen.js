@@ -12,6 +12,8 @@ const firebase = useContext(FirebaseContext);
 const [user, setUser] = useContext(UserContext); 
 const [messages, setMessages] = useState([]);
 
+//https://blog.jscrambler.com/build-a-chat-app-with-firebase-and-react-native
+
 useEffect(() => {
   
     return () => firebase.unsub(); ;
