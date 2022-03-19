@@ -28,13 +28,12 @@ export default SettingScreen = ({navigation}) => {
   );
 
   const signOut = async () => {
-    ButtonAlert(); 
     setLoading(true);
     setUser({isLoggedIn: null}); 
   };
-
+  
   const deleteUser = async () => {
-    //promt the user with "Are you sure you want to delete?"
+    ButtonAlert(); 
     await firebase.DeleteUser()
     setUser({isLoggedIn: null}); 
   }; 
