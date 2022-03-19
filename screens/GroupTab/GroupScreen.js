@@ -65,6 +65,12 @@ export default GroupScreen = ({navigation}) => {
           </Text>
         </GroupContainer>
 
+        <GroupContainer onPress={() => navigation.push("Chat")}>
+          <Text bold center color="#ffffff">
+              Chat
+          </Text>
+        </GroupContainer>
+
 
         <SignUp onPress={() => navigation.push("joingroup")}>
           <Text small center> 

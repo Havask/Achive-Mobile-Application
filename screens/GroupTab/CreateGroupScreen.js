@@ -42,6 +42,7 @@ export default CreateGroupScreen = ({navigation}) => {
       />
     ); 
   }; 
+  
 
   const makeid = length => {
     var result           = '';

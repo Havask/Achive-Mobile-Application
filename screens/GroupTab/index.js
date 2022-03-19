@@ -8,4 +8,5 @@ export { default as Scoreboard } from "./Scoreboard";
 export { default as JoinGroup } from "./JoinGroupScreen";
 
 export { default as Scanner } from "./ScannerScreen";
+export { default as Chat} from "./ChatScreen";
 

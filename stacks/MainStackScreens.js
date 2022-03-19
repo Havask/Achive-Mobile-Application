@@ -9,6 +9,7 @@ import {
             Scoreboard,
             JoinGroup, 
             Scanner,
+            Chat,
         
         } from "../screens/GroupTab"
 import {
@@ -38,6 +39,7 @@ function GroupStackScreen() {
             <GroupStack.Screen name="Scoreboard" component={Scoreboard} options={{headerShown: false}}/>
             <GroupStack.Screen name="Scanner" component={Scanner} options={{headerShown: false}}/>
             <GroupStack.Screen name="joingroup" component={JoinGroup} options={{headerShown: false}}/>
+            <GroupStack.Screen name="Chat" component={Chat} options={{headerShown: false}}/>
 
         </GroupStack.Navigator>
     );

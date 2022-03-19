@@ -1,4 +1,5 @@
-import React, {createContext} from "react";
+import React, {createContext, useState,useEffect,
+        useLayoutEffect,useCallback } from "react";
 import { initializeApp } from 'firebase/app';
 import {getAuth, 
         deleteUser, 
@@ -17,6 +18,10 @@ import {getFirestore,
         doc, 
         updateDoc,
         getDoc, 
+        addDoc,
+        orderBy,
+        query,
+        onSnapshot,
         collection,
         arrayUnion,
         arrayRemove,
@@ -38,6 +43,8 @@ const FirebaseContext = createContext();
 
 //Icons 
 //https://icons.expo.fyi/
+
+
 
 const Firebase = {
   
@@ -329,9 +336,46 @@ const Firebase = {
     }
   },
 
-  SendMessage: async (message ) => {
+  SendMessage: async (messages) => {
+    messages.forEach(item => {
 
-  }
+      const message = {
+        text: item.text,
+        timestamp: 
+        user.item.user
+      }
+      db.push(message)
+    })
+
+  },
+
+  unsub: async () => {
+
+    const collectionRef = collection(database, 'chats');
+    const q = query(collectionRef, orderBy('createdAt', 'desc'));
+  
+    onSnapshot(q, querySnapshot => {
+      setMessages(
+        querySnapshot.docs.map(doc => ({
+          _id: doc.data()._id,
+          createdAt: doc.data().createdAt.toDate(),
+          text: doc.data().text,
+          user: doc.data().user
+        }))
+      );
+    });
+  }, 
+
+
+SendMessage: async (id, createdAt, text, user) => {
+
+  addDoc(collection(db, 'chats'), {
+    _id,
+    createdAt,
+    text,
+    user
+  });
+}, 
 
 }; 
 
