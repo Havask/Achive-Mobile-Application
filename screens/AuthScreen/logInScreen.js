@@ -47,12 +47,12 @@ export default LogInScreen = ({navigation}) => {
     if(RememberMe === true){
       if (email) {
         AsyncStorage.setItem('any_key_here', email);
-        setEmail('');
+        setEmail("");
       } 
     
       if (password) {
         AsyncStorage.setItem('any_key_here2', password);
-        setPassword('');
+        setPassword("");
       }
     }
     getValueFunction();
@@ -75,8 +75,6 @@ export default LogInScreen = ({navigation}) => {
           AsyncStorage.getItem('any_key_here2', password);
           setPassword('');
         }
-  
-        handleLogin(); 
      }
   };
 
@@ -123,7 +121,7 @@ export default LogInScreen = ({navigation}) => {
                   Keep me logged in </Text>
             <SwitchView>
               <Switch 
-                      trackColor={{ false: "#767577", true: "#767577"}}
+                      trackColor={{ false: "#767577", true: "#88d498"}}
                       thumbColor={Isloggedin ? "#88d498" : "#cccccc"}
                       ios_backgroundColor="#3e3e3e"
                       onValueChange={toggleSwitch}
@@ -220,3 +218,6 @@ const StayLoggedIn = styled.View`
 const SwitchView = styled.View`
 
 `; 
+
+
+
