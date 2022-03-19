@@ -9,6 +9,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //https://hilalyldz.medium.com/keep-user-logged-in-with-asyncstorage-and-authenticatication-on-expo-and-firebase-4617b206e481
 
+//https://www.youtube.com/watch?v=-N12hjV3DPQ
+
 export default LogInScreen = ({navigation}) => {
 
   const firebase = useContext(FirebaseContext); 
@@ -24,18 +26,18 @@ export default LogInScreen = ({navigation}) => {
 
   const handleLogin = async () => {
 
-    try{
-      await firebase.SignInUser(email, password);
-      const uid = await firebase.getCurrentUser().uid; 
-      const userInfo = await firebase.getUserInfo(uid)
+  try{
+    await firebase.SignInUser(email, password);
+    const uid = await firebase.getCurrentUser().uid; 
+    const userInfo = await firebase.getUserInfo(uid)
 
-      setUser({
-        username: userInfo.username,
-        email: userInfo.email, 
-        uid, 
-        profilePhotoUrl: userInfo.profilePhotoUrl,
-        isLoggedIn: true, 
-      })
+    setUser({
+      username: userInfo.username,
+      email: userInfo.email, 
+      uid, 
+      profilePhotoUrl: userInfo.profilePhotoUrl,
+      isLoggedIn: true, 
+    })
     }catch(error){
       alert("Unable to find this account")
     }finally{
@@ -46,13 +48,13 @@ export default LogInScreen = ({navigation}) => {
   const saveValueFunction = () => {
     if(RememberMe === true){
       if (email) {
-        AsyncStorage.setItem('any_key_here', email);
-        setEmail("");
+        AsyncStorage.setItem("email");
+       
       } 
     
       if (password) {
-        AsyncStorage.setItem('any_key_here2', password);
-        setPassword("");
+        AsyncStorage.setItem("password");
+        
       }
     }
     getValueFunction();
@@ -61,21 +63,22 @@ export default LogInScreen = ({navigation}) => {
   
   const getValueFunction = () => {
 
-    if(email==null && password==null)
+    if(email == null && password == null)
     {
       handleLogin();
     } 
     else{
         if (email) {
-          AsyncStorage.getItem('any_key_here', email);
-          setEmail('');
+          AsyncStorage.getItem("email");
+         
         } 
   
         if (password) {
-          AsyncStorage.getItem('any_key_here2', password);
-          setPassword('');
+          AsyncStorage.getItem("password");
+         
         }
      }
+     handleLogin();
   };
 
   const toggleSwitch = () => setRememberMe(previousState => !previousState);
@@ -104,7 +107,6 @@ export default LogInScreen = ({navigation}) => {
               <AuthContainer>
                 <AuthTitle>password</AuthTitle>
                 <AuthField 
-                  let password = "havard100"
                   autoCapitalize="none" 
                   autoCompleteType="password" 
                   autocorrect={false} 
@@ -112,7 +114,7 @@ export default LogInScreen = ({navigation}) => {
                   secureTextEntry={true}
                   value={password}
                   onChangeText={password => setPassword(password.trim())}
-                  />
+                />
               </AuthContainer>
             </Auth>
 
@@ -135,7 +137,6 @@ export default LogInScreen = ({navigation}) => {
                 Sign In</Text>
               )}
             </SignInContainer>
-            
 
             <SignUp onPress={() => navigation.push("SignUpScreen")}>
               <Text small center> 

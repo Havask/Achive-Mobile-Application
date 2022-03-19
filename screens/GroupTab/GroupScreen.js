@@ -58,19 +58,27 @@ export default GroupScreen = ({navigation}) => {
             }
           />
         </ProfilePhotoContainer>
-
-        <GroupContainer onPress={() => navigation.push("CreateGroup")}>
+          
+        <Create>
+        <CreateContainer onPress={() => navigation.push("CreateGroup")}>
           <Text bold center color="#ffffff">
-              Create new group
+              Create Group
           </Text>
-        </GroupContainer>
+        </CreateContainer>
 
+        <CreateContainer onPress={() => navigation.push("joingroup")}>
+          <Text bold center color="#ffffff">
+              Join Group
+          </Text>
+        </CreateContainer>
+
+
+        </Create>
         <GroupContainer onPress={() => navigation.push("Chat")}>
           <Text bold center color="#ffffff">
               Chat
           </Text>
         </GroupContainer>
-
 
         <SignUp onPress={() => navigation.push("joingroup")}>
           <Text small center> 
@@ -122,4 +130,23 @@ const GroupContainer = styled.TouchableOpacity`
   background-color: #88d498;
   border-radius: 6px;
   margin-bottom: 32px;
+`;
+
+
+const CreateContainer = styled.TouchableOpacity`
+  margin: 0 10px; 
+  height: 70px; 
+  width: 140px
+  align-items: center; 
+  justify-content: center; 
+  background-color: #88d498;
+  border-radius: 6px;
+  margin-bottom: 32px;
+`;
+
+
+const Create = styled.View`
+flex-direction: row; 
+align-items: center; 
+justify-content: center; 
 `;

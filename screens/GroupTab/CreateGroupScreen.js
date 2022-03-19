@@ -1,5 +1,5 @@
 import React, {useState, useContext, useEffect} from "react";
-import styled from "styled-components/native"; 
+import styled, {ThemeContext, ThemeProvider} from "styled-components/native"; 
 import Text from "../../components/Text.js";
 import { KeyboardAvoidingView, ScrollView} from "react-native";
 import {FirebaseContext} from "../../context/FirebaseContext";
@@ -55,13 +55,14 @@ export default CreateGroupScreen = ({navigation}) => {
     return result;
   }
 
+  const setcolor = color => {
 
-  //to save object
-  let GroupName ={
-    
+
   }
 
-  //await AsyncStorage.setItem("GroupName", JSON.stringify(GroupName))
+  const theme = {
+    main: "mediumseagreen"
+  };
 
   return(
     <Container>
@@ -84,6 +85,17 @@ export default CreateGroupScreen = ({navigation}) => {
             />
           </AuthContainer>
         </Auth>
+
+        <ColorView>
+          <AuthTitle>Choose color: </AuthTitle>
+
+          <ThemeProvider  theme={theme}>
+            <ProfilePhotoContainer  theme={{ main: "royalblue" }}/>
+          </ThemeProvider>
+            <ProfilePhotoContainer/> 
+            <ProfilePhotoContainer/>
+
+        </ColorView>
         
         <SignUpContainer onPress={CreateNewGroup} disable={loading}>
           {loading ? (<Loading/>) : (
@@ -91,11 +103,6 @@ export default CreateGroupScreen = ({navigation}) => {
             Create Group</Text>
           )}
         </SignUpContainer>
-
-        <QRCode
-          value= "text"
-        
-        />
         
         </KeyboardAvoidingView>
       </ScrollView>
@@ -147,3 +154,20 @@ const Loading = styled.ActivityIndicator.attrs(props => ({
   color: "#fffffff",
   size: "small", 
 }))``; 
+
+
+const ColorView = styled.View`
+  flex-direction: row; 
+  align-items: center; 
+  justify-content: center; 
+  margin-bottom: 30px;
+`; 
+
+const ProfilePhotoContainer = styled.TouchableOpacity`
+  background-color: ${props => props.theme.main};
+  width: 50px; 
+  height: 50px; 
+  border-radius:48px; 
+  margin: 3px;
+  overflow: hidden; 
+`; 

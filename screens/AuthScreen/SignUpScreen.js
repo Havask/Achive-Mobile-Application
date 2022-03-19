@@ -165,7 +165,7 @@ const Loading = styled.ActivityIndicator.attrs(props => ({
 }))``; 
 
 const ProfilePhotoContainer = styled.TouchableOpacity`
-  background-color: #e1e2e6;
+background-color: #e1e2e6;
   width: 80px; 
   height: 80px; 
   border-radius: 40px; 
