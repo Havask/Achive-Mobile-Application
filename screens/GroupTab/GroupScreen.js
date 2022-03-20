@@ -26,9 +26,9 @@ export default GroupScreen = ({navigation}) => {
 
   const RetriveGroupData = () => {
 
-    const DocumentData = firebase.RetriveGroupData(); 
+    const groupNumber = firebase.RetriveGroupData(); 
    
-    console.log("Document data:", DocumentData);
+
   }
 
   return(

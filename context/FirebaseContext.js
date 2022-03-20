@@ -255,19 +255,15 @@ const Firebase = {
   RetriveGroupData: async () => {
     //Returner hvilken gruppe brukeren tilhører
     const uid = Firebase.getCurrentUser().uid;
-    const docRef = doc(db, "users", uid);
-    const docSnap = await getDoc(docRef);
+    const snap = await getDoc(doc(db, "users", uid))
 
-  
-    if (docSnap.exists()) {
-      console.log("Document data:", docSnap);
-      return docSnap.data(); 
-
+    if (snap.exists()) {
+      console.log(snap.data().groups);
+      return snap.data().groups; 
     } else {
       // doc.data() will be undefined in this case
       console.log("No such document!");
     }
-
   }, 
 
   LoadGroups: async (id) => {
@@ -276,8 +272,14 @@ const Firebase = {
 
       //gå først til brukeren å få iden til gruppa som dem er med i
       const docRef = doc(db, "groups", id);
-      const docSnap = await getDoc(docRef);
+      const SnapDoc = await getDoc(docRef);
 
+      SnapDoc.forEach(snapshot => {
+        let data = snapshot.data();
+        console.log(data);
+      })
+
+      /*
       if (docSnap.exists()) {
         console.log("Document data:", docSnap.data());
         return docSnap; 
@@ -285,14 +287,13 @@ const Firebase = {
         // doc.data() will be undefined in this case
         console.log("No such document!");
       }
+      */
 
     } catch {
       console.log("Could not retrive Groups")
     }
 
   }, 
-
-  
 
   AddMemberToGroup: async (id) => {
 
