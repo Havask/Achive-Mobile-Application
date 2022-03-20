@@ -257,11 +257,11 @@ const Firebase = {
     const uid = Firebase.getCurrentUser().uid;
     const docRef = doc(db, "users", uid);
     const docSnap = await getDoc(docRef);
-    console.log("This user is part of these groups:", docSnap.groups);
 
   
     if (docSnap.exists()) {
-      console.log("Document data:", docSnap.data());
+      console.log("Document data:", docSnap);
+      return docSnap.data(); 
 
     } else {
       // doc.data() will be undefined in this case

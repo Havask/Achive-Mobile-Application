@@ -14,24 +14,6 @@ export default GroupScreen = ({navigation}) => {
 
   const [Groups, setGroups] = useState([]); 
 
-  const JoinHandler = () => {
-
-    //Send en bekreftelse til de som er i gruppen. Hvis de sier
-    //ja så oppdateres databasen med navnet til han. 
-
-    //De som eier gruppen må da godkjenne deg 
-
-    //lag en flatlist som inneholder de gruppene du er med i
-
-    // display også 
-
-    //kanskje mekke notifications på de liste elementene
-
-    // 
-    
-    //søk også markedsavklaringspenga
-  }; 
-
   const DisplayGroups = () => {
 
     //Go to the user 
@@ -44,7 +26,9 @@ export default GroupScreen = ({navigation}) => {
 
   const RetriveGroupData = () => {
 
-    Data = firebase.RetriveGroupData(); 
+    const DocumentData = firebase.RetriveGroupData(); 
+   
+    console.log("Document data:", DocumentData);
   }
 
   return(
@@ -92,9 +76,8 @@ export default GroupScreen = ({navigation}) => {
         </GroupContainer>
 
        <FlatList 
-          data={DATA}
-          renderItem={renderItem}
-          keyExtractor={item => item.id}
+      
+      
        /> 
       
      </Container>

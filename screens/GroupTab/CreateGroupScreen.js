@@ -64,7 +64,7 @@ export default CreateGroupScreen = ({navigation}) => {
     return result;
   }
 
-  onSelect = color => setColor(color);
+  onSelect = () => setColor(state.selectedColor);
 
   return(
     <Container>
@@ -93,7 +93,7 @@ export default CreateGroupScreen = ({navigation}) => {
         <ColorPicker
           colors={state.colors}
           selectedColor={state.selectedColor}
-          onSelect={set}
+          onSelect={onSelect}
         />
         
         <SignUpContainer onPress={CreateNewGroup} disable={loading}>

@@ -35,6 +35,7 @@ export default LogInScreen = ({navigation}) => {
       username: userInfo.username,
       email: userInfo.email, 
       uid, 
+      groups: [], 
       profilePhotoUrl: userInfo.profilePhotoUrl,
       isLoggedIn: true, 
     })
@@ -63,7 +64,7 @@ export default LogInScreen = ({navigation}) => {
   
   const getValueFunction = () => {
 
-    if(email == null && password == null)
+    if(email == "" && password == "")
     {
       handleLogin();
     } 
