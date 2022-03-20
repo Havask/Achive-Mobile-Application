@@ -5,8 +5,6 @@ import {LogInScreen, SignUpScreen} from "../screens/AuthScreen";
 
 export default AuthStackScreens = () => {
 
-    
-    
     const AuthStack = createStackNavigator()
 
     return(

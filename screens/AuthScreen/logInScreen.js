@@ -4,7 +4,7 @@ import { KeyboardAvoidingView, ScrollView} from "react-native";
 import Text from "../../components/Text.js";
 import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
-import { View, Switch, StyleSheet } from "react-native";
+import {Switch} from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //https://hilalyldz.medium.com/keep-user-logged-in-with-asyncstorage-and-authenticatication-on-expo-and-firebase-4617b206e481
@@ -21,7 +21,7 @@ export default LogInScreen = ({navigation}) => {
   const [loading, setLoading] = useState(false); 
 
   const [Isloggedin, setIsloggedin] = useState(false); 
-  const [RememberMe, setRememberMe] = useState(false); 
+  const [RememberMe, setRememberMe] = useState(true); 
 
 
   const handleLogin = async () => {

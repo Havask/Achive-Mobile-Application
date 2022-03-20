@@ -7,6 +7,9 @@ import {UserContext} from "../../context/UserContext";
 import QRCode from 'react-native-qrcode-svg';
 import { Svg } from "react-native-svg";
 import AsyncStorageAdapter from '../../context/LocalStorageContext';
+import { ColorPicker } from 'react-native-status-color-picker';
+
+//https://reactnativeexample.com/customizable-color-picker-for-your-beautiful-react-native-apps/
 
 const { getData, storeData, storeMultipleData,
   getMultipleData, getAllData, removeData, removeMultipleData,
@@ -18,17 +21,24 @@ export default CreateGroupScreen = ({navigation}) => {
   const firebase = useContext(FirebaseContext); 
   const [_, setUser] = useContext(UserContext);   
   const [Groupname, setGroupName] = useState(""); 
+  const [Color, setColor] = useState(""); 
 
-  
+  state = {
+    colors: ["#F44336", "#E91E63", "#9C27B0", "#673AB7", "#3F51B5", "#2196F3", "#03A9F4", "#00BCD4", 
+    "#009688", "#4CAF50", "#8BC34A", "#CDDC39", "#FFEB3B", "#FFC107", "#FF9800", "#FF5722", "#795548", "#9E9E9E", "#607D8B"],
+    selectedColor: '#F44336',
+  };
+
+  /*Output the group color aswell*/ 
 
   const CreateNewGroup = async () => {
 
     id = makeid(6); 
     console.log(id);
 
-    qr = generateQR(id); 
+    //qr = generateQR(id); 
 
-    await firebase.CreateNewGroup(Groupname, id); 
+    await firebase.CreateNewGroup(Groupname, id, Color); 
 
     //lag en liste med folk som skal bli adda
     navigation.push("Group"); 
@@ -43,7 +53,6 @@ export default CreateGroupScreen = ({navigation}) => {
     ); 
   }; 
   
-
   const makeid = length => {
     var result           = '';
     var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -55,14 +64,7 @@ export default CreateGroupScreen = ({navigation}) => {
     return result;
   }
 
-  const setcolor = color => {
-
-
-  }
-
-  const theme = {
-    main: "mediumseagreen"
-  };
+  onSelect = color => setColor(color);
 
   return(
     <Container>
@@ -86,16 +88,13 @@ export default CreateGroupScreen = ({navigation}) => {
           </AuthContainer>
         </Auth>
 
-        <ColorView>
-          <AuthTitle>Choose color: </AuthTitle>
+        <ColorTitle>Choose theme</ColorTitle>
 
-          <ThemeProvider  theme={theme}>
-            <ProfilePhotoContainer  theme={{ main: "royalblue" }}/>
-          </ThemeProvider>
-            <ProfilePhotoContainer/> 
-            <ProfilePhotoContainer/>
-
-        </ColorView>
+        <ColorPicker
+          colors={state.colors}
+          selectedColor={state.selectedColor}
+          onSelect={set}
+        />
         
         <SignUpContainer onPress={CreateNewGroup} disable={loading}>
           {loading ? (<Loading/>) : (
@@ -142,6 +141,7 @@ const AuthField = styled.TextInput`
 
 const SignUpContainer = styled.TouchableOpacity`
   margin: 0 32px; 
+  margin-top: 30px; 
   margin-bottom: 10px; 
   height: 48px; 
   align-items: center; 
@@ -156,18 +156,12 @@ const Loading = styled.ActivityIndicator.attrs(props => ({
 }))``; 
 
 
-const ColorView = styled.View`
-  flex-direction: row; 
+
+const ColorTitle = styled(Text)`
   align-items: center; 
   justify-content: center; 
-  margin-bottom: 30px;
-`; 
-
-const ProfilePhotoContainer = styled.TouchableOpacity`
-  background-color: ${props => props.theme.main};
-  width: 50px; 
-  height: 50px; 
-  border-radius:48px; 
-  margin: 3px;
-  overflow: hidden; 
+  color: #8e93a1;
+  font-size: 12px; 
+  text-transform: uppercase; 
+  font-weight: 300; 
 `; 

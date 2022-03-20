@@ -5487,6 +5487,11 @@
     "react-freeze" "^1.0.0"
     "warn-once" "^0.1.0"
 
+"react-native-status-color-picker@^1.0.5":
+  "integrity" "sha512-+7srqYc1J5XyHkt5n28pjriUEPhnng9Ijj0wxxuZvLOv8KrU1UfuQ3r+5dmPIXDUs+3MAg/RlkNu0Nvf/1tiyQ=="
+  "resolved" "https://registry.npmjs.org/react-native-status-color-picker/-/react-native-status-color-picker-1.0.5.tgz"
+  "version" "1.0.5"
+
 "react-native-svg@^12.1.0", "react-native-svg@12.1.1":
   "integrity" "sha512-NIAJ8jCnXGCqGWXkkJ1GTzO4a3Md5at5sagYV8Vh4MXYnL4z5Rh428Wahjhh+LIjx40EE5xM5YtwyJBqOIba2Q=="
   "resolved" "https://registry.npmjs.org/react-native-svg/-/react-native-svg-12.1.1.tgz"

@@ -42,6 +42,11 @@ export default GroupScreen = ({navigation}) => {
 
   }
 
+  const RetriveGroupData = () => {
+
+    Data = firebase.RetriveGroupData(); 
+  }
+
   return(
     <Container>
        <Main>
@@ -80,12 +85,18 @@ export default GroupScreen = ({navigation}) => {
           </Text>
         </GroupContainer>
 
-        <SignUp onPress={() => navigation.push("joingroup")}>
-          <Text small center> 
-              Join an existing group? <Text bold color="#88d498">Press here</Text>
+        <GroupContainer onPress={RetriveGroupData}>
+          <Text bold center color="#ffffff">
+              Retrive Group
           </Text>
-       <FlatList /> 
-        </SignUp>
+        </GroupContainer>
+
+       <FlatList 
+          data={DATA}
+          renderItem={renderItem}
+          keyExtractor={item => item.id}
+       /> 
+      
      </Container>
     );
 }

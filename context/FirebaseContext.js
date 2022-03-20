@@ -62,6 +62,7 @@ const Firebase = {
         username: user.username, 
         email: user.email,
         profilePhotoUrl, 
+        groups: user.groups
        });
 
       if(user.profilePhoto){
@@ -216,8 +217,17 @@ const Firebase = {
   }, 
   
   //Trenger en liste med medlemmer 
-  CreateNewGroup: async (Groupname, id) => {
+  CreateNewGroup: async (Groupname, id, color) => {
     try{
+
+      //Gå også inn på user id og oppdater groups
+
+      const uid = Firebase.getCurrentUser().uid;
+
+      const UserRef = doc(db, "users", uid);
+      await updateDoc(UserRef, {
+        groups: id
+      });
 
       //Lagre docsan på id, ikke navn
       const docRef = doc(db, "groups", id);
@@ -232,6 +242,7 @@ const Firebase = {
         await setDoc(doc(db, "groups", id), {
           groupname: Groupname, 
           groupID: id, 
+          color: color, 
           //EncodedSVG: encodedData
           //GroupPicture: picture
          });
@@ -239,6 +250,46 @@ const Firebase = {
     }catch(error){
       console.log("Error @CreateNewGroup", error)
     }
+  }, 
+
+  RetriveGroupData: async () => {
+    //Returner hvilken gruppe brukeren tilhører
+    const uid = Firebase.getCurrentUser().uid;
+    const docRef = doc(db, "users", uid);
+    const docSnap = await getDoc(docRef);
+    console.log("This user is part of these groups:", docSnap.groups);
+
+  
+    if (docSnap.exists()) {
+      console.log("Document data:", docSnap.data());
+
+    } else {
+      // doc.data() will be undefined in this case
+      console.log("No such document!");
+    }
+
+  }, 
+
+  LoadGroups: async (id) => {
+
+    try{
+
+      //gå først til brukeren å få iden til gruppa som dem er med i
+      const docRef = doc(db, "groups", id);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        console.log("Document data:", docSnap.data());
+        return docSnap; 
+      } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+      }
+
+    } catch {
+      console.log("Could not retrive Groups")
+    }
+
   }, 
 
   
