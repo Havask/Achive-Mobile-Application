@@ -38,10 +38,14 @@ export default CreateGroupScreen = ({navigation}) => {
 
     //qr = generateQR(id); 
 
-    await firebase.CreateNewGroup(Groupname, id, Color); 
+    const newGroup = firebase.CreateNewGroup(Groupname, id, Color); 
 
-    //lag en liste med folk som skal bli adda
-    navigation.push("Group"); 
+    //sjekker om id'n til gruppa eksiterer fra før
+    if(newGroup===1){
+      CreateNewGroup(); 
+    }else{
+      navigation.push("Group"); 
+    }
   };
 
   const generateQR = async (text) => {

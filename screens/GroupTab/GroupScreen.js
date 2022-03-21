@@ -5,6 +5,11 @@ import Text from "../../components/Text.js";
 import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Ionicons} from "@expo/vector-icons"
+import AsyncStorageAdapter from '../../context/LocalStorageContext';
+const { getData, storeData, storeMultipleData,
+  getMultipleData, getAllData, removeData, removeMultipleData,
+  getAllKeys, clearAll} = new AsyncStorageAdapter("@Achive");
 
 export default GroupScreen = ({navigation}) => {
 
@@ -22,21 +27,45 @@ export default GroupScreen = ({navigation}) => {
 
     //Must retrive the groups and idsplay them in a list
 
+
+    //lag også en bell icon på toppen av høyresiden til groups
+    //lag en notification screen
   }
 
-  const RetriveGroupData = () => {
-    
-    const groups = firebase.RetriveGroupData(); 
-   
-    firebase.LoadGroups(groups)
+  const GroupData = async () => {
+    try{
+      if(getData("groups") === false){
+        
+        const groups = await firebase.RetriveGroupData(); 
+        console.log("Array of groups", groups)
+  
+        const objectArray = await firebase.LoadGroups(groups); 
+        console.log("Array of groups", objectArray[0])
+        const jsonValue = JSON.stringify(objectArray)
+        storeData("groups", jsonValue); 
+      }else{
+        console.log("Did not enter if")
+      }
+    }catch {
+      console.log("Could not Load data")
+    }
   }
 
   return(
     <Container>
        <Main>
+        
          <Text title semi center color="#88d498">
               Groups:
          </Text>
+    
+        <Notification>
+            <Ionicons 
+                  name={"ios-notifications-outline"} 
+                  size={30} 
+                  color={"#88d498"}
+            />
+        </Notification>
         </Main>
 
         <ProfilePhotoContainer>
@@ -69,7 +98,7 @@ export default GroupScreen = ({navigation}) => {
           </Text>
         </GroupContainer>
 
-        <GroupContainer onPress={RetriveGroupData}>
+        <GroupContainer onPress={GroupData}>
           <Text bold center color="#ffffff">
               Retrive Group
           </Text>
@@ -88,15 +117,13 @@ const Container = styled.View`
     flex: 1; 
 `;
 
+
 const Main = styled.View`
   margin-top: 80px; 
-  margin-bottom: 50px; 
-`;
+  align-items: center; 
+  justify-content: center; 
 
-const SignUp = styled.TouchableOpacity`
-  margin-top: 10px; 
- 
-`; 
+`;
 
 const ProfilePhotoContainer = styled.View`
   background-color: #e1e2e6;
@@ -104,7 +131,6 @@ const ProfilePhotoContainer = styled.View`
   height: 100px; 
   border-radius: 48px; 
   align-self: center; 
-  margin-top: 16px;
   overflow: hidden; 
   margin-bottom: 32px;
 `; 
@@ -143,4 +169,13 @@ const Create = styled.View`
 flex-direction: row; 
 align-items: center; 
 justify-content: center; 
+`;
+
+const Notification = styled.TouchableOpacity`
+  margin: 0 10px 0 290px; 
+  height: 50px; 
+  width: 50px
+  align-items: center; 
+  justify-content: center; 
+  border-radius: 6px;
 `;

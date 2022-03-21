@@ -37,7 +37,7 @@ return(
         showAvatarForEveryMessage={true}
         onSend={messages => onSend(messages)}
         user={{
-        _id: firebase.getCurrentUser(),
+        id: firebase.getCurrentUser(),
         avatar: 'https://i.pravatar.cc/300'
         }}
     />

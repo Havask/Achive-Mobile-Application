@@ -45,7 +45,6 @@ const FirebaseContext = createContext();
 //https://icons.expo.fyi/
 
 
-
 const Firebase = {
   
   getCurrentUser: () => {
@@ -216,98 +215,81 @@ const Firebase = {
     }
   }, 
   
-  //Trenger en liste med medlemmer 
-  CreateNewGroup: async (Groupname, id, color) => {
+  //For å lage ei helt ny gruppe
+  CreateNewGroup: async (Groupname, groupid, color) => {
     try{
 
       //Gå også inn på user id og oppdater groups
-
       const uid = Firebase.getCurrentUser().uid;
-
       const UserRef = doc(db, "users", uid);
       await updateDoc(UserRef, {
-        groups: id
+        groups: arrayUnion(groupid)
       });
 
       //Lagre docsan på id, ikke navn
-      const docRef = doc(db, "groups", id);
+      const docRef = doc(db, "groups", groupid);
       const docSnap = await getDoc(docRef);
       //Kan være greit å sjekke om brukernavnet finnes fra før
-      if (docSnap.exists()) {
-        console.log("Error: GroupCode already exist");
-        //generer en ny kode og putt den som ref
-
-      } else {
+     
         //adds all the users to the database
-        await setDoc(doc(db, "groups", id), {
+        
+        await setDoc(doc(db, "groups", groupid), {
           groupname: Groupname, 
-          groupID: id, 
+          groupID: groupid, 
           color: color, 
+          members: [uid]
           //EncodedSVG: encodedData
           //GroupPicture: picture
          });
-      }
+      
     }catch(error){
       console.log("Error @CreateNewGroup", error)
     }
   }, 
 
+  //for å finne ut av hvilken gruppe profilen tilhører
   RetriveGroupData: async () => {
-    //Returner hvilken gruppe brukeren tilhører
-    const uid = Firebase.getCurrentUser().uid;
-    const snap = await getDoc(doc(db, "users", uid))
-    
-    
-    if (snap.exists()) {
-      console.log(snap.data().groups);
+    try{
+      //Returner hvilken gruppe brukeren tilhører
+      const uid = Firebase.getCurrentUser().uid;
+      const snap = await getDoc(doc(db, "users", uid));
       return snap.data().groups; 
-    } else {
-      // doc.data() will be undefined in this case
-      console.log("No such document!");
+      
+    }catch(error){
+      console.log("Error @RetriveGroupData", error)
     }
   }, 
   
-  LoadGroups: async (id) => {
-    
+  //hent ut objektene til gruppene
+  LoadGroups: async (array) => {
     try{
-      //gå først til brukeren å få iden til gruppa som dem er med i
-      const docRef = doc(db, "groups", id);
-      const SnapDoc = await getDoc(docRef);
       
-      //Når man har funnet hvilken gruppe så gå til gruppene og fetch alle dataene 
-      const dataList = [];
-      snap.forEach((doc) => {
-        dataList.push({
-          groups: doc.groups,
-          //her går alle dataene til hver gruppe
+      var arrayLength = array.length;
+      console.log("arrayLength: ",arrayLength)
+
+      const objectList = [];
+
+      for (var i = 0; i < arrayLength; i++) {
+        const Snap = await getDoc(doc(db, "groups", array[i]))
+        
+        objectList.push({
+          groupname: Snap.data().groupname, 
+          groupID: Snap.data().groupID, 
+          color: Snap.data().color, 
+          members: Snap.data().members, 
         })
-      }); 
-      return dataList; 
-
-      SnapDoc.forEach(snapshot => {
-        let data = snapshot.data();
-        console.log(data);
-      })
-
-      /*
-      if (docSnap.exists()) {
-        console.log("Document data:", docSnap.data());
-        return docSnap; 
-      } else {
-        // doc.data() will be undefined in this case
-        console.log("No such document!");
       }
-      */
+      //returnerer en Liste med objekter.
+      return objectList; 
 
     } catch {
-      console.log("Could not retrive Groups")
+      console.log("Could not Load Groups")
     }
-
   }, 
 
-  AddMemberToGroup: async (id) => {
+  JoinGroup: async (id) => {
 
-
+    //oppdater members arrayet i databasen
   }, 
 
   AddMemberToGroup: async (member) => {

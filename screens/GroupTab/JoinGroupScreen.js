@@ -48,9 +48,6 @@ const SignUp = styled.TouchableOpacity`
   margin-top: 16px; 
 `; 
 
-const Modal = styled.Modal`
-    
-`;
 
 const Container = styled.View`
    flex: 1; 
@@ -62,10 +59,10 @@ const ButtonView = styled.View`
 `;
 
 const Input = styled.TextInput`
-  border-bottom-color: #8e93a1; 
-  border-bottom-width: 1px;
-  height: 68px; 
-  margin: 16px 32px 32px; 
+    border-bottom-color: #8e93a1; 
+    border-bottom-width: 1px;
+    height: 68px; 
+    margin: 16px 32px 32px; 
 `; 
 const Main = styled.View`
     margin: 16px 32px 32px; 
