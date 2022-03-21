@@ -124,11 +124,12 @@ export default LogInScreen = ({navigation}) => {
                   Keep me logged in </Text>
             <SwitchView>
               <Switch 
-                      trackColor={{ false: "#767577", true: "#88d498"}}
-                      thumbColor={Isloggedin ? "#88d498" : "#cccccc"}
-                      ios_backgroundColor="#3e3e3e"
-                      onValueChange={toggleSwitch}
-                      value={RememberMe}/>
+                trackColor={{ false: "#767577", true: "#88d498"}}
+                thumbColor={Isloggedin ? "#88d498" : "#cccccc"}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleSwitch}
+                value={RememberMe}
+              />
             </SwitchView>
           </StayLoggedIn>
 

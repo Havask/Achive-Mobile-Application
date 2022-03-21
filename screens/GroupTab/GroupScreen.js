@@ -5,11 +5,10 @@ import Text from "../../components/Text.js";
 import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {Ionicons} from "@expo/vector-icons"
-import AsyncStorageAdapter from '../../context/LocalStorageContext';
-const { getData, storeData, storeMultipleData,
-  getMultipleData, getAllData, removeData, removeMultipleData,
-  getAllKeys, clearAll} = new AsyncStorageAdapter("@Achive");
+import {Ionicons} from "@expo/vector-icons"; 
+import LottieView from "lottie-react-native";
+
+//legg til en refresh knapp for gruppan
 
 export default GroupScreen = ({navigation}) => {
 
@@ -19,37 +18,48 @@ export default GroupScreen = ({navigation}) => {
 
   const [Groups, setGroups] = useState([]); 
 
+
+
   const DisplayGroups = () => {
 
-    //Go to the user 
-    //Må oppdatere user i databasen. Gå dit hent navnet forså 
-    //hente gruppene. 
-
-    //Must retrive the groups and idsplay them in a list
-
-
-    //lag også en bell icon på toppen av høyresiden til groups
-    //lag en notification screen
   }
 
   const GroupData = async () => {
     try{
-      if(getData("groups") === false){
-        
+
+      const value = await AsyncStorage.getItem('groups');
+
+      if (value !== null) {
+        // We have data!!
+        const parsedJson = JSON.parse(value)
+        return parsedJson; 
+
+        const firstArray = parsedJson[0]; 
+        console.log("color",firstArray.color )
+      
+      }
+      else{
         const groups = await firebase.RetriveGroupData(); 
-        console.log("Array of groups", groups)
-  
         const objectArray = await firebase.LoadGroups(groups); 
-        console.log("Array of groups", objectArray[0])
         const jsonValue = JSON.stringify(objectArray)
-        storeData("groups", jsonValue); 
-      }else{
-        console.log("Did not enter if")
+        
+        await AsyncStorage.setItem(
+          'groups',
+          jsonValue
+        );
       }
     }catch {
-      console.log("Could not Load data")
+      console.log("Something went wrong @GroupData");
     }
   }
+
+  const renderItem = ({ title }) => (
+    <GroupContainer >
+      <Text bold center color="#ffffff">
+          title
+      </Text>
+  </GroupContainer>
+  );
 
   return(
     <Container>
@@ -90,7 +100,6 @@ export default GroupScreen = ({navigation}) => {
           </Text>
         </CreateContainer>
 
-
         </Create>
         <GroupContainer onPress={() => navigation.push("Chat")}>
           <Text bold center color="#ffffff">
@@ -100,15 +109,16 @@ export default GroupScreen = ({navigation}) => {
 
         <GroupContainer onPress={GroupData}>
           <Text bold center color="#ffffff">
-              Retrive Group
+              Load Groups
           </Text>
         </GroupContainer>
 
        <FlatList 
-      
+              data={GroupData}
+              renderItem={renderItem}
+              keyExtractor={item => item.id}
       
        /> 
-      
      </Container>
     );
 }
@@ -178,4 +188,8 @@ const Notification = styled.TouchableOpacity`
   align-items: center; 
   justify-content: center; 
   border-radius: 6px;
+`;
+
+const Item = styled.View`
+
 `;

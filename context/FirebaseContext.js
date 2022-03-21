@@ -264,10 +264,8 @@ const Firebase = {
   LoadGroups: async (array) => {
     try{
       
-      var arrayLength = array.length;
-      console.log("arrayLength: ",arrayLength)
-
       const objectList = [];
+      var arrayLength = array.length;
 
       for (var i = 0; i < arrayLength; i++) {
         const Snap = await getDoc(doc(db, "groups", array[i]))
