@@ -231,16 +231,16 @@ const Firebase = {
       const docSnap = await getDoc(docRef);
       //Kan være greit å sjekke om brukernavnet finnes fra før
      
-        //adds all the users to the database
+      //adds all the users to the database
         
-        await setDoc(doc(db, "groups", groupid), {
-          groupname: Groupname, 
-          groupID: groupid, 
-          color: color, 
-          members: [uid]
-          //EncodedSVG: encodedData
-          //GroupPicture: picture
-         });
+      await setDoc(doc(db, "groups", groupid), {
+        groupname: Groupname, 
+        groupID: groupid, 
+        color: color, 
+        members: [uid]
+        //EncodedSVG: encodedData
+        //GroupPicture: picture
+        });
       
     }catch(error){
       console.log("Error @CreateNewGroup", error)

@@ -10,6 +10,30 @@ import LottieView from "lottie-react-native";
 
 //legg til en refresh knapp for gruppan
 
+const renderItem = ({ item }) => (
+
+  <GroupContainer >
+    <Text bold center color="#ffffff">
+      {item}
+    </Text>
+  </GroupContainer>
+);
+
+const DATA = [
+  {
+    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+    title: 'First Item',
+  },
+  {
+    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
+    title: 'Second Item',
+  },
+  {
+    id: '58694a0f-3da1-471f-bd96-145571e29d72',
+    title: 'Third Item',
+  },
+];
+
 export default GroupScreen = ({navigation}) => {
 
   const [profilePhoto, setProfilePhoto] = useState(); 
@@ -24,6 +48,8 @@ export default GroupScreen = ({navigation}) => {
 
   }
 
+  //ta navnet til gruppa ut av og sett det inn i et array
+
   const GroupData = async () => {
     try{
 
@@ -32,17 +58,18 @@ export default GroupScreen = ({navigation}) => {
       if (value !== null) {
         // We have data!!
         const parsedJson = JSON.parse(value)
-        return parsedJson; 
-
+        console.log("groupname",parsedJson)
         const firstArray = parsedJson[0]; 
-        console.log("color",firstArray.color )
-      
+        const SecondArray = parsedJson[1]; 
+        
+        const array = [firstArray.groupname, SecondArray.groupname]
+        console.log("groupname",array)
+        return array; 
       }
       else{
         const groups = await firebase.RetriveGroupData(); 
         const objectArray = await firebase.LoadGroups(groups); 
         const jsonValue = JSON.stringify(objectArray)
-        
         await AsyncStorage.setItem(
           'groups',
           jsonValue
@@ -53,13 +80,7 @@ export default GroupScreen = ({navigation}) => {
     }
   }
 
-  const renderItem = ({ title }) => (
-    <GroupContainer >
-      <Text bold center color="#ffffff">
-          title
-      </Text>
-  </GroupContainer>
-  );
+
 
   return(
     <Container>
@@ -114,10 +135,9 @@ export default GroupScreen = ({navigation}) => {
         </GroupContainer>
 
        <FlatList 
-              data={GroupData}
+              data={DATA}
               renderItem={renderItem}
-              keyExtractor={item => item.id}
-      
+              keyExtractor={item => item.groupID}
        /> 
      </Container>
     );
