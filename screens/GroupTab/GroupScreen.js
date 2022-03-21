@@ -25,10 +25,10 @@ export default GroupScreen = ({navigation}) => {
   }
 
   const RetriveGroupData = () => {
-
-    const groupNumber = firebase.RetriveGroupData(); 
+    
+    const groups = firebase.RetriveGroupData(); 
    
-
+    firebase.LoadGroups(groups)
   }
 
   return(

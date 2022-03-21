@@ -256,7 +256,8 @@ const Firebase = {
     //Returner hvilken gruppe brukeren tilhører
     const uid = Firebase.getCurrentUser().uid;
     const snap = await getDoc(doc(db, "users", uid))
-
+    
+    
     if (snap.exists()) {
       console.log(snap.data().groups);
       return snap.data().groups; 
@@ -265,14 +266,23 @@ const Firebase = {
       console.log("No such document!");
     }
   }, 
-
+  
   LoadGroups: async (id) => {
-
+    
     try{
-
       //gå først til brukeren å få iden til gruppa som dem er med i
       const docRef = doc(db, "groups", id);
       const SnapDoc = await getDoc(docRef);
+      
+      //Når man har funnet hvilken gruppe så gå til gruppene og fetch alle dataene 
+      const dataList = [];
+      snap.forEach((doc) => {
+        dataList.push({
+          groups: doc.groups,
+          //her går alle dataene til hver gruppe
+        })
+      }); 
+      return dataList; 
 
       SnapDoc.forEach(snapshot => {
         let data = snapshot.data();
