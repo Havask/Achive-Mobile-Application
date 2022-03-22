@@ -157,7 +157,7 @@ const AchiveLogo = styled.Image`
     justify-content: center; 
     width: 200px;
     height: 100px;
-    margin: 0px 90px 30px; 
+    margin: 0px 90px 0px; 
 `;
 
 const Container = styled.ScrollView`
@@ -165,7 +165,7 @@ const Container = styled.ScrollView`
 `;
 
 const Main = styled.View`
-  margin-top: 180px; 
+  margin-top: 150px; 
 `;
 
 

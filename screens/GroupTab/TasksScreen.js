@@ -21,11 +21,14 @@ import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
 import {Ionicons} from "@expo/vector-icons"; 
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+
+
+
 export default TasksScreen = ({navigation}) => {
 
 const firebase = useContext(FirebaseContext); 
 const [user, setUser] = useContext(UserContext); 
-
+//få også inn gruppekonteksten 
 
 return(
   <Container>
@@ -37,19 +40,19 @@ return(
        </Text>
       </Main>
       <IconsView>
+        <Notification onPress={() => navigation.push("Scoreboard")}>
+        <MaterialCommunityIcons 
+          name="podium-gold" 
+          size={50} 
+          color="black" />
+        </Notification>
+
         <Notification onPress={() => navigation.push("Chat")}>
               <Ionicons 
                     name={"ios-chatbubbles-outline"} 
                     size={50} 
                     color={"#88d498"}
               />
-        </Notification>
-
-        <Notification onPress={() => navigation.push("Chat")}>
-        <MaterialCommunityIcons 
-          name="podium-gold" 
-          size={50} 
-          color="black" />
         </Notification>
 
 

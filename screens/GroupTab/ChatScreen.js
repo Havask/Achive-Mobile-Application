@@ -1,44 +1,45 @@
 import React, {createContext, useState,useEffect,
-    useLayoutEffect,useCallback,useContext } from "react";
+    useLayoutEffect, useCallback, useContext } from "react";
 import styled from "styled-components/native"; 
 import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
 import { GiftedChat } from 'react-native-gifted-chat'
 import { Keyboard, KeyboardAvoidingView, ScrollView} from "react-native";
 
+
+
 export default ChatScreen = ({navigation}) => {
+  
 
 const firebase = useContext(FirebaseContext); 
 const [user, setUser] = useContext(UserContext); 
 const [messages, setMessages] = useState([]);
 
+
 //https://blog.jscrambler.com/build-a-chat-app-with-firebase-and-react-native
 
 useEffect(() => {
-  
-    return () => firebase.unsub(); ;
-  }, []);
-
+  const NewArray = firebase.unsub()
+  setMessages(NewArray); 
+  return () => messages;
+}, []);
 
 const onSend = useCallback((messages = []) => {
-    setMessages(previousMessages =>
-      GiftedChat.append(previousMessages, messages)
-    );
-
-    const { id, createdAt, text, user } = messages[0];    
-    firebase.SendMessage(id, createdAt, text, user); 
-  }, []);
-
+  setMessages(previousMessages =>
+    GiftedChat.append(previousMessages, messages)
+  );
+  const { id, createdAt, text} = messages[0];    
+  firebase.SendMessage(id,createdAt, text ); 
+}, []);
+  
+  //Skal man vise private meldinge? 
 return(
-
-
     <GiftedChat 
         messages={messages}
-        showAvatarForEveryMessage={true}
+        showAvatarForEveryMessage={false}
         onSend={messages => onSend(messages)}
         user={{
         id: firebase.getCurrentUser(),
-        avatar: 'https://i.pravatar.cc/300'
         }}
     />
 

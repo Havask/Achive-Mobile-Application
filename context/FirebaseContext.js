@@ -2,30 +2,30 @@ import React, {createContext, useState,useEffect,
         useLayoutEffect,useCallback } from "react";
 import { initializeApp } from 'firebase/app';
 import {getAuth, 
-        deleteUser, 
-        sendPasswordResetEmail, 
-        signOut, 
-        updatePassword, 
-        updateEmail, 
-        } from "firebase/auth";
+  deleteUser, 
+  sendPasswordResetEmail, 
+  signOut, 
+  updatePassword, 
+  updateEmail, 
+  } from "firebase/auth";
 import {getStorage, 
-        ref,
-        uploadBytes, 
-        getDownloadURL, 
-        } from "firebase/storage";
+  ref,
+  uploadBytes, 
+  getDownloadURL, 
+  } from "firebase/storage";
 import {getFirestore, 
-        setDoc, 
-        doc, 
-        updateDoc,
-        getDoc, 
-        addDoc,
-        orderBy,
-        query,
-        onSnapshot,
-        collection,
-        arrayUnion,
-        arrayRemove,
-        } from "firebase/firestore";
+  setDoc, 
+  doc, 
+  updateDoc,
+  getDoc, 
+  addDoc,
+  orderBy,
+  query,
+  onSnapshot,
+  collection,
+  arrayUnion,
+  arrayRemove,
+  } from "firebase/firestore";
 import config from "../config/Firebase"
 import {signInWithEmailAndPassword, 
         createUserWithEmailAndPassword
@@ -393,29 +393,30 @@ const Firebase = {
 
   unsub: async () => {
 
-    const collectionRef = collection(database, 'chats');
-    const q = query(collectionRef, orderBy('createdAt', 'desc'));
+    const SnapMessage = []
   
+    const collectionRef = collection(db, 'chats');
+    const q = query(collectionRef, orderBy('createdAt', 'desc'));
+
     onSnapshot(q, querySnapshot => {
-      setMessages(
+      SnapMessage(
         querySnapshot.docs.map(doc => ({
-          _id: doc.data()._id,
+          id: doc.data().id,
           createdAt: doc.data().createdAt.toDate(),
           text: doc.data().text,
-          user: doc.data().user
         }))
       );
     });
+    return SnapMessage; 
   }, 
 
 
-SendMessage: async (id, createdAt, text, user) => {
+SendMessage: async (id, createdAt, text,) => {
 
-  addDoc(collection(db, 'chats'), {
-    _id,
+  addDoc(collection(db, "chats"), {
+    id,
     createdAt,
     text,
-    user
   });
 }, 
 

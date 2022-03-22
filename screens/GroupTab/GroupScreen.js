@@ -20,8 +20,12 @@ const makeid = length => {
   return result;
 }
 
-
-//legg til en refresh knapp for gruppan
+/*
+-Fix async av gruppene 
+-Gjør ting mer arbitrært 
+-Ordne opp i contexten til gruppene
+-Få riktig farge på gruppene
+*/
 
 export default GroupScreen = ({navigation}) => {
   
@@ -34,10 +38,10 @@ export default GroupScreen = ({navigation}) => {
   const [_, setGroup] = useContext(GroupContext); 
 
 
-  const ChangeGroup = () => {
+  const ChangeGroup = (Groupname) => {
   
-    //sett opp en context for gruppa 
     try{
+      
       setGroup({
         groupname: data.groupname, 
         groupID: data.groupID, 
@@ -50,7 +54,6 @@ export default GroupScreen = ({navigation}) => {
     }catch(error){
       alert("Unable to set up groupContext")
     }
-  
   }
 
 
