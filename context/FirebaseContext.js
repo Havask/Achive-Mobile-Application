@@ -31,12 +31,15 @@ import {signInWithEmailAndPassword,
         createUserWithEmailAndPassword
         } from "firebase/auth"; 
 
+import { getDatabase } from "firebase/database";
+
 // Initialize Firebase
 const app = initializeApp(config);
 const storage = getStorage(app);
 const auth = getAuth(app);
 const db = getFirestore(app); 
 const FirebaseContext = createContext(); 
+const database = getDatabase(app);
 
 // DOCS: 
 //https://firebase.google.com/docs
@@ -48,6 +51,7 @@ const FirebaseContext = createContext();
 const Firebase = {
   
   getCurrentUser: () => {
+    
       return auth.currentUser
     },
 
@@ -298,7 +302,6 @@ const Firebase = {
       await updateDoc(docRef, {
         Member: member, 
       });
-
     }catch(error){
       console.log("Error @AddToGroup", error)
     }
@@ -391,33 +394,39 @@ const Firebase = {
 
   },
 
-  unsub: async () => {
+  RetriveMessages: async () => {
+    
+    try{
 
-    const SnapMessage = []
+      const collectionRef = collection(db, "chats");
+      const q = query(collectionRef, orderBy("createdAt", "desc"));
   
-    const collectionRef = collection(db, 'chats');
-    const q = query(collectionRef, orderBy('createdAt', 'desc'));
+      onSnapshot(q, querySnapshot => {
+          const MessageArray = []
+          querySnapshot.forEach((doc) => {
+            MessageArray.push(doc.data())
+            console.log("retrived messages",MessageArray)
+            return MessageArray; 
+          })
+      });
 
-    onSnapshot(q, querySnapshot => {
-      SnapMessage(
-        querySnapshot.docs.map(doc => ({
-          id: doc.data().id,
-          createdAt: doc.data().createdAt.toDate(),
-          text: doc.data().text,
-        }))
-      );
-    });
-    return SnapMessage; 
+    }catch(error){
+      console.log("Error @RetriveMessages", error)
+      // unsubscribe(); når brukeren går ut av chatterommet
+    }
   }, 
 
+SendMessage: async (id, createdAt, text, groupID) => {
 
-SendMessage: async (id, createdAt, text,) => {
-
-  addDoc(collection(db, "chats"), {
-    id,
-    createdAt,
-    text,
-  });
+  try{
+    await setDoc(doc(db, "chats", groupID), {
+      id,
+      createdAt,
+      text,
+     });
+  }catch(error){
+    console.log("Error @SendMessage", error)
+  }
 }, 
 
 }; 

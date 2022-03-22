@@ -18,18 +18,22 @@ const [messages, setMessages] = useState([]);
 
 //https://blog.jscrambler.com/build-a-chat-app-with-firebase-and-react-native
 
+//retrive old messages
 useEffect(() => {
-  const NewArray = firebase.unsub()
-  setMessages(NewArray); 
-  return () => messages;
+ 
+  return () => setMessages(newarray => firebase.RetriveMessages()); 
+
 }, []);
+
+const groupID = 100; 
 
 const onSend = useCallback((messages = []) => {
   setMessages(previousMessages =>
     GiftedChat.append(previousMessages, messages)
   );
   const { id, createdAt, text} = messages[0];    
-  firebase.SendMessage(id,createdAt, text ); 
+  firebase.SendMessage(id,createdAt, text, groupID); 
+
 }, []);
   
   //Skal man vise private meldinge? 
