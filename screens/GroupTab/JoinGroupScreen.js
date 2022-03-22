@@ -29,12 +29,14 @@ export default JoinGroup = ({navigation}) => {
                     onChangeText = {CodeInputHandler}
                     value={enteredCode}
                 />
-                <ButtonView>
-                    <Button title = "Join" onPress={JoinHandler}/>
-                </ButtonView>
-                <ButtonView>
-                    <Button title = "Cancel" color = "red" onPress={() => navigation.push("group")}/>
-                </ButtonView>
+                <Row>
+                    <ButtonView>
+                        <Button title = "Cancel" color = "red" onPress={() => navigation.push("group")}/>
+                    </ButtonView>
+                    <ButtonView>
+                        <Button title = "Join" onPress={JoinHandler}/>
+                    </ButtonView>
+                </Row>
 
                 <SignUp onPress={() => navigation.push("Scanner")}>
                     <Text small center> 
@@ -50,12 +52,18 @@ const SignUp = styled.TouchableOpacity`
 
 
 const Container = styled.View`
+    margin-top: 60px; 
    flex: 1; 
 
 `;
 
+const Row = styled.View`
+   flex-direction: row;
+
+`;
+
 const ButtonView = styled.View`
-    margin: 16px 32px; 
+    margin: 0px 110px 0px 45px; 
 `;
 
 const Input = styled.TextInput`

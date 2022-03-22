@@ -1,5 +1,5 @@
 import React, {useState, useContext} from "react";
-import { FlatList } from "react-native-gesture-handler";
+import { SafeAreaView, View, FlatList, StyleSheet, StatusBar } from 'react-native';
 import styled from "styled-components/native"; 
 import Text from "../../components/Text.js";
 import {FirebaseContext} from "../../context/FirebaseContext";
@@ -8,10 +8,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Ionicons} from "@expo/vector-icons"; 
 import LottieView from "lottie-react-native";
 
+
 //legg til en refresh knapp for gruppan
 
 const renderItem = ({ item }) => (
-
+  
   <GroupContainer >
     <Text bold center color="#ffffff">
       {item}
@@ -19,36 +20,15 @@ const renderItem = ({ item }) => (
   </GroupContainer>
 );
 
-const DATA = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'First Item',
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'Second Item',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'Third Item',
-  },
-];
-
 export default GroupScreen = ({navigation}) => {
-
+  
   const [profilePhoto, setProfilePhoto] = useState(); 
   const firebase = useContext(FirebaseContext); 
   const [user, setUser] = useContext(UserContext); 
-
+  
   const [Groups, setGroups] = useState([]); 
-
-
-
-  const DisplayGroups = () => {
-
-  }
-
-  //ta navnet til gruppa ut av og sett det inn i et array
+  const [data, setData] = useState([]); 
+  
 
   const GroupData = async () => {
     try{
@@ -58,17 +38,37 @@ export default GroupScreen = ({navigation}) => {
       if (value !== null) {
         // We have data!!
         const parsedJson = JSON.parse(value)
-        console.log("groupname",parsedJson)
         const firstArray = parsedJson[0]; 
         const SecondArray = parsedJson[1]; 
         
-        const array = [firstArray.groupname, SecondArray.groupname]
-        console.log("groupname",array)
-        return array; 
+        console.log("groupname",SecondArray)
+        const DATA = [
+          {
+            id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+            title: firstArray.groupname,
+            color: firstArray.color, 
+          },
+          {
+            id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
+            title: SecondArray.groupname,
+            color: SecondArray.color, 
+          },
+        ];
+
+        setData(DATA); 
+        return DATA; 
       }
       else{
         const groups = await firebase.RetriveGroupData(); 
         const objectArray = await firebase.LoadGroups(groups); 
+
+        const firstArray = objectArray[0]; 
+        const SecondArray = objectArray[1]; 
+
+        console.log(firstArray); 
+
+        
+
         const jsonValue = JSON.stringify(objectArray)
         await AsyncStorage.setItem(
           'groups',
@@ -80,7 +80,13 @@ export default GroupScreen = ({navigation}) => {
     }
   }
 
-
+  const renderItem = ({ item }) => (
+    <GroupView color={item.color}>
+      <Text bold center color="#ffffff">
+              {item.title}
+      </Text>
+    </GroupView>
+  );
 
   return(
     <Container>
@@ -89,14 +95,23 @@ export default GroupScreen = ({navigation}) => {
          <Text title semi center color="#88d498">
               Groups:
          </Text>
-    
-        <Notification>
+        <IconsView>
+          <Notification>
             <Ionicons 
                   name={"ios-notifications-outline"} 
                   size={30} 
                   color={"#88d498"}
             />
-        </Notification>
+          </Notification>
+          <Reload onPress={GroupData}>
+              <Ionicons 
+                name={"ios-reload"} 
+                size={30} 
+                color={"#88d498"}
+                  />
+          </Reload>
+        </IconsView>
+
         </Main>
 
         <ProfilePhotoContainer>
@@ -111,13 +126,13 @@ export default GroupScreen = ({navigation}) => {
         <Create>
         <CreateContainer onPress={() => navigation.push("CreateGroup")}>
           <Text bold center color="#ffffff">
-              Create Group
+              Create
           </Text>
         </CreateContainer>
 
         <CreateContainer onPress={() => navigation.push("joingroup")}>
           <Text bold center color="#ffffff">
-              Join Group
+              Join
           </Text>
         </CreateContainer>
 
@@ -127,17 +142,10 @@ export default GroupScreen = ({navigation}) => {
               Chat
           </Text>
         </GroupContainer>
-
-        <GroupContainer onPress={GroupData}>
-          <Text bold center color="#ffffff">
-              Load Groups
-          </Text>
-        </GroupContainer>
-
        <FlatList 
-              data={DATA}
-              renderItem={renderItem}
-              keyExtractor={item => item.groupID}
+            data={data}
+            renderItem={renderItem}
+            keyExtractor={item => item.id}
        /> 
      </Container>
     );
@@ -152,7 +160,11 @@ const Main = styled.View`
   margin-top: 80px; 
   align-items: center; 
   justify-content: center; 
+`;
 
+const IconsView = styled.View`
+  flex-direction: row; 
+  
 `;
 
 const ProfilePhotoContainer = styled.View`
@@ -169,7 +181,6 @@ const ProfilePhoto = styled.Image`
   width: 100px;
   height: 100px; 
   border-radius: 64px; 
-
 `;
 
 const GroupContainer = styled.TouchableOpacity`
@@ -185,23 +196,50 @@ const GroupContainer = styled.TouchableOpacity`
 
 const CreateContainer = styled.TouchableOpacity`
   margin: 0 10px; 
-  height: 70px; 
+  height: 60px; 
   width: 140px
   align-items: center; 
   justify-content: center; 
   background-color: #88d498;
+  border-radius: 20px;
+  margin-bottom: 32px;
+`;
+
+const Create = styled.View`
+  flex-direction: row; 
+  align-items: center; 
+  justify-content: center; 
+ 
+`;
+
+const Notification = styled.TouchableOpacity`
+  margin: 0px 210px 0px 0px; 
+  height: 50px; 
+  width: 50px
+  align-items: center; 
+  justify-content: center; 
+  border-radius: 6px;
+`;
+
+const Reload = styled.TouchableOpacity`
+  height: 50px; 
+  width: 50px
+  align-items: center; 
+  justify-content: center; 
+  border-radius: 6px;
+`;
+
+const GroupView = styled.View`
+  margin: 0 32px; 
+  height: 68px; 
+  align-items: center; 
+  justify-content: center; 
+  background-color: ${props => props.color};
   border-radius: 6px;
   margin-bottom: 32px;
 `;
 
-
-const Create = styled.View`
-flex-direction: row; 
-align-items: center; 
-justify-content: center; 
-`;
-
-const Notification = styled.TouchableOpacity`
+const ListItem = styled.TouchableOpacity`
   margin: 0 10px 0 290px; 
   height: 50px; 
   width: 50px
@@ -210,6 +248,3 @@ const Notification = styled.TouchableOpacity`
   border-radius: 6px;
 `;
 
-const Item = styled.View`
-
-`;
