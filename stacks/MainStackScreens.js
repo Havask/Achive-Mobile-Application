@@ -1,6 +1,8 @@
 import React from "react"
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {Ionicons} from "@expo/vector-icons"
+import {GroupProvider} from "../context/GroupContext"
+
 import {
             GroupScreen, 
             CreateGroupScreen, 
@@ -31,17 +33,18 @@ const GroupStack = createNativeStackNavigator();
     
 function GroupStackScreen() {
     return (
-        <GroupStack.Navigator>
-            <GroupStack.Screen name="Group" component={GroupScreen} options={{headerShown: false}}/>
-            <GroupStack.Screen name="CreateGroup" component={CreateGroupScreen} options={{headerShown: false}}/>
-            <GroupStack.Screen name="Routine" component={RoutineScreen} options={{headerShown: false}}/>
-            <GroupStack.Screen name="Tasks" component={TasksScreen} options={{headerShown: false}}/>
-            <GroupStack.Screen name="Scoreboard" component={Scoreboard} options={{headerShown: false}}/>
-            <GroupStack.Screen name="Scanner" component={Scanner} options={{headerShown: false}}/>
-            <GroupStack.Screen name="joingroup" component={JoinGroup} options={{headerShown: false}}/>
-            <GroupStack.Screen name="Chat" component={Chat} options={{headerShown: false}}/>
-
-        </GroupStack.Navigator>
+        <GroupProvider>
+            <GroupStack.Navigator>
+                <GroupStack.Screen name="Group" component={GroupScreen} options={{headerShown: false}}/>
+                <GroupStack.Screen name="CreateGroup" component={CreateGroupScreen} options={{headerShown: false}}/>
+                <GroupStack.Screen name="Routine" component={RoutineScreen} options={{headerShown: false}}/>
+                <GroupStack.Screen name="Tasks" component={TasksScreen} options={{headerShown: false}}/>
+                <GroupStack.Screen name="Scoreboard" component={Scoreboard} options={{headerShown: false}}/>
+                <GroupStack.Screen name="Scanner" component={Scanner} options={{headerShown: false}}/>
+                <GroupStack.Screen name="joingroup" component={JoinGroup} options={{headerShown: false}}/>
+                <GroupStack.Screen name="Chat" component={Chat} options={{headerShown: false}}/>
+            </GroupStack.Navigator>
+        </GroupProvider>
     );
 }
 

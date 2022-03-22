@@ -7,32 +7,59 @@ import {UserContext} from "../../context/UserContext";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Ionicons} from "@expo/vector-icons"; 
 import LottieView from "lottie-react-native";
+import {GroupContext} from "../../context/GroupContext";
+
+const makeid = length => {
+  var result           = '';
+  var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var charactersLength = characters.length;
+  for ( var i = 0; i < length; i++ ) {
+    result += characters.charAt(Math.floor(Math.random() * 
+    charactersLength));
+ }
+  return result;
+}
 
 
 //legg til en refresh knapp for gruppan
-
-const renderItem = ({ item }) => (
-  
-  <GroupContainer >
-    <Text bold center color="#ffffff">
-      {item}
-    </Text>
-  </GroupContainer>
-);
 
 export default GroupScreen = ({navigation}) => {
   
   const [profilePhoto, setProfilePhoto] = useState(); 
   const firebase = useContext(FirebaseContext); 
   const [user, setUser] = useContext(UserContext); 
-  
   const [Groups, setGroups] = useState([]); 
   const [data, setData] = useState([]); 
   
+  const [_, setGroup] = useContext(GroupContext); 
+
+
+  const ChangeGroup = () => {
+  
+    //sett opp en context for gruppa 
+    try{
+      setGroup({
+        groupname: data.groupname, 
+        groupID: data.groupID, 
+        color: data.color, 
+        members: [], 
+        profilePhotoUrl: "default"
+    })
+
+    navigation.push("Tasks"); 
+    }catch(error){
+      alert("Unable to set up groupContext")
+    }
+  
+  }
+
 
   const GroupData = async () => {
-    try{
 
+    try{
+      
+      /*
+      AsyncStorage.removeItem('groups');
       const value = await AsyncStorage.getItem('groups');
 
       if (value !== null) {
@@ -57,31 +84,53 @@ export default GroupScreen = ({navigation}) => {
 
         setData(DATA); 
         return DATA; 
-      }
-      else{
-        const groups = await firebase.RetriveGroupData(); 
+        else{
+          */
+
+        //henter ut hvilken grupper brukeren tilhører 
+         const groups = await firebase.RetriveGroupData(); 
+         console.log("Groups:",groups); 
+
+        //henter ut info om de gruppene 
         const objectArray = await firebase.LoadGroups(groups); 
+        console.log("Group info:",objectArray); 
 
-        const firstArray = objectArray[0]; 
-        const SecondArray = objectArray[1]; 
 
-        console.log(firstArray); 
+         
+         const DATA = [
+          {
+            id: makeid(6),
+            title: objectArray[0].groupname,
+            color: objectArray[0].color, 
+          },
+          {
+            id: makeid(6),
+            title: objectArray[1].groupname,
+            color: objectArray[1].color, 
+          },
+          {
+            id: makeid(6),
+            title: objectArray[2].groupname,
+            color: objectArray[2].color, 
+          },
+        ];
 
+        setData(DATA); 
+        return DATA; 
+         //Lagre den i async storage
+         const jsonValue = JSON.stringify(objectArray)
+         await AsyncStorage.setItem(
+           'groups',
+           jsonValue
+           );
         
-
-        const jsonValue = JSON.stringify(objectArray)
-        await AsyncStorage.setItem(
-          'groups',
-          jsonValue
-        );
+        }catch {
+          console.log("Something went wrong @GroupData");
+        }
       }
-    }catch {
-      console.log("Something went wrong @GroupData");
-    }
-  }
 
   const renderItem = ({ item }) => (
-    <GroupView color={item.color}>
+    <GroupView color={item.color} onPress={ChangeGroup}>
       <Text bold center color="#ffffff">
               {item.title}
       </Text>
@@ -137,11 +186,7 @@ export default GroupScreen = ({navigation}) => {
         </CreateContainer>
 
         </Create>
-        <GroupContainer onPress={() => navigation.push("Chat")}>
-          <Text bold center color="#ffffff">
-              Chat
-          </Text>
-        </GroupContainer>
+    
        <FlatList 
             data={data}
             renderItem={renderItem}
@@ -229,7 +274,7 @@ const Reload = styled.TouchableOpacity`
   border-radius: 6px;
 `;
 
-const GroupView = styled.View`
+const GroupView = styled.TouchableOpacity`
   margin: 0 32px; 
   height: 68px; 
   align-items: center; 

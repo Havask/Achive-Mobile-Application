@@ -5,6 +5,13 @@ TODO:
 -Hvilken funksjoner skal en gruppe kunne bruke? 
 -
 
+Todo: 
+-Chattefunksjon 
+-Scoreboard
+-Diplay gruppenavnet øverst 
+-Mulighet for å lage nye rutiner/grupper/todos
+-
+
 */
 
 import React, {useState, useContext} from "react";
@@ -12,8 +19,8 @@ import styled from "styled-components/native";
 import Text from "../../components/Text.js";
 import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
-
-
+import {Ionicons} from "@expo/vector-icons"; 
+import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 export default TasksScreen = ({navigation}) => {
 
 const firebase = useContext(FirebaseContext); 
@@ -23,16 +30,32 @@ const [user, setUser] = useContext(UserContext);
 return(
   <Container>
      <Main>
+
+
        <Text title semi center color="#88d498">
             Tasks screen:
        </Text>
       </Main>
+      <IconsView>
+        <Notification onPress={() => navigation.push("Chat")}>
+              <Ionicons 
+                    name={"ios-chatbubbles-outline"} 
+                    size={50} 
+                    color={"#88d498"}
+              />
+        </Notification>
 
-      <SignUp>
-        <Text small center> 
-          <Text bold color="#88d498">Task</Text>
-        </Text>
-      </SignUp>
+        <Notification onPress={() => navigation.push("Chat")}>
+        <MaterialCommunityIcons 
+          name="podium-gold" 
+          size={50} 
+          color="black" />
+        </Notification>
+
+
+      </IconsView>
+
+
    </Container>
   );
 }
@@ -73,4 +96,18 @@ const ProfilePhoto = styled.Image`
 width: 128px;
 height: 128px; 
 border-radius: 64px; 
+`;
+
+const Notification = styled.TouchableOpacity`
+  margin: 0px 210px 0px 0px; 
+  height: 50px; 
+  width: 50px
+  align-items: center; 
+  justify-content: center; 
+  border-radius: 6px;
+`;
+
+const IconsView = styled.View`
+  flex-direction: row; 
+  
 `;

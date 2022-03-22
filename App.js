@@ -5,6 +5,7 @@ import AppStackScreen from "./stacks/AppStackScreens";
 import {UserProvider} from "./context/UserContext";
 import {FirebaseProvider} from "./context/FirebaseContext";
 
+
 export default App = () =>{
   return (
     <FirebaseProvider>
