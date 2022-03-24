@@ -25,6 +25,7 @@ import {getFirestore,
   collection,
   arrayUnion,
   arrayRemove,
+  where
   } from "firebase/firestore";
 import config from "../config/Firebase"
 import {signInWithEmailAndPassword, 
@@ -289,9 +290,28 @@ const Firebase = {
     }
   }, 
 
+
+LeaveGroup: async () => {
+
+  try{
+ 
+
+    }catch(error){
+      console.log("Error @LeaveGroup", error)
+    }
+  
+  }, 
+
   JoinGroup: async (id) => {
 
     //oppdater members arrayet i databasen
+
+    try{
+ 
+
+    }catch(error){
+      console.log("Error @JoinGroup", error)
+    }
   }, 
 
   AddMemberToGroup: async (member) => {
@@ -381,53 +401,42 @@ const Firebase = {
     }
   },
 
-  SendMessage: async (messages) => {
-    messages.forEach(item => {
-
-      const message = {
-        text: item.text,
-        timestamp: 
-        user.item.user
-      }
-      db.push(message)
-    })
-
-  },
 
   RetriveMessages: async () => {
-    
     try{
-
-      const collectionRef = collection(db, "chats");
-      const q = query(collectionRef, orderBy("createdAt", "desc"));
-  
+s
+      const DocRef = doc(db, "chats", "snusken" );
+      const q = query(DocRef, orderBy("createdAt", "desc"));
+      //const taskQuery = doc(collection(db, "chats"), where("GroupID", "==", groupID))
       onSnapshot(q, querySnapshot => {
           const MessageArray = []
           querySnapshot.forEach((doc) => {
             MessageArray.push(doc.data())
-            console.log("retrived messages",MessageArray)
+            console.log("retrived messages", MessageArray)
             return MessageArray; 
           })
       });
-
     }catch(error){
       console.log("Error @RetriveMessages", error)
       // unsubscribe(); når brukeren går ut av chatterommet
     }
   }, 
 
-SendMessage: async (id, createdAt, text, groupID) => {
+SendMessage: async (text) => {
+  
+  const uid = Firebase.getCurrentUser().uid;
 
   try{
-    await setDoc(doc(db, "chats", groupID), {
-      id,
-      createdAt,
-      text,
+    await setDoc(doc(db, "chats", "snusken"), {
+      id: uid,
+      text, 
      });
-  }catch(error){
-    console.log("Error @SendMessage", error)
-  }
-}, 
+
+    }catch(error){
+      console.log("Error @SendMessage", error)
+    }
+  
+  }, 
 
 }; 
 

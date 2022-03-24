@@ -78,6 +78,9 @@ export default MainStackScreens = () => {
     const screenOptions = (({route}) => ({
 
         tabBarShowLabel: false,
+        tabBarOptions: {
+            keyboardHidesTabBar: false
+          },
         tabBarStyle: {
             backgroundColor: "#222222", 
             paddingBottom: 8,

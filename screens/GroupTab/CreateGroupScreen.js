@@ -26,7 +26,7 @@ export default CreateGroupScreen = ({navigation}) => {
   state = {
     colors: ["#F44336", "#E91E63", "#9C27B0", "#673AB7", "#3F51B5", "#2196F3", "#03A9F4", "#00BCD4", 
     "#009688", "#4CAF50", "#8BC34A", "#CDDC39", "#FFEB3B", "#FFC107", "#FF9800", "#FF5722", "#795548", "#9E9E9E", "#607D8B"],
-    selectedColor: '#F44336',
+    selectedColor: '#F44336', 
   };
 
   /*Output the group color aswell*/ 
@@ -34,12 +34,10 @@ export default CreateGroupScreen = ({navigation}) => {
   const CreateNewGroup = async () => {
 
     id = makeid(6); 
-    console.log(id);
 
     //qr = generateQR(id); 
 
     const newGroup = firebase.CreateNewGroup(Groupname, id, Color); 
-
     //sjekker om id'n til gruppa eksiterer fra før
     if(newGroup===1){
       CreateNewGroup(); 
@@ -68,8 +66,7 @@ export default CreateGroupScreen = ({navigation}) => {
     return result;
   }
 
-  onSelect = () => setColor(state.selectedColor);
-
+  onSelect = color => setColor(color);
   return(
     <Container>
       <ScrollView>

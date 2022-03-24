@@ -5445,6 +5445,11 @@
   "resolved" "https://registry.npmjs.org/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.3.1.tgz"
   "version" "1.3.1"
 
+"react-native-keyboard-spacer@^0.4.1":
+  "integrity" "sha1-RvGKMgQyCYol6p+on1FD3SVNMy0="
+  "resolved" "https://registry.npmjs.org/react-native-keyboard-spacer/-/react-native-keyboard-spacer-0.4.1.tgz"
+  "version" "0.4.1"
+
 "react-native-lightbox@^0.8.1":
   "integrity" "sha512-TFZA6iKEEHpAUIXjMTRb6vx0/9rHgEKy3ZBiRAy295PwldYg5c8opwnbyURLIl522ykeqhVx9uGdXjSMIowLvA=="
   "resolved" "https://registry.npmjs.org/react-native-lightbox/-/react-native-lightbox-0.8.1.tgz"

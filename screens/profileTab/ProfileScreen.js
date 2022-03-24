@@ -37,7 +37,7 @@ export default ProfileScreen = ({navigation}) => {
   return(
     <Container>
        <Main>
-         <Text title semi center color="#88d498">
+         <Text title bold center color="#88d498">
               Profile:
          </Text>
         </Main>

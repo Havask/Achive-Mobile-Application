@@ -1,4 +1,4 @@
-import React, {useState, useContext} from "react";
+import React, {useState, useContext, useEffect} from "react";
 import { SafeAreaView, View, FlatList, StyleSheet, StatusBar } from 'react-native';
 import styled from "styled-components/native"; 
 import Text from "../../components/Text.js";
@@ -37,25 +37,27 @@ export default GroupScreen = ({navigation}) => {
   
   const [_, setGroup] = useContext(GroupContext); 
 
-
-  const ChangeGroup = (Groupname) => {
+  const ChangeGroup = ( item ) => {
   
     try{
+      console.log( item.color)
       
       setGroup({
-        groupname: data.groupname, 
-        groupID: data.groupID, 
-        color: data.color, 
-        members: [], 
-        profilePhotoUrl: "default"
-    })
+        groupname: item.title, 
+        color:  item.color, 
+  
+      })
 
-    navigation.push("Tasks"); 
+      navigation.push("Tasks"); 
+
     }catch(error){
       alert("Unable to set up groupContext")
     }
   }
-
+  useEffect(() => {
+ 
+    GroupData();  
+  }, []);
 
   const GroupData = async () => {
 
@@ -96,10 +98,8 @@ export default GroupScreen = ({navigation}) => {
 
         //henter ut info om de gruppene 
         const objectArray = await firebase.LoadGroups(groups); 
-        console.log("Group info:",objectArray); 
+        //console.log("Group info:",objectArray); 
 
-
-         
          const DATA = [
           {
             id: makeid(6),
@@ -133,7 +133,7 @@ export default GroupScreen = ({navigation}) => {
       }
 
   const renderItem = ({ item }) => (
-    <GroupView color={item.color} onPress={ChangeGroup}>
+    <GroupView color={item.color} onPress={() => ChangeGroup(item)}>
       <Text bold center color="#ffffff">
               {item.title}
       </Text>
@@ -144,7 +144,7 @@ export default GroupScreen = ({navigation}) => {
     <Container>
        <Main>
         
-         <Text title semi center color="#88d498">
+         <Text title bold center color="#88d498">
               Groups:
          </Text>
         <IconsView>

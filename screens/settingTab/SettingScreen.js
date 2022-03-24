@@ -49,7 +49,7 @@ export default SettingScreen = ({navigation}) => {
   return(
     <Container>
        <Main>
-         <Text title semi center color="#88d498">
+         <Text title bold center color="#88d498">
               Settings:
          </Text>
         </Main>
