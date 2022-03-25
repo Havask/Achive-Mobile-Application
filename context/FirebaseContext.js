@@ -1,5 +1,7 @@
 import React, {createContext, useState,useEffect,
         useLayoutEffect,useCallback } from "react";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import { initializeApp } from 'firebase/app';
 import {getAuth, 
   deleteUser, 
@@ -137,7 +139,9 @@ const Firebase = {
 
   SignOutUser: async () => {
     try{
-      await signOut();
+      await AsyncStorage.removeItem("email"); 
+      await AsyncStorage.removeItem("password"); 
+      await signOut(auth);
       return true; 
 
     }catch(error){
@@ -208,6 +212,14 @@ const Firebase = {
       console.log("Error @updateUsername", error)
     }
   },
+
+  ClearCache: async () => {
+    try{
+
+    } catch {
+      console.log("Could not clear cache")
+    }
+  }, 
 
   retrieveQR: async () => {
     try{

@@ -88,12 +88,11 @@ export default GroupScreen = ({navigation}) => {
         setData(DATA); 
         return DATA; 
         else{
-        */
+      */
 
         //henter ut hvilken grupper brukeren tilhører 
-         const groups = await firebase.RetriveGroupData(); 
-         const emailAsync = AsyncStorage.getItem('email');
-          console.log("Email asynced: ",emailAsync)
+        const groups = await firebase.RetriveGroupData(); 
+
         //henter ut info om de gruppene 
         const objectArray = await firebase.LoadGroups(groups); 
         //console.log("Group info:",objectArray); 

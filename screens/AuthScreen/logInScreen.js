@@ -1,11 +1,12 @@
 import React, {useState, useContext, useEffect} from "react";
 import styled from "styled-components/native"; 
-import { KeyboardAvoidingView, ScrollView} from "react-native";
+import { KeyboardAvoidingView, ScrollView, Alert} from "react-native";
 import Text from "../../components/Text.js";
 import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
 import {Switch} from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 //https://hilalyldz.medium.com/keep-user-logged-in-with-asyncstorage-and-authenticatication-on-expo-and-firebase-4617b206e481
 
@@ -21,29 +22,35 @@ export default LogInScreen = ({navigation}) => {
   const [loading, setLoading] = useState(false); 
 
   const [Isloggedin, setIsloggedin] = useState(false); 
-  const [RememberMe, setRememberMe] = useState(true); 
+  const [RememberMe, setRememberMe] = useState(true);  
 
-  //lag en useeffeect som sjekker om brukernavn, 
-  //passord og setRemember finnes i async    
-  
-  useEffect(() => {
-    remember(); 
-  }, []);
+  const ButtonAlert = () =>
+    Alert.alert(
+      "Alert Title",
+      "My Alert Msg",
+      [
+        {
+          text: "Cancel",
+          style: "cancel"
+        },
+        { text: "Delete the account"}
+      ]
+  );
 
-  const remember = () => {
-  
-      try{
-        console.log("tries to login automatic")
-        const emailAsync = AsyncStorage.getItem('email');
-        console.log("email async", emailAsync); 
+  const Storage = async () => {
+    try{
+      const StoredEmail =  await AsyncStorage.getItem("email");
+      const StoredPassword = await AsyncStorage.getItem("password");
 
-        if (emailAsync !== null ) {
-          console.log("Async found")
-          const PasswordAsync = AsyncStorage.getItem('password');
-          console.log("PasswordAsync ", PasswordAsync); 
-          firebase.SignInUser(emailAsync, PasswordAsync);
-          const uid =  firebase.getCurrentUser().uid; 
-          const userInfo = firebase.getUserInfo(uid)
+      if (StoredEmail !== null){
+
+        const StoredEmail = await AsyncStorage.getItem("email");
+        const StoredPassword = await AsyncStorage.getItem("password");
+
+        await firebase.SignInUser(StoredEmail, StoredPassword);
+        
+          const uid =  await firebase.getCurrentUser().uid; 
+          const userInfo = await firebase.getUserInfo(uid)
       
           setUser({
             username: userInfo.username,
@@ -54,36 +61,45 @@ export default LogInScreen = ({navigation}) => {
             isLoggedIn: true, 
           })
         }
-      }catch{
-        console.log("Could not log in automatic")
-        return; 
-      } 
-  }
+        }catch{
+          console.log("could not get")
+      }
+  };
+  
+  useEffect(() => {
+    Storage(); 
+  }, []);
+
 
   const handleLogin = async () => {
 
     if(RememberMe === true){
       if (email && password) {
-        const uid = await firebase.getCurrentUser().uid; 
-        await firebase.SignInUser(email, password);
-        
-        await AsyncStorage.setItem('email', email);
-        await AsyncStorage.setItem('password', password);
 
-        const userInfo = await firebase.getUserInfo(uid)
-        setUser({
-          username: userInfo.username,
-          email: userInfo.email, 
-          uid, 
-          groups: [], 
-          profilePhotoUrl: userInfo.profilePhotoUrl,
-          isLoggedIn: true, 
-        })
+        try{          
+          await AsyncStorage.setItem('email', email);
+          await AsyncStorage.setItem("password", password);
+
+          await firebase.SignInUser(email, password);
+          
+          const uid = await firebase.getCurrentUser().uid; 
+          const userInfo = await firebase.getUserInfo(uid)
+          setUser({
+            username: userInfo.username,
+            email: userInfo.email, 
+            uid, 
+            groups: [], 
+            profilePhotoUrl: userInfo.profilePhotoUrl,
+            isLoggedIn: true, 
+          })
+        }catch{
+          ButtonAlert(); 
+        }
       } 
     }
     else{
-      console.log("Does not remember")
-      
+      console.log("Does not remember, but logs in")
+
         await firebase.SignInUser(email, password);
         const uid = await firebase.getCurrentUser().uid; 
         const userInfo = await firebase.getUserInfo(uid)

@@ -28,7 +28,6 @@ export default SettingScreen = ({navigation}) => {
   );
 
   const signOut = async () => {
-    setLoading(true);
     setUser({isLoggedIn: null}); 
   };
   
