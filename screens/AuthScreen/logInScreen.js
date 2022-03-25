@@ -34,17 +34,14 @@ export default LogInScreen = ({navigation}) => {
   
       try{
         console.log("tries to login automatic")
-        const emailAsync = AsyncStorage.getItem("email");
+        const emailAsync = AsyncStorage.getItem('email');
         console.log("email async", emailAsync); 
 
         if (emailAsync !== null ) {
           console.log("Async found")
-
-          //we have data
-          const PasswordAsync = AsyncStorage.getItem("password");
+          const PasswordAsync = AsyncStorage.getItem('password');
           console.log("PasswordAsync ", PasswordAsync); 
           firebase.SignInUser(emailAsync, PasswordAsync);
-          
           const uid =  firebase.getCurrentUser().uid; 
           const userInfo = firebase.getUserInfo(uid)
       
@@ -67,13 +64,13 @@ export default LogInScreen = ({navigation}) => {
 
     if(RememberMe === true){
       if (email && password) {
-        console.log("Logging in via handlelogin, rememeber")
-        AsyncStorage.setItem("email", email);
-        AsyncStorage.setItem("password", password );
-        await firebase.SignInUser(email, password);
         const uid = await firebase.getCurrentUser().uid; 
-        const userInfo = await firebase.getUserInfo(uid)
+        await firebase.SignInUser(email, password);
         
+        await AsyncStorage.setItem('email', email);
+        await AsyncStorage.setItem('password', password);
+
+        const userInfo = await firebase.getUserInfo(uid)
         setUser({
           username: userInfo.username,
           email: userInfo.email, 
@@ -85,8 +82,9 @@ export default LogInScreen = ({navigation}) => {
       } 
     }
     else{
-      console.log("Logging in via handlelogin, Notrememeber")
-      await firebase.SignInUser(email, password);
+      console.log("Does not remember")
+      
+        await firebase.SignInUser(email, password);
         const uid = await firebase.getCurrentUser().uid; 
         const userInfo = await firebase.getUserInfo(uid)
     

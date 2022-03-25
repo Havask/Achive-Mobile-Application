@@ -314,6 +314,7 @@ LeaveGroup: async (GroupID) => {
   JoinGroup: async (GroupID) => {
 
     try{
+    //sjekk om ting eksisterer i det hele tatt
      //updates the users data
      const uid = Firebase.getCurrentUser().uid;
      const UserRef = doc(db, "users", uid);
@@ -352,7 +353,6 @@ LeaveGroup: async (GroupID) => {
         email: user.email,
         profilePhotoUrl, 
        });
-
     }catch(error){
       console.log("Error @AddTask", error)
     }
