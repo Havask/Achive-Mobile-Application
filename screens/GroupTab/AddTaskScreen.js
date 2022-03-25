@@ -1,98 +1,53 @@
 import React, {useState, useContext, useEffect} from "react";
 import styled from "styled-components/native"; 
 import Text from "../../components/Text.js";
-import {AntDesign} from "@expo/vector-icons"
-import * as ImagePicker from "expo-image-picker"
-import * as MediaLibrary from 'expo-media-library';
 import { KeyboardAvoidingView, ScrollView} from "react-native";
 import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
-
-import {FlatList} from "react-native"; 
+import {GroupContext} from "../../context/GroupContext";
 
 export default AddTaskScreen = ({navigation}) => {
-
-  useEffect(() => {
-
-  }, [Members])
 
   const firebase = useContext(FirebaseContext); 
   const [_, setUser] = useContext(UserContext); 
   const [Groupname, setGroupName] = useState(""); 
-  const [Members, setMember] = useState([]); 
+  const [Task, setTask] = useState([]); 
   const [loading, setLoading] = useState(false); 
-  const [profilePhoto, setProfilePhoto] = useState(); 
+  const [Group, setGroup] = useContext(GroupContext); 
 
-  //lag sånn at gruppa får et profilbilde
+  const AddtaskHandler = (enteredText) =>{
 
-  const MemberInputHandler = (enteredText) =>{
-    setMember(enteredText)
   };
 
   const CreateNewGroup = async () => {
 
     await firebase.CreateGroup(Groupname, Members); 
-
-    //lag en liste med folk som skal bli adda
     navigation.push("Group"); 
   };
-
-  const AddMemberHandler = goalTitle => {
-    setCourseGoals(currentGoals => [
-        ...currentGoals, 
-        {id: Math.random().toString(), value: goalTitle}
-    ]); 
-    setIsAddMode(false); 
-  }
-
-  const removeMemberHandler = goalId => {
-    setCourseGoals(currentGoals =>{
-        /* return a new array filter based on a new critiria */
-        return currentGoals.filter((goal) => goal.id !== goalId); 
-    });
-  }
-
-  const MemberItem = props => {
-    return (
-    <SignUpContainer onPress={props.onDelete.bind(this, props.id)}> 
-            <Text bold center color="#ffffff"> {props.title}</Text> 
-    </SignUpContainer>
-    );
-  }; 
 
   return(
     <Container>
       <ScrollView>
       <KeyboardAvoidingView>
        <Main>
-         <Text title semi center color="#88d498">
+         <Text title semi center color={Group.color}>
               Add Task:
          </Text>
         </Main>
 
         <Auth>
           <AuthContainer>
-            <AuthTitle>Group Name</AuthTitle>
-            <AuthField 
-              autoCapitalize="none" 
-              autocorrect={false} 
-              onChangeText={(Groupname) => setGroupName(Groupname.trim())}
-              value={TaskName}
-            />
-          </AuthContainer>
-
-          <AuthContainer>
-            <AuthTitle>Add members</AuthTitle>
+            <AuthTitle>Task Name</AuthTitle>
             <AuthField 
               autocorrect={false} 
-              onChangeText={MemberInputHandler}
-              value={Members}
+              onChangeText={AddtaskHandler}
+              value={Task}
             />
           </AuthContainer>
 
         </Auth>
         
-        <SignUpContainer onPress={CreateNewGroup} disable={loading}>
+        <SignUpContainer onPress={CreateNewGroup} disable={loading} color={Group.color}>
           {loading ? (<Loading/>) : (
           <Text bold center color="#ffffff">
             Create Group</Text>
@@ -101,15 +56,6 @@ export default AddTaskScreen = ({navigation}) => {
 
         </KeyboardAvoidingView>
       </ScrollView>
-
-      <FlatList 
-            keyExtractor={(item,index) => item.id} 
-            data ={Members} 
-            renderItem={itemData => <MemberItem 
-            id={itemData.item.id} 
-            onDelete ={removeMemberHandler} 
-            title={itemData.item.value}/>} 
-          />
      </Container>
     );
 }
@@ -149,7 +95,7 @@ const SignUpContainer = styled.TouchableOpacity`
   height: 48px; 
   align-items: center; 
   justify-content: center; 
-  background-color: #88d498;
+  background-color: ${props => props.color};
   border-radius: 6px;
 `;
 

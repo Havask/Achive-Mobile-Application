@@ -1,13 +1,8 @@
-import React, {createContext, useState,useEffect,
-    useLayoutEffect, useCallback, useContext } from "react";
-import { SafeAreaView, View, FlatList, StyleSheet, StatusBar } from 'react-native';
-
-import styled from "styled-components/native"; 
+import React, {useState,useEffect,
+    useCallback, useContext } from "react";
 import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
 import { GiftedChat } from 'react-native-gifted-chat'
-
-import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 export default ChatScreen = ({navigation}) => {
   

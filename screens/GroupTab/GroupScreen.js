@@ -1,12 +1,11 @@
 import React, {useState, useContext, useEffect} from "react";
-import { SafeAreaView, View, FlatList, StyleSheet, StatusBar } from 'react-native';
+import {FlatList} from 'react-native';
 import styled from "styled-components/native"; 
 import Text from "../../components/Text.js";
 import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Ionicons} from "@expo/vector-icons"; 
-import LottieView from "lottie-react-native";
 import {GroupContext} from "../../context/GroupContext";
 
 const makeid = length => {
@@ -40,7 +39,6 @@ export default GroupScreen = ({navigation}) => {
   const ChangeGroup = ( item ) => {
   
     try{
-      console.log( item.color)
       
       setGroup({
         groupname: item.title, 
@@ -231,17 +229,6 @@ const ProfilePhoto = styled.Image`
   border-radius: 64px; 
 `;
 
-const GroupContainer = styled.TouchableOpacity`
-  margin: 0 32px; 
-  height: 68px; 
-  align-items: center; 
-  justify-content: center; 
-  background-color: #88d498;
-  border-radius: 6px;
-  margin-bottom: 32px;
-`;
-
-
 const CreateContainer = styled.TouchableOpacity`
   margin: 0 10px; 
   height: 60px; 
@@ -287,12 +274,5 @@ const GroupView = styled.TouchableOpacity`
   margin-bottom: 32px;
 `;
 
-const ListItem = styled.TouchableOpacity`
-  margin: 0 10px 0 290px; 
-  height: 50px; 
-  width: 50px
-  align-items: center; 
-  justify-content: center; 
-  border-radius: 6px;
-`;
+
 

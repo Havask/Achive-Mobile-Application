@@ -9,4 +9,7 @@ export { default as JoinGroup } from "./JoinGroupScreen";
 
 export { default as Scanner } from "./ScannerScreen";
 export { default as Chat} from "./ChatScreen";
+export { default as AddTask} from "./AddTaskScreen"; 
+
+
 
