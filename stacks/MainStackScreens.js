@@ -80,15 +80,16 @@ export default MainStackScreens = () => {
 
     const screenOptions = (({route}) => ({
 
-        tabBarShowLabel: false,
-        tabBarOptions: {
-            keyboardHidesTabBar: false
-          },
+
         tabBarStyle: {
-            backgroundColor: "#222222", 
-            paddingBottom: 8,
+            backgroundColor: "#88d498", 
+            paddingBottom: 25,
+            height: 100,
+            borderRadius: 30,
         },
-        
+
+       
+
         tabBarIcon: ({focused}) => {
             let iconName = "ios-home"
             
@@ -110,7 +111,7 @@ export default MainStackScreens = () => {
             }
             return <Ionicons 
                 name={iconName} 
-                size={30} 
+                size={40} 
                 color={focused ? "#ffffff" : "#666666"} 
             />;
         },
@@ -120,16 +121,20 @@ export default MainStackScreens = () => {
     
     return(
         
-            <TabStack.Navigator screenOptions={screenOptions}>
-                <TabStack.Screen 
-                    name="Groups" 
-                    component={GroupStackScreen}     
-                    options={{headerShown: false}}
-                />
+            <TabStack.Navigator 
+            screenOptions={screenOptions}
+            initialRouteName = "Groups">
+                
                 <TabStack.Screen 
                     name="Profiles" 
                     component={ProfileStackScreen}  
                     options={{headerShown: false}}
+                />
+                <TabStack.Screen 
+                    name="Groups" 
+                    component={GroupStackScreen}     
+                    options={{headerShown: false, tabBarBadge: 3}}
+                 
                 />
                 <TabStack.Screen 
                     name="Setting" 
@@ -138,4 +143,6 @@ export default MainStackScreens = () => {
                 />
             </TabStack.Navigator>
     );
+    
+    
 }

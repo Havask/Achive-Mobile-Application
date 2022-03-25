@@ -80,8 +80,8 @@ return(
             keyExtractor={item => item.id}
        /> 
         <SignUp color={Group.color} onPress={() => navigation.push("AddTask")}>
-          <Text small center> 
-            <Text bold color="#ffffff">Add new task</Text>
+          <Text title center> 
+            <Text title bold color="#ffffff">+</Text>
           </Text>
         </SignUp>
    </Container>
@@ -123,11 +123,12 @@ const GroupView = styled.TouchableOpacity`
 `;
 
 const SignUp = styled.TouchableOpacity`
-  margin: 0 32px; 
-  height: 68px; 
+  margin: 0 150px; 
+  width: 80px; 
+  height: 80px; 
   align-items: center; 
   justify-content: center; 
   background-color: ${props => props.color};
-  border-radius: 6px;
+  border-radius: 50px;
   margin-bottom: 32px;
 `; 

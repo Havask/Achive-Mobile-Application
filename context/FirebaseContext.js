@@ -45,9 +45,6 @@ const database = getDatabase(app);
 // DOCS: 
 //https://firebase.google.com/docs
 
-//Icons 
-//https://icons.expo.fyi/
-
 
 const Firebase = {
   
