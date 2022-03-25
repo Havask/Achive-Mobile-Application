@@ -1,24 +1,36 @@
-import React, {useState} from "react"; 
+import React, {useState, useContext} from "react"; 
 import {Button} from "react-native"; 
 import styled from "styled-components/native"; 
 import Text from "../../components/Text.js";
+import {FirebaseContext} from "../../context/FirebaseContext";
+import {UserContext} from "../../context/UserContext";
 
 export default JoinGroup = ({navigation}) => {
+
     const [enteredCode, setEnteredCode] = useState(""); 
+    const firebase = useContext(FirebaseContext); 
+    const [user, setUser] = useContext(UserContext); 
 
     const CodeInputHandler = (enteredText) =>{
         setEnteredCode(enteredText)
     };
 
     const JoinHandler = () => {
-        //Search the code in the database and add this user to the group
-        () => navigation.push("groups")
-    }; 
 
+        try{
+            //Search the code in the database and add this user to the group
+            firebase.JoinGroup(enteredCode); 
+            () => navigation.push("groups")
+
+        }catch(err){
+            alert("Could not join group"); 
+            console.log(err);
+        }
+    }; 
     return(
             <Container>
                 <Main>
-                    <Text title semi center color="#88d498">
+                    <Text title bold center color="#88d498">
                         Enter code to join
                     </Text>
                 </Main>
@@ -54,12 +66,10 @@ const SignUp = styled.TouchableOpacity`
 const Container = styled.View`
     margin-top: 60px; 
    flex: 1; 
-
 `;
 
 const Row = styled.View`
    flex-direction: row;
-
 `;
 
 const ButtonView = styled.View`

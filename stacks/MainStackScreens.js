@@ -80,15 +80,12 @@ export default MainStackScreens = () => {
 
     const screenOptions = (({route}) => ({
 
-
         tabBarStyle: {
             backgroundColor: "#88d498", 
             paddingBottom: 25,
             height: 100,
             borderRadius: 30,
         },
-
-       
 
         tabBarIcon: ({focused}) => {
             let iconName = "ios-home"
@@ -120,7 +117,6 @@ export default MainStackScreens = () => {
     const TabStack = createBottomTabNavigator(); 
     
     return(
-        
             <TabStack.Navigator 
             screenOptions={screenOptions}
             initialRouteName = "Groups">

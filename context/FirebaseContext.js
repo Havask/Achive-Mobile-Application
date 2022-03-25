@@ -288,24 +288,46 @@ const Firebase = {
   }, 
 
 
-LeaveGroup: async () => {
-
+LeaveGroup: async (GroupID) => {
   try{
- 
 
+    //updates the users data
+    const uid = Firebase.getCurrentUser().uid;
+    const UserRef = doc(db, "users", uid);
+    // Atomically remove a region from the "regions" array field.
+    await updateDoc(UserRef, {
+        groups: arrayRemove(GroupID)
+    }); 
+
+   //updates the group data
+    const GroupRef = doc(db, "groups", GroupID);
+    // Atomically remove a region from the "regions" array field.
+    await updateDoc(GroupRef, {
+        groups: arrayRemove(uid)
+});
     }catch(error){
       console.log("Error @LeaveGroup", error)
     }
   
   }, 
 
-  JoinGroup: async (id) => {
-
-    //oppdater members arrayet i databasen
+  JoinGroup: async (GroupID) => {
 
     try{
+     //updates the users data
+     const uid = Firebase.getCurrentUser().uid;
+     const UserRef = doc(db, "users", uid);
+     // Atomically remove a region from the "regions" array field.
+     await updateDoc(UserRef, {
+         groups: arrayUnion(GroupID)
+     }); 
  
-
+    //updates the group data
+     const GroupRef = doc(db, "groups", GroupID);
+     // Atomically remove a region from the "regions" array field.
+     await updateDoc(GroupRef, {
+         groups: arrayUnion(uid)
+    });
     }catch(error){
       console.log("Error @JoinGroup", error)
     }
@@ -313,7 +335,6 @@ LeaveGroup: async () => {
 
   AddMemberToGroup: async (member) => {
     try{
-
       const docRef = doc(db, "users", uid);
       //Update the database with the new email address
       await updateDoc(docRef, {

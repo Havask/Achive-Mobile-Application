@@ -6,7 +6,6 @@ import { GiftedChat } from 'react-native-gifted-chat'
 
 export default ChatScreen = ({navigation}) => {
   
-
 const firebase = useContext(FirebaseContext); 
 const [user, setUser] = useContext(UserContext); 
 const [messages, setMessages] = useState([]);
@@ -50,7 +49,6 @@ const DemoMessage = [
 
 //retrive old messages
 useEffect(() => {
- 
   setMessages(DemoMessage)
   //return () => setMessages(messages => firebase.RetriveMessages()); 
 
@@ -68,8 +66,6 @@ const onSend = useCallback((messages = []) => {
   
 //Skal man vise private meldinge? 
 return(
-
-
     <GiftedChat 
         messages={messages}
         showAvatarForEveryMessage={false}

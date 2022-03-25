@@ -1,4 +1,4 @@
-import React, {useState, useContext} from "react";
+import React, {useState, useContext, useEffect} from "react";
 import styled from "styled-components/native"; 
 import { KeyboardAvoidingView, ScrollView} from "react-native";
 import Text from "../../components/Text.js";
@@ -23,63 +23,82 @@ export default LogInScreen = ({navigation}) => {
   const [Isloggedin, setIsloggedin] = useState(false); 
   const [RememberMe, setRememberMe] = useState(true); 
 
+  //lag en useeffeect som sjekker om brukernavn, 
+  //passord og setRemember finnes i async    
+  
+  useEffect(() => {
+    remember(); 
+  }, []);
+
+  const remember = () => {
+  
+      try{
+        console.log("tries to login automatic")
+        const emailAsync = AsyncStorage.getItem("email");
+        console.log("email async", emailAsync); 
+
+        if (emailAsync !== null ) {
+          console.log("Async found")
+
+          //we have data
+          const PasswordAsync = AsyncStorage.getItem("password");
+          console.log("PasswordAsync ", PasswordAsync); 
+          firebase.SignInUser(emailAsync, PasswordAsync);
+          
+          const uid =  firebase.getCurrentUser().uid; 
+          const userInfo = firebase.getUserInfo(uid)
+      
+          setUser({
+            username: userInfo.username,
+            email: userInfo.email, 
+            uid, 
+            groups: [], 
+            profilePhotoUrl: userInfo.profilePhotoUrl,
+            isLoggedIn: true, 
+          })
+        }
+      }catch{
+        console.log("Could not log in automatic")
+        return; 
+      } 
+  }
 
   const handleLogin = async () => {
 
-  try{
-    await firebase.SignInUser(email, password);
-    const uid = await firebase.getCurrentUser().uid; 
-    const userInfo = await firebase.getUserInfo(uid)
-
-    setUser({
-      username: userInfo.username,
-      email: userInfo.email, 
-      uid, 
-      groups: [], 
-      profilePhotoUrl: userInfo.profilePhotoUrl,
-      isLoggedIn: true, 
-    })
-    }catch(error){
-      alert("Unable to find this account")
-    }finally{
-      setLoading(false)
-    }
-  };
-
-  const saveValueFunction = () => {
     if(RememberMe === true){
-      if (email) {
-        AsyncStorage.setItem("email");
-       
-      } 
-    
-      if (password) {
-        AsyncStorage.setItem("password");
+      if (email && password) {
+        console.log("Logging in via handlelogin, rememeber")
+        AsyncStorage.setItem("email", email);
+        AsyncStorage.setItem("password", password );
+        await firebase.SignInUser(email, password);
+        const uid = await firebase.getCurrentUser().uid; 
+        const userInfo = await firebase.getUserInfo(uid)
         
-      }
+        setUser({
+          username: userInfo.username,
+          email: userInfo.email, 
+          uid, 
+          groups: [], 
+          profilePhotoUrl: userInfo.profilePhotoUrl,
+          isLoggedIn: true, 
+        })
+      } 
     }
-    getValueFunction();
-  };
-
-  
-  const getValueFunction = () => {
-
-    if(email == "" && password == "")
-    {
-      handleLogin();
-    } 
     else{
-        if (email) {
-          AsyncStorage.getItem("email");
-         
-        } 
-  
-        if (password) {
-          AsyncStorage.getItem("password");
-         
-        }
-     }
-     handleLogin();
+      console.log("Logging in via handlelogin, Notrememeber")
+      await firebase.SignInUser(email, password);
+        const uid = await firebase.getCurrentUser().uid; 
+        const userInfo = await firebase.getUserInfo(uid)
+    
+        setUser({
+          username: userInfo.username,
+          email: userInfo.email, 
+          uid, 
+          groups: [], 
+          profilePhotoUrl: userInfo.profilePhotoUrl,
+          isLoggedIn: true, 
+        })
+    }
   };
 
   const toggleSwitch = () => setRememberMe(previousState => !previousState);
@@ -133,7 +152,7 @@ export default LogInScreen = ({navigation}) => {
             </SwitchView>
           </StayLoggedIn>
 
-            <SignInContainer onPress={saveValueFunction} disable={loading}>
+            <SignInContainer onPress={handleLogin} disable={loading}>
               {loading ? (<Loading/>) : (
               <Text bold center color="#ffffff">
                 Sign In</Text>
