@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Achive",
-    "slug": "Achive",
+    "slug": "achive123",
     "version": "1.0.0",
     "orientation": "portrait",
     "splash": {
@@ -22,7 +22,7 @@
         "backgroundColor": "#FFFFFF"
       }
     },
-    "web": {
-    }
+    "web": {},
+    "description": ""
   }
 }

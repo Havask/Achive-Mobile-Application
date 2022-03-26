@@ -8,6 +8,11 @@ import {GroupContext} from "../../context/GroupContext";
 import {Ionicons} from "@expo/vector-icons"; 
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 
+/* 
+Lag en egen knapp for QR koden. La de enkelt screene og dele den 
+-Lag sånn at man kan legge til de tingan man ønske fra pluss knappen
+*/
+
 export default TasksScreen = ({navigation}) => {
 
 const firebase = useContext(FirebaseContext); 
@@ -28,17 +33,17 @@ const makeid = length => {
 const DATA = [
   {
     id: makeid(6),
+    title: "Torget",
+    color: Group.color, 
+  },
+  {
+    id: makeid(6),
     title: "Rutiner",
     color: Group.color, 
   },
   {
     id: makeid(6),
     title: "Oppgaver",
-    color: Group.color, 
-  },
-  {
-    id: makeid(6),
-    title: "Annet",
     color: Group.color, 
   },
 ];

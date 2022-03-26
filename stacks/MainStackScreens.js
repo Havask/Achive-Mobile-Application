@@ -12,7 +12,8 @@ import {
             JoinGroup, 
             Scanner,
             Chat,
-            AddTask
+            AddTask, 
+            Torget
         
         } from "../screens/GroupTab"
 import {
@@ -45,6 +46,7 @@ function GroupStackScreen() {
                 <GroupStack.Screen name="joingroup" component={JoinGroup} options={{headerShown: false}}/>
                 <GroupStack.Screen name="Chat" component={Chat} options={{headerShown: false}}/>
                 <GroupStack.Screen name="AddTask" component={AddTask} options={{headerShown: false}}/>
+                <GroupStack.Screen name="Torget" component={Torget} options={{headerShown: false}}/>
 
             </GroupStack.Navigator>
         </GroupProvider>

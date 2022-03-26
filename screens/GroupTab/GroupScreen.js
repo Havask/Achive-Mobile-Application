@@ -36,9 +36,8 @@ export default GroupScreen = ({navigation}) => {
   const ChangeGroup = ( item ) => {
   
     try{
-      
       setGroup({
-        groupname: item.title, 
+        groupname: item.groupname, 
         color:  item.color, 
       })
 
@@ -58,7 +57,7 @@ export default GroupScreen = ({navigation}) => {
         const parsedJson = JSON.parse(value)
         console.log("ParsedJson: ",parsedJson)
         setData(parsedJson); 
-        
+
       }else{
         //henter ut hvilken grupper brukeren tilhører 
         const groups = await firebase.RetriveGroupData(); 
