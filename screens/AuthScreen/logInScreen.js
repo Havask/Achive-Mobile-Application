@@ -26,7 +26,7 @@ export default LogInScreen = ({navigation}) => {
 
   const ButtonAlert = () =>
     Alert.alert(
-      "Alert Title",
+      "User not found",
       "My Alert Msg",
       [
         {
@@ -44,9 +44,6 @@ export default LogInScreen = ({navigation}) => {
 
       if (StoredEmail !== null){
 
-        const StoredEmail = await AsyncStorage.getItem("email");
-        const StoredPassword = await AsyncStorage.getItem("password");
-
         await firebase.SignInUser(StoredEmail, StoredPassword);
         
           const uid =  await firebase.getCurrentUser().uid; 
@@ -62,7 +59,7 @@ export default LogInScreen = ({navigation}) => {
           })
         }
         }catch{
-          console.log("could not get")
+          console.log("could not find stored email and password")
       }
   };
   
@@ -77,7 +74,7 @@ export default LogInScreen = ({navigation}) => {
       if (email && password) {
 
         try{          
-          await AsyncStorage.setItem('email', email);
+          await AsyncStorage.setItem("email", email);
           await AsyncStorage.setItem("password", password);
 
           await firebase.SignInUser(email, password);

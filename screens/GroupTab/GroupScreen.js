@@ -19,13 +19,6 @@ const makeid = length => {
   return result;
 }
 
-/*
--Fix async av gruppene 
--Gjør ting mer arbitrært 
--Ordne opp i contexten til gruppene
--Få riktig farge på gruppene
-*/
-
 export default GroupScreen = ({navigation}) => {
   
   const [profilePhoto, setProfilePhoto] = useState(); 
@@ -36,6 +29,10 @@ export default GroupScreen = ({navigation}) => {
   
   const [_, setGroup] = useContext(GroupContext); 
 
+  useEffect(() => {
+    GroupData();  
+  }, []);
+
   const ChangeGroup = ( item ) => {
   
     try{
@@ -43,96 +40,52 @@ export default GroupScreen = ({navigation}) => {
       setGroup({
         groupname: item.title, 
         color:  item.color, 
-  
       })
 
       navigation.push("Tasks"); 
-
     }catch(error){
       alert("Unable to set up groupContext")
     }
   }
-  useEffect(() => {
- 
-    GroupData();  
-  }, []);
 
   const GroupData = async () => {
-
     try{
-      
-      /*
-      AsyncStorage.removeItem('groups');
-      const value = await AsyncStorage.getItem('groups');
+      const value = await AsyncStorage.getItem("groups");
 
       if (value !== null) {
-        // We have data!!
+
+        // Hent ut data fra async storage
         const parsedJson = JSON.parse(value)
-        const firstArray = parsedJson[0]; 
-        const SecondArray = parsedJson[1]; 
+        console.log("ParsedJson: ",parsedJson)
+        setData(parsedJson); 
         
-        console.log("groupname",SecondArray)
-        const DATA = [
-          {
-            id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-            title: firstArray.groupname,
-            color: firstArray.color, 
-          },
-          {
-            id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-            title: SecondArray.groupname,
-            color: SecondArray.color, 
-          },
-        ];
-
-        setData(DATA); 
-        return DATA; 
-        else{
-      */
-
+      }else{
         //henter ut hvilken grupper brukeren tilhører 
         const groups = await firebase.RetriveGroupData(); 
 
-        //henter ut info om de gruppene 
+        //returnerer et array av json objekter
         const objectArray = await firebase.LoadGroups(groups); 
-        //console.log("Group info:",objectArray); 
+        console.log("Group: ", objectArray)
 
-         const DATA = [
-          {
-            id: makeid(6),
-            title: objectArray[0].groupname,
-            color: objectArray[0].color, 
-          },
-          {
-            id: makeid(6),
-            title: objectArray[1].groupname,
-            color: objectArray[1].color, 
-          },
-          {
-            id: makeid(6),
-            title: objectArray[2].groupname,
-            color: objectArray[2].color, 
-          },
-        ];
-
-        setData(DATA); 
-        return DATA; 
-         //Lagre den i async storage
+        setData(objectArray); 
+       
          const jsonValue = JSON.stringify(objectArray)
          await AsyncStorage.setItem(
-           'groups',
+           "groups",
            jsonValue
-           );
-        
-        }catch {
-          console.log("Something went wrong @GroupData");
+          );
+    
+
         }
+      }catch {
+        console.log("Something went wrong @GroupData");
       }
+    }
 
   const renderItem = ({ item }) => (
     <GroupView color={item.color} onPress={() => ChangeGroup(item)}>
       <Text bold center color="#ffffff">
-              {item.title}
+              {item.groupname}
       </Text>
     </GroupView>
   );
@@ -140,7 +93,6 @@ export default GroupScreen = ({navigation}) => {
   return(
     <Container>
        <Main>
-        
          <Text title bold center color="#88d498">
               Groups:
          </Text>
@@ -190,7 +142,7 @@ export default GroupScreen = ({navigation}) => {
        <FlatList 
             data={data}
             renderItem={renderItem}
-            keyExtractor={item => item.id}
+            keyExtractor={item => item.groupID}
        /> 
      </Container>
     );

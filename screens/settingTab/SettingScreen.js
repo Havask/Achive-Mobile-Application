@@ -28,6 +28,7 @@ export default SettingScreen = ({navigation}) => {
   );
 
   const signOut = async () => {
+    firebase.SignOutUser(); 
     setUser({isLoggedIn: null}); 
   };
   
@@ -39,7 +40,7 @@ export default SettingScreen = ({navigation}) => {
 
   const clearCache = async () => {
     try {
-      const isClear = await clearAll(); // Return Boolean value
+      await firebase.ClearCache()
     } catch (err) {
       throw err;
     }

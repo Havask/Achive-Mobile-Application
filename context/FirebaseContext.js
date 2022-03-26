@@ -103,7 +103,6 @@ const Firebase = {
       console.log("Error @uploadProfilePhoto", error)
     }
   },
-
     
   getBlob: async(uri) => {
     return await new Promise((resolve, reject) => {
