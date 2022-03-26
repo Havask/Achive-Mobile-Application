@@ -17,16 +17,55 @@ import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
 import {GroupContext} from "../../context/GroupContext";
 import {FlatList} from 'react-native';
+import {Ionicons} from "@expo/vector-icons"; 
 
 export default Scoreboard = ({navigation}) => {
 
-    const firebase = useContext(FirebaseContext); 
-    const [user, setUser] = useContext(UserContext); 
-    const [Group, setGroup] = useContext(GroupContext); 
+  const firebase = useContext(FirebaseContext); 
+  const [user, setUser] = useContext(UserContext); 
+  const [Group, setGroup] = useContext(GroupContext); 
+  
+  const DATA = [
+    {
+      id: 1,
+      title: "Håvard",
+      color: Group.color, 
+    },
+    {
+      id: 2,
+      title: "Synnøve",
+      color: Group.color, 
+    },
+    {
+      id: 3,
+      title: "Vilde",
+      color: Group.color, 
+    },
+    {
+      id: 4,
+      title: "Kåre",
+      color: Group.color,  
+    },
+    {
+      id: 5,
+      title: "Vegard",
+      color: Group.color, 
+    },
+    {
+      id: 6,
+      title: "Marius",
+      color: Group.color, 
+    },
+  ];
+
 
     const renderMembers = ({ item }) => (
-      <GroupView color={item.color} onPress={() => ChangeGroup(item)}>
-        
+      <GroupView color={Group.color}>
+          <Ionicons 
+                  name={"ios-notifications-outline"} 
+                  size={30} 
+                  color={"#88d498"}
+            />
         <Text bold center color="#ffffff">
                 {item.title}
         </Text>
@@ -42,19 +81,21 @@ export default Scoreboard = ({navigation}) => {
           </Main>
     
           <FlatList 
-            data={data}
+            data={DATA}
             renderItem={renderMembers}
             keyExtractor={item => item.id}
        /> 
        </Container>
       );
     }
-    const Container = styled.View`
+
+
+  const Container = styled.View`
     flex: 1; 
-`;
+  `;
 
   const GroupView = styled.TouchableOpacity`
-
+    flex-direction: row; 
     margin: 0 32px; 
     height: 68px; 
     align-items: center; 
