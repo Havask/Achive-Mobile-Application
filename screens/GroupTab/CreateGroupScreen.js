@@ -6,14 +6,16 @@ import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
 import QRCode from 'react-native-qrcode-svg';
 import { Svg } from "react-native-svg";
-import AsyncStorageAdapter from '../../context/LocalStorageContext';
 import { ColorPicker } from 'react-native-status-color-picker';
-
+import Checkbox from 'expo-checkbox';
 //https://reactnativeexample.com/customizable-color-picker-for-your-beautiful-react-native-apps/
 
-const { getData, storeData, storeMultipleData,
-  getMultipleData, getAllData, removeData, removeMultipleData,
-  getAllKeys, clearAll} = new AsyncStorageAdapter("@Achive");
+/*
+-Lag en privat/offentlig checkbox 
+-Sett gruppene inn i async storage for å raskt laste de inn når man starter appen
+-Prøv å join en gruppe  
+*/
+
 
 export default CreateGroupScreen = ({navigation}) => {
 
@@ -22,14 +24,13 @@ export default CreateGroupScreen = ({navigation}) => {
   const [_, setUser] = useContext(UserContext);   
   const [Groupname, setGroupName] = useState(""); 
   const [Color, setColor] = useState(""); 
+  const [Privacy, setPrivacy] = useState(false);
 
-  state = {
+  const state = {
     colors: ["#F44336", "#E91E63", "#9C27B0", "#673AB7", "#3F51B5", "#2196F3", "#03A9F4", "#00BCD4", 
     "#009688", "#4CAF50", "#8BC34A", "#CDDC39", "#FFEB3B", "#FFC107", "#FF9800", "#FF5722", "#795548", "#9E9E9E", "#607D8B"],
     selectedColor: '#F44336', 
   };
-
-  /*Output the group color aswell*/ 
 
   const CreateNewGroup = async () => {
 
@@ -37,9 +38,10 @@ export default CreateGroupScreen = ({navigation}) => {
 
     //qr = generateQR(id); 
 
-    const newGroup = firebase.CreateNewGroup(Groupname, id, Color); 
+    const newGroup = firebase.CreateNewGroup(Groupname, id, Color, Privacy); 
+    
     //sjekker om id'n til gruppa eksiterer fra før
-    if(newGroup===1){
+    if(newGroup === 1){
       CreateNewGroup(); 
     }else{
       navigation.push("Group"); 
@@ -66,7 +68,8 @@ export default CreateGroupScreen = ({navigation}) => {
     return result;
   }
 
-  onSelect = color => setColor(color);
+  const onSelect = color => setColor(color);
+
   return(
     <Container>
       <ScrollView>
@@ -88,6 +91,16 @@ export default CreateGroupScreen = ({navigation}) => {
             />
           </AuthContainer>
         </Auth>
+        <BoxContainer>
+           <Text medium center> 
+                  Set this group private?   
+          </Text>
+              <BoxStyle
+              value={Privacy}
+              onValueChange={setPrivacy}
+              color={Privacy ? "#88d498" : "#88d498"}
+              />
+        </BoxContainer>
 
         <ColorTitle>Choose theme</ColorTitle>
 
@@ -157,7 +170,6 @@ const Loading = styled.ActivityIndicator.attrs(props => ({
 }))``; 
 
 
-
 const ColorTitle = styled(Text)`
   align-items: center; 
   justify-content: center; 
@@ -165,4 +177,16 @@ const ColorTitle = styled(Text)`
   font-size: 12px; 
   text-transform: uppercase; 
   font-weight: 300; 
+`; 
+
+const BoxStyle = styled(Checkbox)`
+  align-items: center; 
+  justify-content: center; 
+  margin: 0px 10px 3px; 
+`; 
+
+const BoxContainer = styled.View`
+  flex-direction: row; 
+  margin-bottom: 32px;
+  justify-content: center; 
 `; 

@@ -229,7 +229,7 @@ const Firebase = {
   }, 
   
   //For å lage ei helt ny gruppe
-  CreateNewGroup: async (Groupname, groupid, color) => {
+  CreateNewGroup: async (Groupname, groupid, color, Privacy) => {
     try{
 
       //Gå også inn på user id og oppdater groups
@@ -250,7 +250,8 @@ const Firebase = {
         groupname: Groupname, 
         groupID: groupid, 
         color: color, 
-        members: [uid]
+        members: [uid],
+        privacy: Privacy
         //EncodedSVG: encodedData
         //GroupPicture: picture
         });

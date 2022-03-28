@@ -1,0 +1,1 @@
+{"version":3,"sources":["index.tsx"],"names":["Chatty","ChatEmitter","MessageStatus"],"mappings":"AAAA,SAASA,MAAT,QAAuB,UAAvB;AACA,SAASC,WAAT,QAA4B,sBAA5B;AACA,SAASC,aAAT,QAA8B,sBAA9B","sourcesContent":["export { Chatty } from './Chatty';\nexport { ChatEmitter } from './utils/eventEmitter';\nexport { MessageStatus } from './types/Chatty.types';\n"]}

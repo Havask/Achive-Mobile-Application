@@ -55,17 +55,13 @@ export default GroupScreen = ({navigation}) => {
 
         // Hent ut data fra async storage
         const parsedJson = JSON.parse(value)
-        console.log("ParsedJson: ",parsedJson)
         setData(parsedJson); 
 
       }else{
         //henter ut hvilken grupper brukeren tilhører 
         const groups = await firebase.RetriveGroupData(); 
-
         //returnerer et array av json objekter
         const objectArray = await firebase.LoadGroups(groups); 
-        console.log("Group: ", objectArray)
-
         setData(objectArray); 
        
          const jsonValue = JSON.stringify(objectArray)
@@ -73,8 +69,6 @@ export default GroupScreen = ({navigation}) => {
            "groups",
            jsonValue
           );
-    
-
         }
       }catch {
         console.log("Something went wrong @GroupData");
@@ -89,6 +83,10 @@ export default GroupScreen = ({navigation}) => {
     </GroupView>
   );
 
+  const ExploreGroupsHandler = () => {
+
+  }; 
+
   return(
     <Container>
        <Main>
@@ -96,19 +94,19 @@ export default GroupScreen = ({navigation}) => {
               Groups:
          </Text>
         <IconsView>
-          <Notification>
+          <Notification onPress = {ExploreGroupsHandler}>
             <Ionicons 
-                  name={"ios-notifications-outline"} 
-                  size={30} 
+                  name={"ios-compass-outline"} 
+                  size={50} 
                   color={"#88d498"}
             />
           </Notification>
           <Reload onPress={GroupData}>
               <Ionicons 
                 name={"ios-reload"} 
-                size={30} 
+                size={40} 
                 color={"#88d498"}
-                  />
+              />
           </Reload>
         </IconsView>
 
