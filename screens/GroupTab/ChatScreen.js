@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import * as React from "react";
-import { useEffect, useRef, useState} from "react";
+import { useEffect, useRef, useState, useContext, useCallback} from "react";
 import {
   ActivityIndicator,
   Alert,
@@ -17,10 +17,25 @@ import {
   SafeAreaProvider,
 } from "react-native-safe-area-context";
 
-export default function MyReactPage() {
+import {GroupContext} from "../../context/GroupContext";
+import {FirebaseContext} from "../../context/FirebaseContext";
+import {UserContext} from "../../context/UserContext";
+
+/*
+https://snack.expo.dev/@muhammedkpln/react-native-chatty-example
+https://css-tricks.com/building-a-real-time-chat-app-with-react-and-firebase/
+*/ 
+export default ChatScreen = ({navigation}) => {
+
+  const firebase = useContext(FirebaseContext); 
+  const [user, setUser] = useContext(UserContext); 
+  const [group, setGroup] = useContext(GroupContext); 
+
   const listRef = useRef(null);
   const message = useRef();
   const [replying, setReplying] = useState(null);
+
+
   const [messages, setMessages] = useState([
     {
       id: 1,
@@ -75,20 +90,6 @@ export default function MyReactPage() {
 
     const _messages = [];
 
-    for (let index = 0; index < 1001; index++) {
-      _messages.push({
-        id: index * 10,
-        text: "Hello! " +index,
-        me: Math.floor(Math.random() * 2) === 1 ? true : false,
-        createdAt: new Date(),
-        user: {
-          id: index * 10,
-          username: "Jane Doe",
-          avatar: { uri: "https://i.pravatar.cc/300" },
-        }
-      });
-    }
-
     setMessages([...messages, ..._messages]);
 
     return () => {
@@ -107,7 +108,7 @@ export default function MyReactPage() {
             createdAt: dayjs().add(-5, "day").toDate(),
             user: {
               id: 1,
-              username: "John Doe",
+              username: group.groupname,
               avatar: { uri: "https://i.pravatar.cc/300" },
             },
           },
@@ -121,7 +122,7 @@ export default function MyReactPage() {
     });
   };
 
-  const onPressSend = React.useCallback(
+  const onPressSend = useCallback(
     ({ text, repliedTo }) => {
       listRef.current.appendMessage({
         id: messages.length + 1,
@@ -130,7 +131,7 @@ export default function MyReactPage() {
         createdAt: new Date(),
         user: {
           id: messages.length + 1,
-          name: "Jane Doe",
+          name: user.username, 
           avatar: { uri: "https://i.pravatar.cc/300" },
         },
         repliedTo,
@@ -142,18 +143,11 @@ export default function MyReactPage() {
     [messages],
   );
 
-  const onChangeText = React.useCallback((text) => {
-    console.log(text);
+  const onChangeText = useCallback((text) => {
     message.current = text;
     //@ts-ignore
     listRef.current.setIsTyping(text.length > 0);
   }, []);
-
-  const onPressLike = React.useCallback(() => {
-    if (Platform.OS === "web")
-      return alert("Liked a message (Custom logic and view)");
-    Alert.alert("Liked a message (Custom logic and view)");
-  });
 
   if (messages.length < 1) return <ActivityIndicator />;
 
@@ -170,19 +164,6 @@ export default function MyReactPage() {
           }}
           showScrollToBottomButton
           bubbleProps={{
-            trailingAccessory: (
-              <TouchableOpacity onPress={onPressLike}>
-                <Image
-                  style={{
-                    width: 20,
-                    height: 20,
-                  }}
-                  source={{
-                    uri: "https://i.imgur.com/BT8D542.png",
-                  }}
-                />
-              </TouchableOpacity>
-            ),
             replyDragElement: (
               <Image
                 source={{
@@ -209,8 +190,8 @@ export default function MyReactPage() {
           headerProps={{
             user: {
               id: 0,
-              username: "John Doe",
-              avatar: { uri: "https://i.pravatar.cc/300" },
+              username: user.username,
+              avatar:  { uri: user.profilePhotoUrl}
             },
           }}
         />

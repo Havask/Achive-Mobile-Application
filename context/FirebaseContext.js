@@ -44,6 +44,7 @@ const db = getFirestore(app);
 const FirebaseContext = createContext(); 
 const database = getDatabase(app);
 
+
 // DOCS: 
 //https://firebase.google.com/docs
 
@@ -51,7 +52,6 @@ const database = getDatabase(app);
 const Firebase = {
   
   getCurrentUser: () => {
-    
       return auth.currentUser
     },
 
@@ -467,6 +467,41 @@ SendMessage: async (text) => {
     }
   
   }, 
+
+
+  RetrivingMessages: async (text) => {
+  
+    setState({ readError: null });
+    try {
+      database.ref("chats").on("value", snapshot => {
+        let chats = [];
+        snapshot.forEach((snap) => {
+          chats.push(snap.val());
+        });
+        setState({ chats });
+      });
+    } catch (error) {
+      setState({ readError: error.message });
+    }
+  },
+
+
+  SendingMessages: async (text) => {
+  
+    preventDefault();
+    setState({ writeError: null });
+    try {
+      await db.ref("chats").push({
+        content: state.content,
+        timestamp: Date.now(),
+        uid: state.user.uid
+      });
+      setState({ content: '' });
+    } catch (error) {
+      setState({ writeError: error.message });
+    }
+  }
+
 
 }; 
 

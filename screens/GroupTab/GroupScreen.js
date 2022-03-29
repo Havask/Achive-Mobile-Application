@@ -2,11 +2,11 @@ import React, {useState, useContext, useEffect} from "react";
 import {FlatList} from 'react-native';
 import styled from "styled-components/native"; 
 import Text from "../../components/Text.js";
-import {FirebaseContext} from "../../context/FirebaseContext";
-import {UserContext} from "../../context/UserContext";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Ionicons} from "@expo/vector-icons"; 
 import {GroupContext} from "../../context/GroupContext";
+import {FirebaseContext} from "../../context/FirebaseContext";
+import {UserContext} from "../../context/UserContext";
 
 const makeid = length => {
   var result           = '';
@@ -22,11 +22,11 @@ const makeid = length => {
 export default GroupScreen = ({navigation}) => {
   
   const [profilePhoto, setProfilePhoto] = useState(); 
-  const firebase = useContext(FirebaseContext); 
-  const [user, setUser] = useContext(UserContext); 
   const [Groups, setGroups] = useState([]); 
   const [data, setData] = useState([]); 
   
+  const firebase = useContext(FirebaseContext); 
+  const [user, setUser] = useContext(UserContext); 
   const [_, setGroup] = useContext(GroupContext); 
 
   useEffect(() => {
@@ -83,10 +83,6 @@ export default GroupScreen = ({navigation}) => {
     </GroupView>
   );
 
-  const ExploreGroupsHandler = () => {
-
-  }; 
-
   return(
     <Container>
        <Main>
@@ -94,11 +90,12 @@ export default GroupScreen = ({navigation}) => {
               Groups:
          </Text>
         <IconsView>
-          <Notification onPress = {ExploreGroupsHandler}>
+          <Notification onPress={() => navigation.push("Explore")}>
             <Ionicons 
                   name={"ios-compass-outline"} 
                   size={50} 
                   color={"#88d498"}
+                  
             />
           </Notification>
           <Reload onPress={GroupData}>

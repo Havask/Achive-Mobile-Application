@@ -62,11 +62,10 @@ export default LogInScreen = ({navigation}) => {
           console.log("could not find stored email and password")
       }
   };
-  
+
   useEffect(() => {
     Storage(); 
   }, []);
-
 
   const handleLogin = async () => {
 

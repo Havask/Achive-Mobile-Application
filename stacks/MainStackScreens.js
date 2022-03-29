@@ -2,6 +2,7 @@ import React from "react"
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {Ionicons} from "@expo/vector-icons"
 import {GroupProvider} from "../context/GroupContext"
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 
 import {
             GroupScreen, 
@@ -13,7 +14,8 @@ import {
             Scanner,
             Chat,
             AddTask, 
-            Torget
+            Torget,
+            Explore
         
         } from "../screens/GroupTab"
 import {
@@ -34,6 +36,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const GroupStack = createNativeStackNavigator();
     
 function GroupStackScreen() {
+
     return (
         <GroupProvider>
             <GroupStack.Navigator>
@@ -44,9 +47,10 @@ function GroupStackScreen() {
                 <GroupStack.Screen name="Scoreboard" component={Scoreboard} options={{headerShown: false}}/>
                 <GroupStack.Screen name="Scanner" component={Scanner} options={{headerShown: false}}/>
                 <GroupStack.Screen name="joingroup" component={JoinGroup} options={{headerShown: false}}/>
-                <GroupStack.Screen name="Chat" component={Chat} options={{headerShown: false}}/>
                 <GroupStack.Screen name="AddTask" component={AddTask} options={{headerShown: false}}/>
                 <GroupStack.Screen name="Torget" component={Torget} options={{headerShown: false}}/>
+                <GroupStack.Screen name="Explore" component={Explore} options={{headerShown: false}}/>
+                <GroupStack.Screen name="Chat" component={Chat} options={{headerShown: false}}/>
 
             </GroupStack.Navigator>
         </GroupProvider>
@@ -72,7 +76,7 @@ function SettingsStackScreen() {
             <SettingsStack.Screen name="Password" component={NewPassword} options={{headerShown: false}}/>
             <SettingsStack.Screen name="Username" component={NewUsername} options={{headerShown: false}}/>
             <SettingsStack.Screen name="Email" component={NewEmail} options={{headerShown: false}}/>
-            <SettingsStack.Screen name="UsersSetting" component={UserSetting} options={{headerShown: false}}/>
+            <SettingsStack.Screen name="UsersSetting" component={UserSetting} options={{headerShown: false}} tabBarVisible={false} />
 
         </SettingsStack.Navigator>
     );
@@ -81,6 +85,7 @@ function SettingsStackScreen() {
 export default MainStackScreens = () => {
 
     const screenOptions = (({route}) => ({
+        tabBarStyle: { display: "none" }, 
 
         tabBarStyle: {
             backgroundColor: "#88d498", 
@@ -88,7 +93,8 @@ export default MainStackScreens = () => {
             height: 100,
             borderRadius: 30,
         },
-
+        
+        
         tabBarIcon: ({focused}) => {
             let iconName = "ios-home"
             
@@ -114,12 +120,20 @@ export default MainStackScreens = () => {
                 color={focused ? "#ffffff" : "#666666"} 
             />;
         },
-    }))
+    }
+    ))
+    if (route.state.routes[route.state.index].name === "Chat") {
+        navigation.setOptions({ tabBarVisible: false })
+      }
+      else {
+        navigation.setOptions({ tabBarVisible: true })
+      }
     
     const TabStack = createBottomTabNavigator(); 
     
+
     return(
-            <TabStack.Navigator 
+            <TabStack.Navigator     
             screenOptions={screenOptions}
             initialRouteName = "Groups">
                 

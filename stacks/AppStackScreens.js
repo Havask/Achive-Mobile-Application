@@ -1,11 +1,11 @@
-import React, {useState, createContext} from "react"; 
+import React, {useState, useContext, useEffect} from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import {UserContext} from "../context/UserContext"; 
-import { useContext } from "react";
 
 import AuthStackScreens from "./AuthStackScreens"
 import MainStackScreens from "./MainStackScreens";
 import LoadingScreen from "../screens/LoadingScreen"; 
+
 
 import { NavigationContainer } from '@react-navigation/native';
 
