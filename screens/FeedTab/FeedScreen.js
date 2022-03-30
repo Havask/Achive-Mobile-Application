@@ -11,7 +11,7 @@ export default FeedScreen = ({navigation}) => {
   const [profilePhoto, setProfilePhoto] = useState(); 
   const firebase = useContext(FirebaseContext); 
   const [user, setUser] = useContext(UserContext); 
-  const [Feed, setFeed] = useState([]); 
+
   
   const data = [
   {
@@ -80,7 +80,7 @@ export default FeedScreen = ({navigation}) => {
 ]
 
 useEffect(() => {
-  setFeed(RetriveFeed());  
+
 }, []);
 
 //fetch the latest feed for 
@@ -90,47 +90,47 @@ const RetriveFeed = () => {
 };
 
 
-  const renderPost = ({item}) =>(
-    <PostContainer>
+const renderPost = ({item}) =>(
+  <PostContainer>
 
-      <PostHeaderContainer> 
-        <PostProfilePhoto  source={{uri: item.user.profilePhotoUrl}}/>
+    <PostHeaderContainer> 
+      <PostProfilePhoto  source={{uri: item.user.profilePhotoUrl}}/>
 
-        <PostInfoContainer>
-          <Text medium>{item.user.username}</Text>
-          <Text tiny color="#c1c3cc" margin="4px 0 0 0">
-            {item.user.postedAt}
+      <PostInfoContainer>
+        <Text medium>{item.user.username}</Text>
+        <Text tiny color="#c1c3cc" margin="4px 0 0 0">
+          {item.user.postedAt}
+        </Text>
+      </PostInfoContainer>
+
+    <Options>
+      <Entypo name="dots-three-horizontal" size={16} color="#73788b" />
+    </Options>
+
+    </PostHeaderContainer>
+    <Post>
+      <Text>{item.post}</Text>
+      <PostPhoto source={{uri: item.photoUrl}} /> 
+      <PostDetails>
+
+        <PostLikes>
+          <Ionicons name ="ios-arrow-up-circle-outline" size={24} color="#73788b"/>
+          <Text tiny margin="0 0 0 8px">
+            {item.likes}
           </Text>
-        </PostInfoContainer>
+        </PostLikes>
 
-      <Options>
-        <Entypo name="dots-three-horizontal" size={16} color="#73788b" />
-      </Options>
+        <PostComments>
+          <Ionicons name ="ios-chatbox-ellipses-outline" size={24} color="#73788b"/>
+          <Text tiny margin= "0 0 0 8px">
+            {item.comments}
+          </Text>
+        </PostComments>
 
-      </PostHeaderContainer>
-      <Post>
-        <Text>{item.post}</Text>
-        <PostPhoto source={{uri: item.photoUrl}} /> 
-        <PostDetails>
-
-          <PostLikes>
-            <Ionicons name ="ios-arrow-up-circle-outline" size={24} color="#73788b"/>
-            <Text tiny margin="0 0 0 8px">
-              {item.likes}
-            </Text>
-          </PostLikes>
-
-          <PostComments>
-            <Ionicons name ="ios-chatbox-ellipses-outline" size={24} color="#73788b"/>
-            <Text tiny margin= "0 0 0 8px">
-             {item.comments}
-            </Text>
-          </PostComments>
-
-        </PostDetails>
-      </Post>
-    </PostContainer>
-  )
+      </PostDetails>
+    </Post>
+  </PostContainer>
+)
 
   return(
     <Container>

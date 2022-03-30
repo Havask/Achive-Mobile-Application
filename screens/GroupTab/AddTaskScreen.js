@@ -5,7 +5,6 @@ import { KeyboardAvoidingView, ScrollView} from "react-native";
 import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
 import {GroupContext} from "../../context/GroupContext";
-import CheckBox from '@react-native-community/checkbox';
 
 
 export default AddTaskScreen = ({navigation}) => {

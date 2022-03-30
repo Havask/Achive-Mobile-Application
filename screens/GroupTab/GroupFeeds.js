@@ -6,12 +6,12 @@ import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
 import { Timestamp } from "firebase/firestore";
 
-export default GroupFeedsScreen = ({navigation}) => {
+export default GroupFeeds = ({navigation}) => {
 
   const [profilePhoto, setProfilePhoto] = useState(); 
   const firebase = useContext(FirebaseContext); 
   const [user, setUser] = useContext(UserContext); 
-  const [Feed, setFeed] = useState([]); 
+
   
   const data = [
   {
@@ -26,61 +26,9 @@ export default GroupFeedsScreen = ({navigation}) => {
     Upvotes: 21,
     Downvotes: 3
   },
-  {
-    id: "12123324234",
-    user: {
-      username: "Synnøve", 
-      profilePhotoUrl: "https://picsum.photos/96/96"
-    },
-    postedAt: Timestamp,
-    post: "Hei Håvard",
-    PhotoUrl: "https://picsum.photos/200/300",
-    Upvotes: 21,
-    Downvotes: 3
-  },
-
-  {
-    id: "12324123234",
-    user: {
-      username: "Synnøve", 
-      profilePhotoUrl: "https://picsum.photos/96/96"
-    },
-    postedAt: Timestamp,
-    post: "Hei Håvard",
-    PhotoUrl: "https://picsum.photos/200/300",
-    Upvotes: 21,
-    Downvotes: 3
-  },
-
-  {
-    id: "12342324123",
-    user: {
-      username: "Synnøve", 
-      profilePhotoUrl: "https://picsum.photos/96/96"
-    },
-    postedAt: Timestamp,
-    post: "Hei Håvard",
-    PhotoUrl: "https://picsum.photos/200/300",
-    Upvotes: 21,
-    Downvotes: 3
-  },
-
-  {
-    id: "11232234324",
-    user: {
-      username: "Synnøve", 
-      profilePhotoUrl: "https://picsum.photos/96/96"
-    },
-    postedAt: Timestamp,
-    post: "Hei Håvard",
-    PhotoUrl: "https://picsum.photos/500/1000",
-    Upvotes: 21,
-    comments: 3
-  },
 ]
 
 useEffect(() => {
-  setFeed(RetriveFeed());  
 }, []);
 
 //fetch the latest feed for 
@@ -88,7 +36,6 @@ const RetriveFeed = () => {
   
   return firebase.RetriveGroupFeed(); 
 };
-
 
   const renderPost = ({item}) =>(
     <PostContainer>

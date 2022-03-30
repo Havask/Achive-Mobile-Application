@@ -15,7 +15,7 @@ import {
             Chat,
             AddTask, 
             Explore, 
-            GroupFeed,
+            GroupFeeds,
         
         } from "../screens/GroupTab"
 import {
@@ -27,7 +27,7 @@ import {
 
         } from "../screens/settingTab"
 import {
-            Feed, 
+        FeedScreen, 
 
         } from "../screens/FeedTab"
 
@@ -48,9 +48,9 @@ function GroupStackScreen() {
                 <GroupStack.Screen name="Scanner" component={Scanner} options={{headerShown: false}}/>
                 <GroupStack.Screen name="joingroup" component={JoinGroup} options={{headerShown: false}}/>
                 <GroupStack.Screen name="AddTask" component={AddTask} options={{headerShown: false}}/>
-                <GroupStack.Screen name="GroupFeed" component={GroupFeed} options={{headerShown: false}}/>
                 <GroupStack.Screen name="Explore" component={Explore} options={{headerShown: false}}/>
                 <GroupStack.Screen name="Chat" component={Chat} options={{headerShown: false}}/>
+                <GroupStack.Screen name="GroupFeeds" component={GroupFeeds} options={{headerShown: false}}/>
 
             </GroupStack.Navigator>
         </GroupProvider>
@@ -62,7 +62,7 @@ const ProfileStack = createNativeStackNavigator();
 function FeedStackScreen(){
     return (
         <ProfileStack.Navigator>
-            <ProfileStack.Screen name="FeedScreen" component={Feed} options={{headerShown: false}}/>
+            <ProfileStack.Screen name="Feed" component={FeedScreen} options={{headerShown: false}}/>
         </ProfileStack.Navigator>
     );
 }
