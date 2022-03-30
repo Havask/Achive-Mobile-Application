@@ -16,6 +16,7 @@ import {
   initialWindowMetrics,
   SafeAreaProvider,
 } from "react-native-safe-area-context";
+import ContextMenu from "react-native-context-menu-view";
 
 import {GroupContext} from "../../context/GroupContext";
 import {FirebaseContext} from "../../context/FirebaseContext";

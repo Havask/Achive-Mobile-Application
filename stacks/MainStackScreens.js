@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {Ionicons} from "@expo/vector-icons"
 import {GroupProvider} from "../context/GroupContext"
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
+import { FontAwesome } from '@expo/vector-icons'; 
 
 import {
             GroupScreen, 
@@ -27,9 +28,9 @@ import {
 
         } from "../screens/settingTab"
 import {
-            ProfileScreen, 
+            Feed, 
 
-        } from "../screens/profileTab"
+        } from "../screens/FeedTab"
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -59,10 +60,10 @@ function GroupStackScreen() {
 
 const ProfileStack = createNativeStackNavigator();
 
-function ProfileStackScreen(){
+function FeedStackScreen(){
     return (
         <ProfileStack.Navigator>
-            <ProfileStack.Screen name="Profile" component={ProfileScreen} options={{headerShown: false}}/>
+            <ProfileStack.Screen name="FeedScreen" component={FeedScreen} options={{headerShown: false}}/>
         </ProfileStack.Navigator>
     );
 }
@@ -99,8 +100,8 @@ export default MainStackScreens = () => {
             let iconName = "ios-home"
             
             switch(route.name){
-                case "Profiles": 
-                iconName = "ios-person"
+                case "Feed": 
+                iconName = "ios-filter"
                 break; 
                 
                 case "Groups": 
@@ -122,6 +123,7 @@ export default MainStackScreens = () => {
         },
     }
     ))
+    /*
     if (route.state.routes[route.state.index].name === "Chat") {
         navigation.setOptions({ tabBarVisible: false })
       }
@@ -129,8 +131,8 @@ export default MainStackScreens = () => {
         navigation.setOptions({ tabBarVisible: true })
       }
     
+      */
     const TabStack = createBottomTabNavigator(); 
-    
 
     return(
             <TabStack.Navigator     
@@ -138,8 +140,8 @@ export default MainStackScreens = () => {
             initialRouteName = "Groups">
                 
                 <TabStack.Screen 
-                    name="Profiles" 
-                    component={ProfileStackScreen}  
+                    name="Feed" 
+                    component={FeedStackScreen}  
                     options={{headerShown: false}}
                 />
                 <TabStack.Screen 

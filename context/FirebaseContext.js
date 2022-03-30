@@ -214,7 +214,8 @@ const Firebase = {
 
   ClearCache: async () => {
     try{
-
+      //erases all async storage for all clients libaries
+      AsyncStorage.clear();
     } catch {
       console.log("Could not clear cache")
     }
@@ -452,21 +453,21 @@ s
     }
   }, 
 
-SendMessage: async (text) => {
-  
-  const uid = Firebase.getCurrentUser().uid;
+  SendMessage: async (text) => {
+    
+    const uid = Firebase.getCurrentUser().uid;
 
-  try{
-    await setDoc(doc(db, "chats", "snusken"), {
-      id: uid,
-      text, 
-     });
+    try{
+      await setDoc(doc(db, "chats", "snusken"), {
+        id: uid,
+        text, 
+      });
 
-    }catch(error){
-      console.log("Error @SendMessage", error)
-    }
-  
-  }, 
+      }catch(error){
+        console.log("Error @SendMessage", error)
+      }
+    
+    }, 
 
 
   RetrivingMessages: async (text) => {
@@ -485,7 +486,6 @@ SendMessage: async (text) => {
     }
   },
 
-
   SendingMessages: async (text) => {
   
     preventDefault();
@@ -499,6 +499,30 @@ SendMessage: async (text) => {
       setState({ content: '' });
     } catch (error) {
       setState({ writeError: error.message });
+    }
+  }, 
+
+  RetriveFeed: async () => {
+  
+    try {
+      
+      //query for the personal feed 
+// se på alle gruppene og sorter etter antall upvotes
+      const objectList = [];
+      var arrayLength = array.length;
+
+      for (var i = 0; i < arrayLength; i++) {
+        const Snap = await getDoc(doc(db, "groups", array[i]))
+        
+        objectList.push({
+          groupname: Snap.data().groupname, 
+          groupID: Snap.data().groupID, 
+          color: Snap.data().color, 
+          members: Snap.data().members, 
+        })
+      }
+    } catch (error) {
+      console.log("Error @RetriveFeed", error)
     }
   }
 

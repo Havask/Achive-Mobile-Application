@@ -4,9 +4,6 @@ import Text from "../../components/Text.js";
 import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
 import { Alert } from "react-native";
-import AsyncStorageAdapter from '../../context/LocalStorageContext';
-
-const {clearAll} = new AsyncStorageAdapter("@Achive");
 
 export default SettingScreen = ({navigation}) => {
 
@@ -91,15 +88,6 @@ const Main = styled.View`
   margin-bottom: 50px; 
 `;
 
-const GroupContainer = styled.TouchableOpacity`
-  margin: 0 32px; 
-  height: 48px; 
-  align-items: center; 
-  justify-content: center; 
-  background-color: #88d498;
-  border-radius: 6px;
-`;
-
 const SignUp = styled.TouchableOpacity`
   margin: 0 32px; 
   height: 68px; 
@@ -109,19 +97,3 @@ const SignUp = styled.TouchableOpacity`
   border-radius: 6px;
   margin-bottom: 32px;
 `; 
-
-const ProfilePhotoContainer = styled.TouchableOpacity`
-  background-color: #e1e2e6;
-  width: 80px; 
-  height: 80px; 
-  border-radius: 40px; 
-  align-self: center; 
-  margin-top: 16px;
-  overflow: hidden; 
-`; 
-
-const ProfilePhoto = styled.Image`
-  width: 128px;
-  height: 128px; 
-  border-radius: 64px; 
-`;
