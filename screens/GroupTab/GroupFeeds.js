@@ -6,7 +6,7 @@ import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
 import { Timestamp } from "firebase/firestore";
 
-export default FeedScreen = ({navigation}) => {
+export default GroupFeedsScreen = ({navigation}) => {
 
   const [profilePhoto, setProfilePhoto] = useState(); 
   const firebase = useContext(FirebaseContext); 
@@ -86,7 +86,7 @@ useEffect(() => {
 //fetch the latest feed for 
 const RetriveFeed = () => {
   
-  return firebase.RetriveFeed(); 
+  return firebase.RetriveGroupFeed(); 
 };
 
 

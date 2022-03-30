@@ -10,8 +10,8 @@ export { default as JoinGroup } from "./JoinGroupScreen";
 export { default as Scanner } from "./ScannerScreen";
 export { default as Chat} from "./ChatScreen";
 export { default as AddTask} from "./AddTaskScreen"; 
-export { default as Torget} from "./Torget"; 
 export { default as Explore} from "./ExploreScreen"; 
 
 
 
+export { default as GroupFeed} from "./GroupFeeds"; 

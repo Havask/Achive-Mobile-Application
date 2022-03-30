@@ -502,31 +502,90 @@ s
     }
   }, 
 
+  /**
+ * [someFunction description]
+ * @param  {[type]} arg1 [description]
+ * @param  {[type]} arg2 [description]
+ * @return {[type]}      [description]
+ */
   RetriveFeed: async () => {
-  
+
+    const objectList = [];
+
     try {
-      
-      //query for the personal feed 
+      const value = await AsyncStorage.getItem("groups");
+
+      if (value !== null) {
+        const parsedJson = JSON.parse(value)
+
+      //Gjør en query med de gruppene
+      }else{
+        //henter ut hvilken grupper brukeren tilhører 
+        const groups = await firebase.RetriveGroupData(); 
+        //returnerer et array av json objekter
+        const objectArray = await firebase.LoadGroups(groups); 
+
+        const jsonValue = JSON.stringify(objectArray)
+        await AsyncStorage.setItem(
+          "groups",
+          jsonValue
+         );
+
+        //query med de gruppene
+      }
+
 // se på alle gruppene og sorter etter antall upvotes
-      const objectList = [];
+
       var arrayLength = array.length;
 
       for (var i = 0; i < arrayLength; i++) {
         const Snap = await getDoc(doc(db, "groups", array[i]))
         
         objectList.push({
-          groupname: Snap.data().groupname, 
-          groupID: Snap.data().groupID, 
-          color: Snap.data().color, 
-          members: Snap.data().members, 
+          id: Snap.data().id, 
+          user: Snap.data().user, 
+          postedAt: Snap.data().postedAt, 
+          post: Snap.data().post,   
+          PhotoUrl: Snap.data().PhotoUrl, 
+          Upvotes: Snap.data().Upvotes, 
         })
       }
     } catch (error) {
       console.log("Error @RetriveFeed", error)
     }
+  }, 
+
+AddPost: async (id, user, postedAt, post,PhotoUrl,upvotes,downvotes) => {
+    
+  const GroupRef = collection(db, "group");
+  const PostRef = collection(GroupRef, "posts");
+
+  try{
+    await setDoc(doc(db, "groups", "snusken"), {
+      id: id, 
+      user: user, 
+      postedAt: postedAt, 
+      post: post,   
+      PhotoUrl: PhotoUrl, 
+      Upvotes: upvotes, 
+      Downvotes: downvotes
+    });
+
+    }catch(error){
+      console.log("Error @AddPost", error)
+    }
+  }, 
+
+RetriveGroupFeed: async () => {
+
+  try{
+    
+    //Gå inn på groups->posts og retrive en oppdatert versjon av den. 
+    }catch(error){
+      console.log("Error @RetriveGroupFeed", error)
+    }
+  
   }
-
-
 }; 
 
 const FirebaseProvider = (props) => {

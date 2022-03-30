@@ -19,6 +19,8 @@ const firebase = useContext(FirebaseContext);
 const [user, setUser] = useContext(UserContext); 
 const [Group, setGroup] = useContext(GroupContext); 
 //få også inn gruppekonteksten 
+
+
 const makeid = length => {
   var result           = '';
   var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -28,6 +30,16 @@ const makeid = length => {
     charactersLength));
  }
   return result;
+}
+
+const ChangeGroup = ( item ) => {
+  
+  try{
+
+    navigation.push("GroupFeeds"); 
+  }catch(error){
+    alert("Unable to set up groupContext")
+  }
 }
 
 const DATA = [

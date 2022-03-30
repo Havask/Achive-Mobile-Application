@@ -2,8 +2,7 @@ import React from "react"
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {Ionicons} from "@expo/vector-icons"
 import {GroupProvider} from "../context/GroupContext"
-import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
-import { FontAwesome } from '@expo/vector-icons'; 
+
 
 import {
             GroupScreen, 
@@ -15,8 +14,8 @@ import {
             Scanner,
             Chat,
             AddTask, 
-            Torget,
-            Explore
+            Explore, 
+            GroupFeed,
         
         } from "../screens/GroupTab"
 import {
@@ -49,7 +48,7 @@ function GroupStackScreen() {
                 <GroupStack.Screen name="Scanner" component={Scanner} options={{headerShown: false}}/>
                 <GroupStack.Screen name="joingroup" component={JoinGroup} options={{headerShown: false}}/>
                 <GroupStack.Screen name="AddTask" component={AddTask} options={{headerShown: false}}/>
-                <GroupStack.Screen name="Torget" component={Torget} options={{headerShown: false}}/>
+                <GroupStack.Screen name="GroupFeed" component={GroupFeed} options={{headerShown: false}}/>
                 <GroupStack.Screen name="Explore" component={Explore} options={{headerShown: false}}/>
                 <GroupStack.Screen name="Chat" component={Chat} options={{headerShown: false}}/>
 
@@ -63,7 +62,7 @@ const ProfileStack = createNativeStackNavigator();
 function FeedStackScreen(){
     return (
         <ProfileStack.Navigator>
-            <ProfileStack.Screen name="FeedScreen" component={FeedScreen} options={{headerShown: false}}/>
+            <ProfileStack.Screen name="FeedScreen" component={Feed} options={{headerShown: false}}/>
         </ProfileStack.Navigator>
     );
 }
@@ -157,6 +156,4 @@ export default MainStackScreens = () => {
                 />
             </TabStack.Navigator>
     );
-    
-    
 }
