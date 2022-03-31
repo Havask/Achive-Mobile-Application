@@ -6,22 +6,27 @@ import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
 import { Timestamp } from "firebase/firestore";
 
+/* 
+-Kan kun lese å delta på tråder som blir displayet i feeden. 
+-
+
+*/ 
 export default FeedScreen = ({navigation}) => {
 
   const [profilePhoto, setProfilePhoto] = useState(); 
   const firebase = useContext(FirebaseContext); 
   const [user, setUser] = useContext(UserContext); 
-
+  const [post, setPost] = useState([])
   
   const data = [
   {
     id: "1223434",
     user: {
-      username: "Synnøve", 
+      username: "Håvard", 
       profilePhotoUrl: "https://picsum.photos/96/96"
     },
     postedAt: Timestamp,
-    post: "Hei Håvard",
+    post: "Hei There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form",
     photoUrl: "https://picsum.photos/200/300",
     Upvotes: 21,
     Downvotes: 3
@@ -33,8 +38,7 @@ export default FeedScreen = ({navigation}) => {
       profilePhotoUrl: "https://picsum.photos/96/96"
     },
     postedAt: Timestamp,
-    post: "Hei Håvard",
-    PhotoUrl: "https://picsum.photos/200/300",
+    post: " Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. ",
     Upvotes: 21,
     Downvotes: 3
   },
@@ -46,7 +50,7 @@ export default FeedScreen = ({navigation}) => {
       profilePhotoUrl: "https://picsum.photos/96/96"
     },
     postedAt: Timestamp,
-    post: "Hei Håvard",
+    post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris ",
     PhotoUrl: "https://picsum.photos/200/300",
     Upvotes: 21,
     Downvotes: 3
@@ -173,6 +177,7 @@ const PostContainer = styled.View`
   background-color: #ffffff;
   border-radius: 6px; 
   padding: 8px; 
+  height: 250px; 
 `;
 
 const PostHeaderContainer = styled.View`

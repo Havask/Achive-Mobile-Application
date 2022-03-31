@@ -4,15 +4,29 @@ import Text from "../../components/Text.js";
 import {Entypo, Ionicons} from "@expo/vector-icons"; 
 import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
+import {GroupContext} from "../../context/GroupContext";
+import { FontAwesome } from '@expo/vector-icons'
 import { Timestamp } from "firebase/firestore";
 
+const makeid = length => {
+  var result           = '';
+  var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var charactersLength = characters.length;
+  for ( var i = 0; i < length; i++ ) {
+    result += characters.charAt(Math.floor(Math.random() * 
+    charactersLength));
+ }
+  return result;
+}
+
 export default GroupFeeds = ({navigation}) => {
+  const [Group, setGroup] = useContext(GroupContext); 
 
   const [profilePhoto, setProfilePhoto] = useState(); 
   const firebase = useContext(FirebaseContext); 
   const [user, setUser] = useContext(UserContext); 
-
-  
+  const [post, setPost] = useState([])
+  const [setText, setText] = useState("")
   const data = [
   {
     id: "1223434",
@@ -26,15 +40,63 @@ export default GroupFeeds = ({navigation}) => {
     Upvotes: 21,
     Downvotes: 3
   },
+  {
+    id: "12234134",
+    user: {
+      username: "Synnøve", 
+      profilePhotoUrl: "https://picsum.photos/96/96"
+    },
+    postedAt: Timestamp,
+    post: "Hei Håvard",
+    photoUrl: "https://picsum.photos/200/300",
+    Upvotes: 21,
+    Downvotes: 3
+  },
+  {
+    id: "12234341",
+    user: {
+      username: "Synnøve", 
+      profilePhotoUrl: "https://picsum.photos/96/96"
+    },
+    postedAt: Timestamp,
+    post: "Hei Håvard",
+    photoUrl: "https://picsum.photos/200/300",
+    Upvotes: 21,
+    Downvotes: 3
+  },
 ]
 
 useEffect(() => {
+  //RetriveFeed()
 }, []);
 
 //fetch the latest feed for 
 const RetriveFeed = () => {
   
-  return firebase.RetriveGroupFeed(); 
+  firebase.RetriveGroupFeed(); 
+};
+
+//fetch the latest feed for 
+
+//Ha en max lengde på posten. 
+const SendPost = () => {
+
+  const [post, setPost] = useState([
+    {
+      id: makeid(20), 
+      user: {
+        id: firebase.getCurrentUser(),
+        username: user.username, 
+        avatar:{ uri: user.profilePhotoUrl},
+      }, 
+      postedAt: new Date(),
+      post: post,   
+      Upvotes: 0, 
+      Downvotes: 0, 
+      
+    } 
+  ])
+  firebase.AddPost(post)
 };
 
   const renderPost = ({item}) =>(
@@ -82,21 +144,61 @@ const RetriveFeed = () => {
   return(
     <Container>
       <FeedContainer>
-        <Text large light center>
-          Feed
-        </Text>
-
+        <IconsView>
+          <InputContainer
+          placeholder="What is on your mind?"
+          autoCapitalize="none" 
+          autoCompleteType="password" 
+          autocorrect={false} 
+          autoFocus={true} 
+          secureTextEntry={true}
+          value={Text}
+          onChangeText={text => setText()}
+          />
+          
+       
+          <Reload>
+            <FontAwesome 
+              name="pencil-square-o" 
+              size={40} 
+              color="black" 
+            />
+          </Reload>
+        </IconsView>
         <Feed 
           data={data} 
           renderItem={renderPost} 
           keyExtractor={item => item.id.toString()} 
         />
-
       </FeedContainer>
-      <StatusBar barStyle="dark-content" />
-     </Container>
-    );
+    <StatusBar barStyle="dark-content" />
+    </Container>
+  );
 }
+
+const InputContainer = styled.TextInput`
+  width: 70%; 
+  height: 60px;
+  margin: 16px 16px 0 16px; 
+  background-color: #ffffff;
+  border-radius: 6px; 
+  padding: 8px; 
+`;
+
+
+const IconsView = styled.View`
+  flex-direction: row; 
+  
+`;
+
+const Reload = styled.TouchableOpacity`
+  margin-top: 20px; 
+  height: 50px; 
+  width: 50px
+  align-items: center; 
+  justify-content: center; 
+  border-radius: 6px;
+`;
 
 const Container = styled.View`
   flex: 1; 
@@ -167,4 +269,15 @@ const PostComments = styled.View`
 const PostLikes = styled.View`
   flex-direction: row; 
   align-items: center; 
+`; 
+
+const SignUp = styled.TouchableOpacity`
+  margin: 0 150px; 
+  width: 80px; 
+  height: 80px; 
+  align-items: center; 
+  justify-content: center; 
+  background-color: ${props => props.color};
+  border-radius: 50px;
+  margin-bottom: 32px;
 `; 

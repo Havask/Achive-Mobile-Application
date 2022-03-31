@@ -7,16 +7,18 @@ import {UserContext} from "../../context/UserContext";
 import {GroupContext} from "../../context/GroupContext";
 
 
-export default AddTaskScreen = ({navigation}) => {
+export default AddPostScreen = ({navigation}) => {
 
   const firebase = useContext(FirebaseContext); 
   const [_, setUser] = useContext(UserContext); 
   const [Groupname, setGroupName] = useState(""); 
-  const [Task, setTask] = useState([]); 
   const [loading, setLoading] = useState(false); 
   const [Group, setGroup] = useContext(GroupContext); 
+  
+  const [Task, setTask] = useState([]); 
 
-  const AddtaskHandler = (enteredText) =>{
+  
+  const AddPostHandler = (enteredText) =>{
 
   };
 

@@ -45,7 +45,7 @@ const ChangeGroup = ( item ) => {
 const DATA = [
   {
     id: makeid(6),
-    title: "Torget",
+    title: "Posts",
     color: Group.color, 
   },
   {

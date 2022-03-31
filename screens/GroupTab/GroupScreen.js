@@ -41,6 +41,7 @@ export default GroupScreen = ({navigation}) => {
         color:  item.color, 
       })
 
+      //Dette blir også gjort til item.groupthingy ettervært
       navigation.push("Tasks"); 
     }catch(error){
       alert("Unable to set up groupContext")

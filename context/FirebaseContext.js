@@ -509,7 +509,9 @@ s
  * @return {[type]}      [description]
  */
   RetriveFeed: async () => {
-
+/*
+    Last først inn 20 posts og fyll på med posts for performance
+*/
     const objectList = [];
 
     try {
