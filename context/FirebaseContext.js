@@ -531,7 +531,7 @@ s
         await AsyncStorage.setItem(
           "groups",
           jsonValue
-         );
+        );
 
         //query med de gruppene
       }
@@ -557,20 +557,20 @@ s
     }
   }, 
 
-AddPost: async (id, user, postedAt, post,PhotoUrl,upvotes,downvotes) => {
+AddPost: async (post, groupID) => {
     
   const GroupRef = collection(db, "group");
-  const PostRef = collection(GroupRef, "posts");
+  const idRef = collection(GroupRef, groupID);
 
   try{
-    await setDoc(doc(db, "groups", "snusken"), {
-      id: id, 
-      user: user, 
-      postedAt: postedAt, 
-      post: post,   
-      PhotoUrl: PhotoUrl, 
-      Upvotes: upvotes, 
-      Downvotes: downvotes
+    await setDoc(doc(idRef, "posts", post.id), {
+      id: post.id, 
+      user: post.user, 
+      postedAt: post.postedAt, 
+      post: post.post,   
+      PhotoUrl: post.PhotoUrl, 
+      Upvotes: post.upvotes, 
+      Downvotes: post.downvotes
     });
 
     }catch(error){
@@ -581,12 +581,10 @@ AddPost: async (id, user, postedAt, post,PhotoUrl,upvotes,downvotes) => {
 RetriveGroupFeed: async () => {
 
   try{
-    
     //Gå inn på groups->posts og retrive en oppdatert versjon av den. 
     }catch(error){
       console.log("Error @RetriveGroupFeed", error)
     }
-  
   }
 }; 
 

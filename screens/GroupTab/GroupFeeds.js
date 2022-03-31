@@ -20,13 +20,13 @@ const makeid = length => {
 }
 
 export default GroupFeeds = ({navigation}) => {
-  const [Group, setGroup] = useContext(GroupContext); 
 
-  const [profilePhoto, setProfilePhoto] = useState(); 
+  const [Group, setGroup] = useContext(GroupContext); 
   const firebase = useContext(FirebaseContext); 
   const [user, setUser] = useContext(UserContext); 
   const [post, setPost] = useState([])
-  const [setText, setText] = useState("")
+  const [text, setText] = useState("")
+
   const data = [
   {
     id: "1223434",
@@ -79,24 +79,26 @@ const RetriveFeed = () => {
 //fetch the latest feed for 
 
 //Ha en max lengde på posten. 
-const SendPost = () => {
-
-  const [post, setPost] = useState([
-    {
-      id: makeid(20), 
-      user: {
-        id: firebase.getCurrentUser(),
-        username: user.username, 
-        avatar:{ uri: user.profilePhotoUrl},
-      }, 
-      postedAt: new Date(),
-      post: post,   
-      Upvotes: 0, 
-      Downvotes: 0, 
-      
-    } 
-  ])
-  firebase.AddPost(post)
+const SendPost= async () => {
+  try{
+    setPost(
+      {
+        id: makeid(20), 
+        user: {
+          id: firebase.getCurrentUser(),
+          username: user.username, 
+          avatar:{ uri: user.profilePhotoUrl},
+        }, 
+        postedAt: new Date(),
+        post: text,   
+        Upvotes: 0, 
+        Downvotes: 0, 
+      } 
+    )
+    firebase.AddPost(post, Group.groupID)
+  }catch{
+    console.log("Error @SendPost")
+  }
 };
 
   const renderPost = ({item}) =>(
@@ -147,17 +149,12 @@ const SendPost = () => {
         <IconsView>
           <InputContainer
           placeholder="What is on your mind?"
-          autoCapitalize="none" 
-          autoCompleteType="password" 
           autocorrect={false} 
           autoFocus={true} 
-          secureTextEntry={true}
-          value={Text}
+          value={text}
           onChangeText={text => setText()}
           />
-          
-       
-          <Reload>
+          <Reload onPress={SendPost}>
             <FontAwesome 
               name="pencil-square-o" 
               size={40} 
@@ -179,7 +176,7 @@ const SendPost = () => {
 const InputContainer = styled.TextInput`
   width: 70%; 
   height: 60px;
-  margin: 16px 16px 0 16px; 
+  margin: 0px 16px 0 16px; 
   background-color: #ffffff;
   border-radius: 6px; 
   padding: 8px; 
@@ -192,7 +189,7 @@ const IconsView = styled.View`
 `;
 
 const Reload = styled.TouchableOpacity`
-  margin-top: 20px; 
+  margin-top: 5px; 
   height: 50px; 
   width: 50px
   align-items: center; 

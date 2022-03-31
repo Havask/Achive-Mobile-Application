@@ -63,7 +63,7 @@ const DATA = [
 const renderItem = ({ item }) => (
   <GroupView color={item.color} onPress={() => ChangeGroup(item)}>
     <Text bold center color="#ffffff">
-            {item.title}
+        {item.title}
     </Text>
   </GroupView>
 );
@@ -72,7 +72,7 @@ return(
   <Container>
      <Main>
        <Text title semi center color={Group.color}>
-            {Group.groupname}
+          {Group.groupname}
        </Text>
       </Main>
       <IconsView>
@@ -84,19 +84,19 @@ return(
         </Notification>
 
         <Notification onPress={() => navigation.push("Chat")}>
-              <Ionicons 
-                    name={"ios-chatbubbles-outline"} 
-                    size={50} 
-                    color={Group.color}
-              />
+          <Ionicons 
+            name={"ios-chatbubbles-outline"} 
+            size={50} 
+            color={Group.color}
+          />
         </Notification>
       </IconsView>
       <FlatList 
-            data={DATA}
-            renderItem={renderItem}
-            keyExtractor={item => item.id}
+        data={DATA}
+        renderItem={renderItem}
+        keyExtractor={item => item.id}
        /> 
-        <SignUp color={Group.color} onPress={() => navigation.push("AddTask")}>
+        <SignUp color={Group.color} onPress={() => navigation.push(item.title)}>
           <Text title center> 
             <Text title bold color="#ffffff">+</Text>
           </Text>

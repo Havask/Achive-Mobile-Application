@@ -96,7 +96,6 @@ const RetriveFeed = () => {
 
 const renderPost = ({item}) =>(
   <PostContainer>
-
     <PostHeaderContainer> 
       <PostProfilePhoto  source={{uri: item.user.profilePhotoUrl}}/>
 
@@ -142,13 +141,11 @@ const renderPost = ({item}) =>(
         <Text large light center>
           Feed
         </Text>
-
         <Feed 
           data={data} 
           renderItem={renderPost} 
           keyExtractor={item => item.id.toString()} 
         />
-
       </FeedContainer>
       <StatusBar barStyle="dark-content" />
      </Container>

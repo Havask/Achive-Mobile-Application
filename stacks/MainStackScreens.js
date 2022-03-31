@@ -146,7 +146,7 @@ export default MainStackScreens = () => {
                 <TabStack.Screen 
                     name="Groups" 
                     component={GroupStackScreen}     
-                    options={{headerShown: false, tabBarBadge: 3}}
+                    options={{headerShown: false}}
                  
                 />
                 <TabStack.Screen 

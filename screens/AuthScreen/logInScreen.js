@@ -94,91 +94,90 @@ export default LogInScreen = ({navigation}) => {
       } 
     }
     else{
-      console.log("Does not remember, but logs in")
 
-        await firebase.SignInUser(email, password);
-        const uid = await firebase.getCurrentUser().uid; 
-        const userInfo = await firebase.getUserInfo(uid)
-    
-        setUser({
-          username: userInfo.username,
-          email: userInfo.email, 
-          uid, 
-          groups: [], 
-          profilePhotoUrl: userInfo.profilePhotoUrl,
-          isLoggedIn: true, 
-        })
+      await firebase.SignInUser(email, password);
+      const uid = await firebase.getCurrentUser().uid; 
+      const userInfo = await firebase.getUserInfo(uid)
+  
+      setUser({
+        username: userInfo.username,
+        email: userInfo.email, 
+        uid, 
+        groups: [], 
+        profilePhotoUrl: userInfo.profilePhotoUrl,
+        isLoggedIn: true, 
+      })
     }
   };
 
   const toggleSwitch = () => setRememberMe(previousState => !previousState);
 
-    return(
-      <Container>
-          <Main>
-        <ScrollView>
-        <KeyboardAvoidingView>
-            <AchiveLogo source={require("../../logo/logo.png")} />
+  return(
+    <Container>
+        <Main>
+      <ScrollView>
+      <KeyboardAvoidingView>
+          <AchiveLogo source={require("../../logo/logo.png")} />
 
-            <Auth>
-              <AuthContainer>
-                <AuthTitle>Email address</AuthTitle>
-                <AuthField 
-                  autoCapitalize="none" 
-                  autoCompleteType="email" 
-                  autocorrect={false} 
-                  autoFocus={true} 
-                  keyboardType="email-address"
-                  value={email}
-                  onChangeText={email => setEmail(email.trim())}
-                />
-              </AuthContainer>
-
-              <AuthContainer>
-                <AuthTitle>password</AuthTitle>
-                <AuthField 
-                  autoCapitalize="none" 
-                  autoCompleteType="password" 
-                  autocorrect={false} 
-                  autoFocus={true} 
-                  secureTextEntry={true}
-                  value={password}
-                  onChangeText={password => setPassword(password.trim())}
-                />
-              </AuthContainer>
-            </Auth>
-
-          <StayLoggedIn>
-              <Text small> 
-                  Keep me logged in </Text>
-            <SwitchView>
-              <Switch 
-                trackColor={{ false: "#767577", true: "#88d498"}}
-                thumbColor={Isloggedin ? "#88d498" : "#cccccc"}
-                ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleSwitch}
-                value={RememberMe}
+          <Auth>
+            <AuthContainer>
+              <AuthTitle>Email address</AuthTitle>
+              <AuthField 
+                autoCapitalize="none" 
+                autoCompleteType="email" 
+                autocorrect={false} 
+                autoFocus={true} 
+                keyboardType="email-address"
+                value={email}
+                onChangeText={email => setEmail(email.trim())}
               />
-            </SwitchView>
-          </StayLoggedIn>
+            </AuthContainer>
 
-            <SignInContainer onPress={handleLogin} disable={loading}>
-              {loading ? (<Loading/>) : (
-              <Text bold center color="#ffffff">
-                Sign In</Text>
-              )}
-            </SignInContainer>
+            <AuthContainer>
+              <AuthTitle>password</AuthTitle>
+              <AuthField 
+                autoCapitalize="none" 
+                autoCompleteType="password" 
+                autocorrect={false} 
+                autoFocus={true} 
+                secureTextEntry={true}
+                value={password}
+                onChangeText={password => setPassword(password.trim())}
+              />
+            </AuthContainer>
+          </Auth>
 
-            <SignUp onPress={() => navigation.push("SignUpScreen")}>
-              <Text small center> 
-                  New to Achive? <Text bold color="#88d498">Sign Up</Text></Text>
-            </SignUp>
+        <StayLoggedIn>
+            <Text small> 
+                Keep me logged in </Text>
+          <SwitchView>
+            <Switch 
+              trackColor={{ false: "#767577", true: "#88d498"}}
+              thumbColor={Isloggedin ? "#88d498" : "#cccccc"}
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={toggleSwitch}
+              value={RememberMe}
+            />
+          </SwitchView>
+        </StayLoggedIn>
 
-          </KeyboardAvoidingView>
-        </ScrollView>
-          </Main>
-      </Container>
-    );
+          <SignInContainer onPress={handleLogin} disable={loading}>
+            {loading ? (<Loading/>) : (
+            <Text bold center color="#ffffff">
+              Sign In</Text>
+            )}
+          </SignInContainer>
+
+          <SignUp onPress={() => navigation.push("SignUpScreen")}>
+            <Text small center> 
+                New to Achive? <Text bold color="#88d498">Sign Up</Text></Text>
+          </SignUp>
+
+        </KeyboardAvoidingView>
+      </ScrollView>
+        </Main>
+    </Container>
+  );
 }
 
 const AchiveLogo = styled.Image`
@@ -196,7 +195,6 @@ const Container = styled.ScrollView`
 const Main = styled.View`
   margin-top: 150px; 
 `;
-
 
 const Auth = styled.View`
   margin: 50px 32px 32px; 
