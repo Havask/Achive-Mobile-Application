@@ -21,7 +21,7 @@ const makeid = length => {
 
 export default GroupFeeds = ({navigation}) => {
 
-  const [Group, setGroup] = useContext(GroupContext); 
+  const [group, setGroup] = useContext(GroupContext); 
   const firebase = useContext(FirebaseContext); 
   const [user, setUser] = useContext(UserContext); 
   const [post, setPost] = useState([])
@@ -83,7 +83,7 @@ const SendPost= async () => {
   try{
     setPost(
       {
-        id: makeid(20), 
+        id: makeid(10), 
         user: {
           id: firebase.getCurrentUser(),
           username: user.username, 
@@ -95,7 +95,9 @@ const SendPost= async () => {
         Downvotes: 0, 
       } 
     )
-    firebase.AddPost(post, Group.groupID)
+    console.log( group.groupID)
+    console.log( post.id)
+    firebase.AddPost(post, group.groupID)
   }catch{
     console.log("Error @SendPost")
   }

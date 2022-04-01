@@ -559,11 +559,11 @@ s
 
 AddPost: async (post, groupID) => {
     
-  const GroupRef = collection(db, "group");
-  const idRef = collection(GroupRef, groupID);
-
+  const docRef = doc(db, "groups", groupID);
+  console.log("post.id: ", post.id);
+  
   try{
-    await setDoc(doc(idRef, "posts", post.id), {
+    await setDoc(doc(docRef, "posts", post.id), {
       id: post.id, 
       user: post.user, 
       postedAt: post.postedAt, 

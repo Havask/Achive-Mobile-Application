@@ -38,7 +38,10 @@ export default GroupScreen = ({navigation}) => {
     try{
       setGroup({
         groupname: item.groupname, 
+        groupID: item.groupID, 
         color:  item.color, 
+        members: item.members, 
+        profilePhotoUrl: item.profilePhoto,
       })
 
       //Dette blir også gjort til item.groupthingy ettervært
