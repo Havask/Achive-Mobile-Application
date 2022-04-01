@@ -42,7 +42,6 @@ export default FeedScreen = ({navigation}) => {
     Upvotes: 21,
     Downvotes: 3
   },
-
   {
     id: "12324123234",
     user: {
@@ -55,7 +54,6 @@ export default FeedScreen = ({navigation}) => {
     Upvotes: 21,
     Downvotes: 3
   },
-
   {
     id: "12342324123",
     user: {
@@ -68,7 +66,6 @@ export default FeedScreen = ({navigation}) => {
     Upvotes: 21,
     Downvotes: 3
   },
-
   {
     id: "11232234324",
     user: {
@@ -84,7 +81,7 @@ export default FeedScreen = ({navigation}) => {
 ]
 
 useEffect(() => {
-
+  
 }, []);
 
 //fetch the latest feed for 
