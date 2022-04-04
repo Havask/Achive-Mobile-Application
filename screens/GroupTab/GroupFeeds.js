@@ -8,16 +8,7 @@ import {GroupContext} from "../../context/GroupContext";
 import { FontAwesome } from '@expo/vector-icons'
 import { Timestamp } from "firebase/firestore";
 
-const makeid = length => {
-  var result           = '';
-  var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  var charactersLength = characters.length;
-  for ( var i = 0; i < length; i++ ) {
-    result += characters.charAt(Math.floor(Math.random() * 
-    charactersLength));
- }
-  return result;
-}
+
 
 export default GroupFeeds = ({navigation}) => {
 
@@ -76,30 +67,43 @@ const RetriveFeed = () => {
   firebase.RetriveGroupFeed(); 
 };
 
+const makeid = length => {
+  var result           = '';
+  var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var charactersLength = characters.length;
+  for ( var i = 0; i < length; i++ ) {
+    result += characters.charAt(Math.floor(Math.random() * 
+    charactersLength));
+ }
+  return result;
+}
+
 //fetch the latest feed for 
 
+const sett = async () => {
+  setPost(
+    {
+      id: makeid(10), 
+      user: {
+        uid: user.uid,
+        username: user.username, 
+      }, 
+      avatar:{uri: user.profilePhotoUrl},
+      postedAt: new Date(),
+      post: text,   
+      Upvotes: 0, 
+      Downvotes: 0, 
+    }); 
+}
+
 //Ha en max lengde på posten. 
-const SendPost= async () => {
+const SendPost = async () => {
+
+  await sett(); 
   try{
-    setPost(
-      {
-        id: makeid(10), 
-        user: {
-          id: firebase.getCurrentUser(),
-          username: user.username, 
-          avatar:{ uri: user.profilePhotoUrl},
-        }, 
-        postedAt: new Date(),
-        post: text,   
-        Upvotes: 0, 
-        Downvotes: 0, 
-      } 
-    )
-    console.log( group.groupID)
-    console.log( post.id)
-    firebase.AddPost(post, group.groupID)
-  }catch{
-    console.log("Error @SendPost")
+    await firebase.AddPost(post, group.groupID)
+  }catch(error){
+    console.log("Error @SendPost", error)
   }
 };
 
@@ -154,7 +158,7 @@ const SendPost= async () => {
           autocorrect={false} 
           autoFocus={true} 
           value={text}
-          onChangeText={text => setText()}
+          onChangeText={text => setText(text)}
           />
           <Reload onPress={SendPost}>
             <FontAwesome 

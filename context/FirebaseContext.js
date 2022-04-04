@@ -502,81 +502,75 @@ s
     }
   }, 
 
-  /**
- * [someFunction description]
- * @param  {[type]} arg1 [description]
- * @param  {[type]} arg2 [description]
- * @return {[type]}      [description]
- */
   RetriveFeed: async () => {
-/*
-    Last først inn 20 posts og fyll på med posts for performance
-*/
+
     const objectList = [];
 
     try {
-      const value = await AsyncStorage.getItem("groups");
 
-      if (value !== null) {
-        const parsedJson = JSON.parse(value)
+      const groups = RetriveGroupsStorage(); 
+      console.log(groups)
 
-      //Gjør en query med de gruppene
-      }else{
-        //henter ut hvilken grupper brukeren tilhører 
-        const groups = await firebase.RetriveGroupData(); 
-        //returnerer et array av json objekter
-        const objectArray = await firebase.LoadGroups(groups); 
+      var arrayLength = groups.length;
 
-        const jsonValue = JSON.stringify(objectArray)
-        await AsyncStorage.setItem(
-          "groups",
-          jsonValue
-        );
+      //Lag en dobbel for loop 
+      for(var i = 0; i < arrayLength; i++){
 
-        //query med de gruppene
+        const docRef = doc(db, "groups", groups[i].groupID); 
+
+        for (var i = 0; i < 10; i++) {
+          const Snap = await getDoc(doc(docRef, "posts", array[i]))
+          
+            objectList.push({
+            id: Snap.data().id, 
+            user: Snap.data().user, 
+            postedAt: Snap.data().postedAt, 
+            post: Snap.data().post,   
+            PhotoUrl: Snap.data().PhotoUrl, 
+            Upvotes: Snap.data().Upvotes, 
+          })
+        }
       }
 
-// se på alle gruppene og sorter etter antall upvotes
+      //sorterer arrayet med gruppene.
+      SortGroupFeed(objectList); 
 
-      var arrayLength = array.length;
-
-      for (var i = 0; i < arrayLength; i++) {
-        const Snap = await getDoc(doc(db, "groups", array[i]))
-        
-        objectList.push({
-          id: Snap.data().id, 
-          user: Snap.data().user, 
-          postedAt: Snap.data().postedAt, 
-          post: Snap.data().post,   
-          PhotoUrl: Snap.data().PhotoUrl, 
-          Upvotes: Snap.data().Upvotes, 
-        })
-      }
     } catch (error) {
       console.log("Error @RetriveFeed", error)
     }
   }, 
 
 AddPost: async (post, groupID) => {
-    
-  const docRef = doc(db, "groups", groupID);
-  console.log("post.id: ", post.id);
   
+  const docRef = doc(db, "groups", groupID); 
+
   try{
     await setDoc(doc(docRef, "posts", post.id), {
       id: post.id, 
       user: post.user, 
+      avatar: post.avatar, 
       postedAt: post.postedAt, 
       post: post.post,   
-      PhotoUrl: post.PhotoUrl, 
-      Upvotes: post.upvotes, 
-      Downvotes: post.downvotes
+      Upvotes: post.Upvotes, 
+      Downvotes: post.Downvotes
     });
 
     }catch(error){
       console.log("Error @AddPost", error)
     }
   }, 
+
+UpdatePost: async (post, groupID) => {
+  
+  const docRef = doc(db, "groups", groupID); 
+  const postRef = doc(docRef, "", "")
+
+  try{
+    updateDoc(postRef, post)
+  }catch{
+    console.log("Error @UpdatePost")
+  }
+}, 
 
 RetriveGroupFeed: async () => {
 
@@ -585,8 +579,63 @@ RetriveGroupFeed: async () => {
     }catch(error){
       console.log("Error @RetriveGroupFeed", error)
     }
+  }, 
+
+
+RetriveGroupsStorage: async () => {
+
+  try {
+
+    const value = await AsyncStorage.getItem("groups");
+
+    if (value !== null) {
+      const parsedJson = JSON.parse(value)
+      return parsedJson; 
+
+    }else{
+      //henter ut hvilken grupper brukeren tilhører 
+      const groups = await firebase.RetriveGroupData(); 
+      //returnerer et array av json objekter
+      const objectArray = await firebase.LoadGroups(groups); 
+
+      const jsonValue = JSON.stringify(objectArray)
+      await AsyncStorage.setItem(
+        "groups",
+        jsonValue
+      );
+      return objectArray; 
+    }
+  } catch (error) {
+    console.log("Error @RetriveGroupsStorage", error)
   }
+},
+
+SortGroupFeed: async (posts, sortsettings) => {
+
+  try{
+    /*sorter postene etter 
+    -Upvotes 
+    -nylige 
+    -
+
+    */
+   if(sortsettings === "recent"){
+    //sjekker 
+
+   }
+   if(sortsettings === "upvotes"){
+
+    
+  }
+
+    
+    }catch(error){
+      console.log("Error @SortGroupFeed", error)
+    }
+  }, 
+  
 }; 
+
 
 const FirebaseProvider = (props) => {
     return <FirebaseContext.Provider value={Firebase}>{props.children}</FirebaseContext.Provider>; 
