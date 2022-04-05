@@ -166,7 +166,6 @@ const InputContainer = styled.TextInput`
   padding: 8px; 
 `;
 
-
 const IconsView = styled.View`
   flex-direction: row; 
   
