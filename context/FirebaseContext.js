@@ -502,40 +502,36 @@ s
     }
   }, 
 
-  RetriveFeed: async () => {
+  RetriveFeed: async (SortSettings) => {
 
     const objectList = [];
 
     try {
 
-      const groups = RetriveGroupsStorage(); 
-      console.log(groups)
+      const groups = await Firebase.RetriveGroupsStorage(); 
+      console.log(groups); 
 
-      var arrayLength = groups.length;
+      const q = query(citiesRef, orderBy("name"), limit(3));
+      const querySnapshot = await getDocs(q);
 
-      //Lag en dobbel for loop 
-      for(var i = 0; i < arrayLength; i++){
+      querySnapshot.forEach((doc) => {
+        
+          objectList.push({
+          id: doc.data().id, 
+          user: doc.data().user, 
+          avatar: doc.data().avatar, 
+          postedAt: doc.data().postedAt, 
+          post: doc.data().post,   
+          Upvotes: doc.data().Upvotes, 
+          Downvotes: doc.data().Downvotes, 
+      })
+    })
+  
+      const SortedFeed = SortGroupFeed(objectList, SortSettings); 
 
-        const docRef = doc(db, "groups", groups[i].groupID); 
+      return SortedFeed; 
 
-        for (var i = 0; i < 10; i++) {
-          const Snap = await getDoc(doc(docRef, "posts", array[i]))
-          
-            objectList.push({
-            id: Snap.data().id, 
-            user: Snap.data().user, 
-            postedAt: Snap.data().postedAt, 
-            post: Snap.data().post,   
-            PhotoUrl: Snap.data().PhotoUrl, 
-            Upvotes: Snap.data().Upvotes, 
-          })
-        }
-      }
-
-      //sorterer arrayet med gruppene.
-      SortGroupFeed(objectList); 
-
-    } catch (error) {
+    }catch (error) {
       console.log("Error @RetriveFeed", error)
     }
   }, 
@@ -572,14 +568,6 @@ UpdatePost: async (post, groupID) => {
   }
 }, 
 
-RetriveGroupFeed: async () => {
-
-  try{
-    //Gå inn på groups->posts og retrive en oppdatert versjon av den. 
-    }catch(error){
-      console.log("Error @RetriveGroupFeed", error)
-    }
-  }, 
 
 
 RetriveGroupsStorage: async () => {
