@@ -93,9 +93,7 @@ export default GroupScreen = ({navigation}) => {
   return(
     <Container>
        <Main>
-         <Text title bold center color="#88d498">
-              Groups:
-         </Text>
+        
           <IconsView>
           <ProfilePhotoContainer onPress={() => navigation.push("DrawerScreen")}>
             <ProfilePhoto 

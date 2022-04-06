@@ -40,11 +40,11 @@ const Drawer = createDrawerNavigator();
 
 function DrawerScreen() {
     return (
-        <Drawer.Navigator>
-           
-            <GroupStack.Screen name="CreateGroup" component={GroupScreen} />
-  
-        </Drawer.Navigator>
+       
+            <Drawer.Navigator>
+                <Drawer.Screen name="Hei" options={{headerShown: false}}/>
+            </Drawer.Navigator>
+    
     );
   }
 
@@ -163,7 +163,7 @@ export default MainStackScreens = () => {
                 />
                 <TabStack.Screen 
                     name="Groups" 
-                    component={GroupStackScreen}     
+                    component={DrawerScreen}     
                     options={{headerShown: false}}
                  
                 />
