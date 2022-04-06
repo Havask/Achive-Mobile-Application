@@ -505,31 +505,49 @@ s
   RetriveFeed: async (SortSettings) => {
 
     const objectList = [];
+    const GroupArray = [];
 
     try {
 
       const groups = await Firebase.RetriveGroupsStorage(); 
+      
       console.log(groups); 
-
-      const q = query(citiesRef, orderBy("name"), limit(3));
-      const querySnapshot = await getDocs(q);
-
-      querySnapshot.forEach((doc) => {
-        
-          objectList.push({
-          id: doc.data().id, 
-          user: doc.data().user, 
-          avatar: doc.data().avatar, 
-          postedAt: doc.data().postedAt, 
-          post: doc.data().post,   
-          Upvotes: doc.data().Upvotes, 
-          Downvotes: doc.data().Downvotes, 
+      groups.forEach((doc) => {
+        GroupArray.push({
+          groupname: doc.groupID, 
+        })
       })
-    })
+
+      console.log(GroupArray); 
+      console.log("asd",GroupArray[1].groupID); 
+
+      for (let i = 0; i < GroupArray.length; i++) {
+
+        const docRef = doc(db, "groups", GroupArray[i].groupID); 
+        const collectionRef = collection(docRef, "posts"); 
   
+        const q = query(collectionRef, orderBy("id"), limit(3));
+        const querySnapshot = await getDocs(q);
+  
+        querySnapshot.forEach((doc) => {
+          
+            objectList.push({
+            id: doc.data().id, 
+            user: doc.data().user, 
+            avatar: doc.data().avatar, 
+            postedAt: doc.data().postedAt, 
+            post: doc.data().post,   
+            Upvotes: doc.data().Upvotes, 
+            Downvotes: doc.data().Downvotes, 
+        })
+      })
+
+      }
+      
+      return objectList; 
+
       const SortedFeed = SortGroupFeed(objectList, SortSettings); 
 
-      return SortedFeed; 
 
     }catch (error) {
       console.log("Error @RetriveFeed", error)

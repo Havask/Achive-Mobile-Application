@@ -2,6 +2,8 @@ import React from "react"
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {Ionicons} from "@expo/vector-icons"
 import {GroupProvider} from "../context/GroupContext"
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { NavigationContainer } from '@react-navigation/native';
 
 
 import {
@@ -33,6 +35,19 @@ import {
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+
+const Drawer = createDrawerNavigator();
+
+function DrawerScreen() {
+    return (
+        <Drawer.Navigator>
+           
+            <GroupStack.Screen name="CreateGroup" component={GroupScreen} />
+  
+        </Drawer.Navigator>
+    );
+  }
+
 const GroupStack = createNativeStackNavigator();
     
 function GroupStackScreen() {
@@ -51,7 +66,8 @@ function GroupStackScreen() {
                 <GroupStack.Screen name="Explore" component={Explore} options={{headerShown: false}}/>
                 <GroupStack.Screen name="Chat" component={Chat} options={{headerShown: false}}/>
                 <GroupStack.Screen name="GroupFeeds" component={GroupFeeds} options={{headerShown: false}}/>
-
+                <GroupStack.Screen name="DrawerScreen" component={DrawerScreen} options={{ headerShown: false }} />
+        
             </GroupStack.Navigator>
         </GroupProvider>
     );
@@ -82,16 +98,18 @@ function SettingsStackScreen() {
     );
 }
 
+
+
 export default MainStackScreens = () => {
 
     const screenOptions = (({route}) => ({
         tabBarStyle: { display: "none" }, 
 
         tabBarStyle: {
-            backgroundColor: "#88d498", 
-            paddingBottom: 25,
-            height: 100,
-            borderRadius: 30,
+            backgroundColor: "#FFFFFF", 
+            paddingBottom: 20,
+            height: 80,
+     
         },
         
         
@@ -116,8 +134,8 @@ export default MainStackScreens = () => {
             }
             return <Ionicons 
                 name={iconName} 
-                size={40} 
-                color={focused ? "#ffffff" : "#666666"} 
+                size={30} 
+                color={focused ? "#191919" : "#666666"} 
             />;
         },
     }
@@ -157,3 +175,4 @@ export default MainStackScreens = () => {
             </TabStack.Navigator>
     );
 }
+

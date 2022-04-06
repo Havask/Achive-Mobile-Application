@@ -8,8 +8,10 @@ import {GroupContext} from "../../context/GroupContext";
 import { FontAwesome } from '@expo/vector-icons'
 import { Timestamp } from "firebase/firestore";
 
+import * as Haptics from 'expo-haptics';
+
 import {
-  RefreshControl
+  RefreshControl, Vibration
 } from 'react-native';
 
 /*
@@ -25,7 +27,46 @@ export default GroupFeeds = ({navigation}) => {
   const [text, setText] = useState("")
   const [feed, setfeed] = useState([]); 
   const [sortsetting, setsortsetting] = useState("recent"); 
+  const [refreshing, setRefreshing] = useState(false);
 
+  const data = [
+    {
+      id: "1223434",
+      user: {
+        username: "Synnøve", 
+        profilePhotoUrl: "https://picsum.photos/96/96"
+      },
+      postedAt: Timestamp,
+      post: "Hei Håvard",
+      photoUrl: "https://picsum.photos/200/300",
+      Upvotes: 21,
+      Downvotes: 3
+    },
+    {
+      id: "12234134",
+      user: {
+        username: "Synnøve", 
+        profilePhotoUrl: "https://picsum.photos/96/96"
+      },
+      postedAt: Timestamp,
+      post: "Hei Håvard",
+      photoUrl: "https://picsum.photos/200/300",
+      Upvotes: 21,
+      Downvotes: 3
+    },
+    {
+      id: "12234341",
+      user: {
+        username: "Synnøve", 
+        profilePhotoUrl: "https://picsum.photos/96/96"
+      },
+      postedAt: Timestamp,
+      post: "Hei Håvard",
+      photoUrl: "https://picsum.photos/200/300",
+      Upvotes: 21,
+      Downvotes: 3
+    },
+  ]
 useEffect(() => {
   RetriveFeed(); 
 }, []);
@@ -33,7 +74,7 @@ useEffect(() => {
 //fetch the latest feed for 
 const RetriveFeed = async () => {
   try{
-
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
     const RetrivedFeed = await firebase.RetriveFeed(sortsetting); 
     console.log(RetrivedFeed); 
 
@@ -146,7 +187,7 @@ const SendPost = async () => {
           </Reload>
         </IconsView>
         <Feed 
-          data={feed} 
+          data={data} 
           renderItem={renderPost} 
           keyExtractor={item => item.id.toString()} 
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={RetriveFeed} />}

@@ -8,6 +8,10 @@ import {GroupContext} from "../../context/GroupContext";
 import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
 
+/*
+groups can have events
+
+*/
 const makeid = length => {
   var result           = '';
   var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -24,7 +28,6 @@ export default GroupScreen = ({navigation}) => {
   const [profilePhoto, setProfilePhoto] = useState(); 
   const [Groups, setGroups] = useState([]); 
   const [data, setData] = useState([]); 
-  
   const firebase = useContext(FirebaseContext); 
   const [user, setUser] = useContext(UserContext); 
   const [_, setGroup] = useContext(GroupContext); 
@@ -93,48 +96,38 @@ export default GroupScreen = ({navigation}) => {
          <Text title bold center color="#88d498">
               Groups:
          </Text>
-        <IconsView>
-          <Notification onPress={() => navigation.push("Explore")}>
-            <Ionicons 
-                  name={"ios-compass-outline"} 
-                  size={50} 
-                  color={"#88d498"}
-                  
+          <IconsView>
+          <ProfilePhotoContainer onPress={() => navigation.push("DrawerScreen")}>
+            <ProfilePhoto 
+              source={user.profilePhotoUrl == "default"
+                      ? require("../../assets/logo.png")
+                      : { uri: user.profilePhotoUrl}
+              }
             />
-          </Notification>
-          <Reload onPress={GroupData}>
+          </ProfilePhotoContainer>
+            <Notification onPress={() => navigation.push("Explore")}>
               <Ionicons 
-                name={"ios-reload"} 
-                size={40} 
-                color={"#88d498"}
+                    name={"ios-compass-outline"} 
+                    size={50} 
+                    color={"#88d498"}
+                    
               />
-          </Reload>
-        </IconsView>
-
+            </Notification>
+          </IconsView>
         </Main>
-
-        <ProfilePhotoContainer>
-          <ProfilePhoto 
-            source={user.profilePhotoUrl == "default"
-                    ? require("../../assets/logo.png")
-                    : { uri: user.profilePhotoUrl}
-            }
-          />
-        </ProfilePhotoContainer>
           
         <Create>
-        <CreateContainer onPress={() => navigation.push("CreateGroup")}>
-          <Text bold center color="#ffffff">
-              Create
-          </Text>
-        </CreateContainer>
+          <CreateContainer onPress={() => navigation.push("CreateGroup")}>
+            <Text bold center color="#ffffff">
+                Create
+            </Text>
+          </CreateContainer>
 
-        <CreateContainer onPress={() => navigation.push("joingroup")}>
-          <Text bold center color="#ffffff">
-              Join
-          </Text>
-        </CreateContainer>
-
+          <CreateContainer onPress={() => navigation.push("joingroup")}>
+            <Text bold center color="#ffffff">
+                Join
+            </Text>
+          </CreateContainer>
         </Create>
     
        <FlatList 
@@ -162,10 +155,10 @@ const IconsView = styled.View`
   
 `;
 
-const ProfilePhotoContainer = styled.View`
+const ProfilePhotoContainer = styled.TouchableOpacity`
   background-color: #e1e2e6;
-  width: 100px; 
-  height: 100px; 
+  width: 50px; 
+  height: 50px; 
   border-radius: 48px; 
   align-self: center; 
   overflow: hidden; 
@@ -173,8 +166,8 @@ const ProfilePhotoContainer = styled.View`
 `; 
 
 const ProfilePhoto = styled.Image`
-  width: 100px;
-  height: 100px; 
+  width: 50px;
+  height: 50px; 
   border-radius: 64px; 
 `;
 
@@ -197,7 +190,7 @@ const Create = styled.View`
 `;
 
 const Notification = styled.TouchableOpacity`
-  margin: 0px 210px 0px 0px; 
+  margin: 0px 0px 0px 190px; 
   height: 50px; 
   width: 50px
   align-items: center; 
