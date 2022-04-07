@@ -98,7 +98,7 @@ export default GroupScreen = ({navigation}) => {
        <Main>
         
           <IconsView>
-          <ProfilePhotoContainer onPress={() => navigation.push("DrawerScreen")}>
+          <ProfilePhotoContainer onPress={() => navigation.push("drawer")}>
             <ProfilePhoto 
               source={user.profilePhotoUrl == "default"
                       ? require("../../assets/logo.png")

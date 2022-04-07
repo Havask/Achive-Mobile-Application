@@ -539,15 +539,13 @@ s
             post: doc.data().post,   
             Upvotes: doc.data().Upvotes, 
             Downvotes: doc.data().Downvotes, 
+          })
         })
-      })
-
       }
       
       return objectList; 
 
       const SortedFeed = SortGroupFeed(objectList, SortSettings); 
-
 
     }catch (error) {
       console.log("Error @RetriveFeed", error)

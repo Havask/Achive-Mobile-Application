@@ -4,8 +4,7 @@ import {Ionicons} from "@expo/vector-icons"
 import {GroupProvider} from "../context/GroupContext"
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
-
-
+import SideBar from "./CustomDrawerContent"
 import {
             GroupScreen, 
             CreateGroupScreen, 
@@ -173,20 +172,23 @@ function BottomTabsNavigator() {
 
 export default MainStackScreens = () => {
 
+      
+    const DrawerOptions = {
 
-    /*
-    if (route.state.routes[route.state.index].name === "Chat") {
-        navigation.setOptions({ tabBarVisible: false })
-      }
-      else {
-        navigation.setOptions({ tabBarVisible: true })
-      }
-    
-    */
+    drawerStyle: {
+        width: 240,
+        },
+    };
+
     const Drawer = createDrawerNavigator();
+
     return(
-        <Drawer.Navigator>
-            <Drawer.Screen name="Achive" component={BottomTabsNavigator} />
+        <Drawer.Navigator
+            drawerContent={(props) => <SideBar{...props} />}
+        >
+
+            <Drawer.Screen name="Achive" component={BottomTabsNavigator}/>
+            <Drawer.Screen name="Settings" component={SettingsStackScreen}/>
         </Drawer.Navigator>
     );
 }

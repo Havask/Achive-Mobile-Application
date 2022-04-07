@@ -71,7 +71,6 @@ useEffect(() => {
   RetriveFeed(); 
 }, []);
 
-//fetch the latest feed for 
 const RetriveFeed = async () => {
   try{
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
@@ -95,8 +94,6 @@ const makeid = length => {
  }
   return result;
 }
-
-//fetch the latest feed for 
 
 const sett = async () => {
   setPost(
@@ -177,6 +174,7 @@ const SendPost = async () => {
           autoFocus={true} 
           value={text}
           onChangeText={text => setText(text)}
+          showSoftInputOnFocus={false}
           />
           <Reload onPress={SendPost}>
             <FontAwesome 
