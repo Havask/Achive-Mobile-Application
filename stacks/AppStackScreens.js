@@ -15,6 +15,9 @@ export default AppStackScreen = () => {
     const AppStack = createStackNavigator()
     const [user] = useContext(UserContext);
 
+    //fetch the isLoggedIn from persistent storage check if it is true
+  
+
     return(
 
             <AppStack.Navigator header="none">

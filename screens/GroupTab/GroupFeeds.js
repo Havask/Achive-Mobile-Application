@@ -200,7 +200,7 @@ const SendPost = async () => {
 
 const InputContainer = styled.TextInput`
   width: 70%; 
-  height: 60px;
+  height: 40px;
   margin: 0px 16px 0 16px; 
   background-color: #ffffff;
   border-radius: 6px; 
@@ -213,9 +213,9 @@ const IconsView = styled.View`
 `;
 
 const Reload = styled.TouchableOpacity`
-  margin-top: 5px; 
-  height: 50px; 
-  width: 50px
+  margin-bottom: 10px; 
+  height: 40px; 
+  width: 50px;
   align-items: center; 
   justify-content: center; 
   border-radius: 6px;
@@ -224,7 +224,7 @@ const Reload = styled.TouchableOpacity`
 const Container = styled.View`
   flex: 1; 
   background-color: #ebecf3;
-  padding-top: 64px; 
+  padding-top: 15px; 
 `;
 
 const FeedContainer = styled.View`

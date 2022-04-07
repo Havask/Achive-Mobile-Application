@@ -107,6 +107,7 @@ export default LogInScreen = ({navigation}) => {
         profilePhotoUrl: userInfo.profilePhotoUrl,
         isLoggedIn: true, 
       })
+      
     }
   };
 

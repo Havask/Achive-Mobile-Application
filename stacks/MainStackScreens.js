@@ -42,9 +42,8 @@ function DrawerScreen() {
     return (
        
             <Drawer.Navigator>
-                <Drawer.Screen name="Hei" options={{headerShown: false}}/>
+               
             </Drawer.Navigator>
-    
     );
   }
 
@@ -63,7 +62,6 @@ function GroupStackScreen() {
                 <GroupStack.Screen name="Scanner" component={Scanner} options={{headerShown: false}}/>
                 <GroupStack.Screen name="joingroup" component={JoinGroup} options={{headerShown: false}}/>
                 <GroupStack.Screen name="AddTask" component={AddTask} options={{headerShown: false}}/>
-                <GroupStack.Screen name="Explore" component={Explore} options={{headerShown: false}}/>
                 <GroupStack.Screen name="Chat" component={Chat} options={{headerShown: false}}/>
                 <GroupStack.Screen name="GroupFeeds" component={GroupFeeds} options={{headerShown: false}}/>
                 <GroupStack.Screen name="DrawerScreen" component={DrawerScreen} options={{ headerShown: false }} />
@@ -98,9 +96,16 @@ function SettingsStackScreen() {
     );
 }
 
+function ExploringTab() {
+    return (
+        <SettingsStack.Navigator>
+            <GroupStack.Screen name="Explore" component={Explore} options={{headerShown: false}}/>
+        </SettingsStack.Navigator>
+    );
+}
 
-
-export default MainStackScreens = () => {
+const TabStack = createBottomTabNavigator(); 
+function BottomTabsNavigator() {
 
     const screenOptions = (({route}) => ({
         tabBarStyle: { display: "none" }, 
@@ -125,8 +130,8 @@ export default MainStackScreens = () => {
                 iconName = "ios-people-sharp"
                 break; 
                 
-                case "Setting": 
-                iconName = "ios-settings"
+                case "Explore": 
+                iconName = "ios-compass-outline"
                 break; 
                 
                 default: 
@@ -139,7 +144,36 @@ export default MainStackScreens = () => {
             />;
         },
     }
-    ))
+))
+    
+    return (
+        <TabStack.Navigator     
+        screenOptions={screenOptions}
+        initialRouteName = "Groups">
+            
+            <TabStack.Screen 
+                name="Feed" 
+                component={FeedStackScreen}  
+                options={{headerShown: false}}
+            />
+            <TabStack.Screen 
+                name="Groups" 
+                component={GroupStackScreen}     
+                options={{headerShown: false}}
+             
+            />
+            <TabStack.Screen 
+                name="Explore" 
+                component={ExploringTab} 
+                options={{headerShown: false}}
+            />
+        </TabStack.Navigator>
+    )
+  }
+
+export default MainStackScreens = () => {
+
+
     /*
     if (route.state.routes[route.state.index].name === "Chat") {
         navigation.setOptions({ tabBarVisible: false })
@@ -148,31 +182,14 @@ export default MainStackScreens = () => {
         navigation.setOptions({ tabBarVisible: true })
       }
     
-      */
-    const TabStack = createBottomTabNavigator(); 
-
+    */
+    const Drawer = createDrawerNavigator();
     return(
-            <TabStack.Navigator     
-            screenOptions={screenOptions}
-            initialRouteName = "Groups">
-                
-                <TabStack.Screen 
-                    name="Feed" 
-                    component={FeedStackScreen}  
-                    options={{headerShown: false}}
-                />
-                <TabStack.Screen 
-                    name="Groups" 
-                    component={DrawerScreen}     
-                    options={{headerShown: false}}
-                 
-                />
-                <TabStack.Screen 
-                    name="Setting" 
-                    component={SettingsStackScreen} 
-                    options={{headerShown: false}}
-                />
-            </TabStack.Navigator>
+        <Drawer.Navigator>
+            <Drawer.Screen name="Achive" component={BottomTabsNavigator} />
+        </Drawer.Navigator>
     );
 }
+
+
 

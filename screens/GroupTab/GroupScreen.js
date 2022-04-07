@@ -8,6 +8,9 @@ import {GroupContext} from "../../context/GroupContext";
 import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
 
+import {
+  RefreshControl, Vibration
+} from 'react-native';
 /*
 groups can have events
 
@@ -132,6 +135,7 @@ export default GroupScreen = ({navigation}) => {
             data={data}
             renderItem={renderItem}
             keyExtractor={item => item.groupID}
+            refreshControl={<RefreshControl />}
        /> 
      </Container>
     );
@@ -143,7 +147,7 @@ const Container = styled.View`
 
 
 const Main = styled.View`
-  margin-top: 80px; 
+  margin-top: 30px; 
   align-items: center; 
   justify-content: center; 
 `;
@@ -211,7 +215,7 @@ const GroupView = styled.TouchableOpacity`
   justify-content: center; 
   background-color: ${props => props.color};
   border-radius: 6px;
-  margin-bottom: 32px;
+  margin-bottom: 16px;
 `;
 
 

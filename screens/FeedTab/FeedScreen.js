@@ -4,7 +4,15 @@ import Text from "../../components/Text.js";
 import {Entypo, Ionicons} from "@expo/vector-icons"; 
 import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
+import {GroupContext} from "../../context/GroupContext";
+import { FontAwesome } from '@expo/vector-icons'
 import { Timestamp } from "firebase/firestore";
+
+import * as Haptics from 'expo-haptics';
+
+import {
+  RefreshControl, Vibration
+} from 'react-native';
 
 /* 
 -Kan kun lese å delta på tråder som blir displayet i feeden. 
@@ -13,146 +21,172 @@ import { Timestamp } from "firebase/firestore";
 */ 
 export default FeedScreen = ({navigation}) => {
 
-  const [profilePhoto, setProfilePhoto] = useState(); 
+  const [group, setGroup] = useContext(GroupContext); 
   const firebase = useContext(FirebaseContext); 
   const [user, setUser] = useContext(UserContext); 
   const [post, setPost] = useState([])
-  
-  const data = [
-  {
-    id: "1223434",
-    user: {
-      username: "Håvard", 
-      profilePhotoUrl: "https://picsum.photos/96/96"
-    },
-    postedAt: Timestamp,
-    post: "Hei There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form",
-    photoUrl: "https://picsum.photos/200/300",
-    Upvotes: 21,
-    Downvotes: 3
-  },
-  {
-    id: "12123324234",
-    user: {
-      username: "Synnøve", 
-      profilePhotoUrl: "https://picsum.photos/96/96"
-    },
-    postedAt: Timestamp,
-    post: " Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. ",
-    Upvotes: 21,
-    Downvotes: 3
-  },
-  {
-    id: "12324123234",
-    user: {
-      username: "Synnøve", 
-      profilePhotoUrl: "https://picsum.photos/96/96"
-    },
-    postedAt: Timestamp,
-    post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris ",
-    PhotoUrl: "https://picsum.photos/200/300",
-    Upvotes: 21,
-    Downvotes: 3
-  },
-  {
-    id: "12342324123",
-    user: {
-      username: "Synnøve", 
-      profilePhotoUrl: "https://picsum.photos/96/96"
-    },
-    postedAt: Timestamp,
-    post: "Hei Håvard",
-    PhotoUrl: "https://picsum.photos/200/300",
-    Upvotes: 21,
-    Downvotes: 3
-  },
-  {
-    id: "11232234324",
-    user: {
-      username: "Synnøve", 
-      profilePhotoUrl: "https://picsum.photos/96/96"
-    },
-    postedAt: Timestamp,
-    post: "Hei Håvard",
-    PhotoUrl: "https://picsum.photos/500/1000",
-    Upvotes: 21,
-    comments: 3
-  },
-]
+  const [text, setText] = useState("")
+  const [feed, setfeed] = useState([]); 
+  const [sortsetting, setsortsetting] = useState("recent"); 
+  const [refreshing, setRefreshing] = useState(false);
 
+  const data = [
+    {
+      id: "1223434",
+      user: {
+        username: "Synnøve", 
+        profilePhotoUrl: "https://picsum.photos/96/96"
+      },
+      postedAt: Timestamp,
+      post: "Hei Håvard",
+      photoUrl: "https://picsum.photos/200/300",
+      Upvotes: 21,
+      Downvotes: 3
+    },
+    {
+      id: "12234134",
+      user: {
+        username: "Synnøve", 
+        profilePhotoUrl: "https://picsum.photos/96/96"
+      },
+      postedAt: Timestamp,
+      post: "Hei Håvard",
+      photoUrl: "https://picsum.photos/200/300",
+      Upvotes: 21,
+      Downvotes: 3
+    },
+    {
+      id: "12234341",
+      user: {
+        username: "Synnøve", 
+        profilePhotoUrl: "https://picsum.photos/96/96"
+      },
+      postedAt: Timestamp,
+      post: "Hei Håvard",
+      photoUrl: "https://picsum.photos/200/300",
+      Upvotes: 21,
+      Downvotes: 3
+    },
+  ]
 useEffect(() => {
-  
+  RetriveFeed(); 
 }, []);
 
 //fetch the latest feed for 
-const RetriveFeed = () => {
-  
-  return firebase.RetriveFeed(); 
+const RetriveFeed = async () => {
+  try{
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
+    const RetrivedFeed = await firebase.RetriveFeed(sortsetting); 
+    console.log(RetrivedFeed); 
+
+    setfeed(RetrivedFeed); 
+
+  }catch {
+    console.log("Something went wrong @RetriveFeed"); 
+  }
 };
 
+const makeid = length => {
+  var result           = '';
+  var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var charactersLength = characters.length;
+  for ( var i = 0; i < length; i++ ) {
+    result += characters.charAt(Math.floor(Math.random() * 
+    charactersLength));
+ }
+  return result;
+}
 
-const renderPost = ({item}) =>(
-  <PostContainer>
-    <PostHeaderContainer> 
-      <PostProfilePhoto  source={{uri: item.user.profilePhotoUrl}}/>
+//fetch the latest feed for 
 
-      <PostInfoContainer>
-        <Text medium>{item.user.username}</Text>
-        <Text tiny color="#c1c3cc" margin="4px 0 0 0">
-          {item.user.postedAt}
-        </Text>
-      </PostInfoContainer>
+const sett = async () => {
+  setPost(
+    {
+      id: makeid(10), 
+      user: {
+        uid: user.uid,
+        username: user.username, 
+      }, 
+      avatar:{uri: user.profilePhotoUrl},
+      postedAt: new Date(),
+      post: text,   
+      Upvotes: 0, 
+      Downvotes: 0, 
+    }); 
+}
 
-    <Options>
-      <Entypo name="dots-three-horizontal" size={16} color="#73788b" />
-    </Options>
+//Ha en max lengde på posten. 
+const SendPost = async () => {
 
-    </PostHeaderContainer>
-    <Post>
-      <Text>{item.post}</Text>
-      <PostPhoto source={{uri: item.photoUrl}} /> 
-      <PostDetails>
+  await sett(); 
+  try{
+    await firebase.AddPost(post, group.groupID)
+  }catch(error){
+    console.log("Error @SendPost", error)
+  }
+};
 
-        <PostLikes>
-          <Ionicons name ="ios-arrow-up-circle-outline" size={24} color="#73788b"/>
-          <Text tiny margin="0 0 0 8px">
-            {item.likes}
+  const renderPost = ({item}) =>(
+    <PostContainer>
+
+      <PostHeaderContainer> 
+        <PostProfilePhoto  source={{uri: item.user.profilePhotoUrl}}/>
+
+        <PostInfoContainer>
+          <Text medium>{item.user.username}</Text>
+          <Text tiny color="#c1c3cc" margin="4px 0 0 0">
+            {item.user.postedAt}
           </Text>
-        </PostLikes>
+        </PostInfoContainer>
 
-        <PostComments>
-          <Ionicons name ="ios-chatbox-ellipses-outline" size={24} color="#73788b"/>
-          <Text tiny margin= "0 0 0 8px">
-            {item.comments}
-          </Text>
-        </PostComments>
+      <Options>
+        <Entypo name="dots-three-horizontal" size={16} color="#73788b" />
+      </Options>
 
-      </PostDetails>
-    </Post>
-  </PostContainer>
-)
+      </PostHeaderContainer>
+      <Post>
+        <Text>{item.post}</Text>
+        <PostPhoto source={{uri: item.photoUrl}} /> 
+        <PostDetails>
+
+          <PostLikes>
+            <Ionicons name ="ios-arrow-up-circle-outline" size={24} color="#73788b"/>
+            <Text tiny margin="0 0 0 8px">
+              {item.likes}
+            </Text>
+          </PostLikes>
+
+          <PostComments>
+            <Ionicons name ="ios-chatbox-ellipses-outline" size={24} color="#73788b"/>
+            <Text tiny margin= "0 0 0 8px">
+             {item.comments}
+            </Text>
+          </PostComments>
+
+        </PostDetails>
+      </Post>
+    </PostContainer>
+  )
 
   return(
     <Container>
       <FeedContainer>
-        <Text large light center>
-          Feed
-        </Text>
         <Feed 
           data={data} 
           renderItem={renderPost} 
           keyExtractor={item => item.id.toString()} 
+          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={RetriveFeed} />}
         />
       </FeedContainer>
-      <StatusBar barStyle="dark-content" />
-     </Container>
-    );
+    <StatusBar barStyle="dark-content" />
+    </Container>
+  );
 }
 
 const Container = styled.View`
   flex: 1; 
   background-color: #ebecf3;
-  padding-top: 64px; 
+  padding-top: 15px; 
 `;
 
 const FeedContainer = styled.View`
@@ -171,12 +205,10 @@ const PostContainer = styled.View`
   background-color: #ffffff;
   border-radius: 6px; 
   padding: 8px; 
-  height: 250px; 
 `;
 
 const PostHeaderContainer = styled.View`
   flex-direction: row; 
-  margin-bottom: 16px; 
   align-items: center; 
 `;
 
@@ -209,6 +241,7 @@ const Options = styled.View`
 const Post = styled.View`
   margin-left: 64px; 
 `; 
+
 const PostComments = styled.View`
   flex-direction: row; 
   align-items: center; 
@@ -220,3 +253,4 @@ const PostLikes = styled.View`
   flex-direction: row; 
   align-items: center; 
 `; 
+

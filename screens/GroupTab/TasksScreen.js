@@ -7,10 +7,15 @@ import {UserContext} from "../../context/UserContext";
 import {GroupContext} from "../../context/GroupContext";
 import {Ionicons} from "@expo/vector-icons"; 
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+import {
+  RefreshControl, Vibration
+} from 'react-native';
 
 /* 
 Lag en egen knapp for QR koden. La de enkelt screene og dele den 
 -Lag sånn at man kan legge til de tingan man ønske fra pluss knappen
+
+Lag egne drawers for gruppene med scoreboard, chats osv.
 */
 
 export default TasksScreen = ({navigation}) => {
@@ -95,6 +100,7 @@ return(
         data={DATA}
         renderItem={renderItem}
         keyExtractor={item => item.id}
+        refreshControl={<RefreshControl />}
        /> 
         <SignUp color={Group.color} onPress={() => navigation.push(item.title)}>
           <Text title center> 
@@ -110,7 +116,7 @@ const Container = styled.View`
 `;
 
 const Main = styled.View`
-margin-top: 80px; 
+margin-top: 30px; 
 margin-bottom: 50px; 
 `;
 
@@ -130,13 +136,13 @@ const IconsView = styled.View`
 
 const GroupView = styled.TouchableOpacity`
 
-  margin: 0 32px; 
+margin: 0 32px; 
   height: 68px; 
   align-items: center; 
   justify-content: center; 
   background-color: ${props => props.color};
   border-radius: 6px;
-  margin-bottom: 32px;
+  margin-bottom: 16px;
 `;
 
 const SignUp = styled.TouchableOpacity`
