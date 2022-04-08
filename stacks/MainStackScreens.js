@@ -162,7 +162,7 @@ function BottomTabsNavigator() {
              
             />
             <TabStack.Screen 
-                name="Explore" 
+                name="Explorer" 
                 component={ExploringTab} 
                 options={{headerShown: false}}
             />
@@ -187,7 +187,7 @@ export default MainStackScreens = () => {
             drawerContent={(props) => <SideBar{...props} />}
         >
 
-            <Drawer.Screen name="Achive" component={BottomTabsNavigator}/>
+            <Drawer.Screen name="Home" component={BottomTabsNavigator}/>
             <Drawer.Screen name="Settings" component={SettingsStackScreen}/>
         </Drawer.Navigator>
     );

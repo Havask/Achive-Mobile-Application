@@ -6,7 +6,7 @@ import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
 import {Switch} from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import * as SecureStore from 'expo-secure-store';
 
 //https://hilalyldz.medium.com/keep-user-logged-in-with-asyncstorage-and-authenticatication-on-expo-and-firebase-4617b206e481
 
@@ -15,7 +15,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export default LogInScreen = ({navigation}) => {
 
   const firebase = useContext(FirebaseContext); 
-  const [_, setUser] = useContext(UserContext); 
+  const [User, setUser] = useContext(UserContext); 
 
   const [email, setEmail] = useState(""); 
   const [password, setPassword] = useState(""); 
@@ -57,6 +57,9 @@ export default LogInScreen = ({navigation}) => {
             profilePhotoUrl: userInfo.profilePhotoUrl,
             isLoggedIn: true, 
           })
+
+          const jsonValue = JSON.stringify(User)
+          await SecureStore.setItemAsync("User", jsonValue);
         }
         }catch{
           console.log("could not find stored email and password")
@@ -80,6 +83,7 @@ export default LogInScreen = ({navigation}) => {
           
           const uid = await firebase.getCurrentUser().uid; 
           const userInfo = await firebase.getUserInfo(uid)
+
           setUser({
             username: userInfo.username,
             email: userInfo.email, 
@@ -88,6 +92,12 @@ export default LogInScreen = ({navigation}) => {
             profilePhotoUrl: userInfo.profilePhotoUrl,
             isLoggedIn: true, 
           })
+
+          const jsonValue = JSON.stringify(User)
+          await SecureStore.setItemAsync("User", jsonValue);
+
+          //sett user
+
         }catch{
           ButtonAlert(); 
         }

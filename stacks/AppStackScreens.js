@@ -1,33 +1,33 @@
 import React, {useState, useContext, useEffect} from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import {UserContext} from "../context/UserContext"; 
-
+import {FirebaseContext} from "../context/FirebaseContext";
 import AuthStackScreens from "./AuthStackScreens"
 import MainStackScreens from "./MainStackScreens";
 import LoadingScreen from "../screens/LoadingScreen"; 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
+import * as SecureStore from 'expo-secure-store';
 import { NavigationContainer } from '@react-navigation/native';
 
 
 export default AppStackScreen = () => {
 
     const AppStack = createStackNavigator()
-    const [user] = useContext(UserContext);
+    const [User, setUser] = useContext(UserContext); 
+    const firebase = useContext(FirebaseContext); 
 
-    //fetch the isLoggedIn from persistent storage check if it is true
-  
 
     return(
 
             <AppStack.Navigator header="none">
-                {user.isLoggedIn === true? (
+                {User.isLoggedIn === true? (
                     <AppStack.Screen 
                         name= "Main" 
                         component={MainStackScreens} 
                         options={{headerShown: false}}
                     />
-                ) : user.isLoggedIn === null ? (
+                ) : User.isLoggedIn === null ? (
                     <AppStack.Screen 
                         name = "Auth" 
                         component={AuthStackScreens} 
