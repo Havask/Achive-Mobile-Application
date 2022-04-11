@@ -10,48 +10,50 @@ import * as SecureStore from 'expo-secure-store';
 export default LoadingScreen = () => {
 
     const firebase = useContext(FirebaseContext); 
-    const [_, setUser] = useContext(UserContext); 
+    const [User, setUser] = useContext(UserContext); 
 
     useEffect(() => {
         setTimeout(async () => {
 
             try{
                 const value = await SecureStore.getItemAsync("User");
-                console.log(value)
+                console.log("Item from secure storage:",value)
+
                 if (value !== null) {
             
                     const parsedJson = JSON.parse(value)
-                    console.log(parsedJson)
+                    console.log("parsedJson",parsedJson)
                     setUser({
                         username: parsedJson.username,
                         email: parsedJson.email, 
-                        groups: [], 
+                        uid: parsedJson.uid,
+                        groups: parsedJson.groups, 
                         profilePhotoUrl: parsedJson.profilePhotoUrl,
-                        isLoggedIn: true, 
+                        isLoggedIn: parsedJson.isLoggedIn, 
                     })
-                    console.log(_)
-                    return; 
+                    console.log(User)
+                    SecureStore.deleteItemAsync("User")
                 }else{
-                    const user = firebase.getCurrentUser()
-                    if(user){
-                        const userInfo = await firebase.getCurrentUser(user.uid)
+
+                    const uid = await firebase.getCurrentUser().uid; 
+                    const userInfo = await firebase.getUserInfo(uid)
         
                         setUser({
-                            isLoggedIn: true, 
-                            email: userInfo.email, 
-                            uid: user.uid, 
                             username: userInfo.username,
-                            profilePhotoUrl: userInfo.profilePhotoUrl
+                            email: userInfo.email, 
+                            uid, 
+                            groups: [], 
+                            profilePhotoUrl: userInfo.profilePhotoUrl,
+                            isLoggedIn: userInfo.isLoggedIn, 
                         })
+
                         console.log("saving to storage")
-                        const jsonValue = JSON.stringify(_)
+                        const jsonValue = JSON.stringify(User)
                         await SecureStore.setItemAsync("User", jsonValue);
-                    } else {
-                        setUser((state) => ({ ...state, isLoggedIn: false})); 
-                    }
                 }
             }catch(error){
                 console.log("Error @uploadProfilePhoto", error)
+                setUser((state) => ({ ...state, isLoggedIn: false})); 
             }
         }, 500)
     }, [])

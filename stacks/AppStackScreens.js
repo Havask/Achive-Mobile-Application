@@ -5,17 +5,14 @@ import {FirebaseContext} from "../context/FirebaseContext";
 import AuthStackScreens from "./AuthStackScreens"
 import MainStackScreens from "./MainStackScreens";
 import LoadingScreen from "../screens/LoadingScreen"; 
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import * as SecureStore from 'expo-secure-store';
-import { NavigationContainer } from '@react-navigation/native';
 
 
 export default AppStackScreen = () => {
 
     const AppStack = createStackNavigator()
     const [User, setUser] = useContext(UserContext); 
-    const firebase = useContext(FirebaseContext); 
+
 
 
     return(
@@ -27,7 +24,7 @@ export default AppStackScreen = () => {
                         component={MainStackScreens} 
                         options={{headerShown: false}}
                     />
-                ) : User.isLoggedIn === null ? (
+                ) : User.isLoggedIn === false ? (
                     <AppStack.Screen 
                         name = "Auth" 
                         component={AuthStackScreens} 

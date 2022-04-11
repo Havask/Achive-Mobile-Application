@@ -96,8 +96,6 @@ export default LogInScreen = ({navigation}) => {
           const jsonValue = JSON.stringify(User)
           await SecureStore.setItemAsync("User", jsonValue);
 
-          //sett user
-
         }catch{
           ButtonAlert(); 
         }
@@ -141,6 +139,7 @@ export default LogInScreen = ({navigation}) => {
                 keyboardType="email-address"
                 value={email}
                 onChangeText={email => setEmail(email.trim())}
+                showSoftInputOnFocus={false}
               />
             </AuthContainer>
 
@@ -154,6 +153,7 @@ export default LogInScreen = ({navigation}) => {
                 secureTextEntry={true}
                 value={password}
                 onChangeText={password => setPassword(password.trim())}
+                showSoftInputOnFocus={false}
               />
             </AuthContainer>
           </Auth>
