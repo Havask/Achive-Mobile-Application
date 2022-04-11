@@ -113,7 +113,6 @@ function BottomTabsNavigator() {
             backgroundColor: "#FFFFFF", 
             paddingBottom: 20,
             height: 80,
-     
         },
         
         
@@ -121,7 +120,7 @@ function BottomTabsNavigator() {
             let iconName = "ios-home"
             
             switch(route.name){
-                case "Feed": 
+                case "Feeds": 
                 iconName = "ios-filter"
                 break; 
                 
@@ -129,7 +128,7 @@ function BottomTabsNavigator() {
                 iconName = "ios-people-sharp"
                 break; 
                 
-                case "Explore": 
+                case "Explorer": 
                 iconName = "ios-compass-outline"
                 break; 
                 
@@ -151,7 +150,7 @@ function BottomTabsNavigator() {
         initialRouteName = "Groups">
             
             <TabStack.Screen 
-                name="Feed" 
+                name="Feeds" 
                 component={FeedStackScreen}  
                 options={{headerShown: false}}
             />
@@ -187,7 +186,7 @@ export default MainStackScreens = () => {
             drawerContent={(props) => <SideBar{...props} />}
         >
 
-            <Drawer.Screen name="Home" component={BottomTabsNavigator}/>
+            <Drawer.Screen name="Achive" component={BottomTabsNavigator}/>
             <Drawer.Screen name="Settings" component={SettingsStackScreen}/>
         </Drawer.Navigator>
     );

@@ -69,8 +69,21 @@ export default FeedScreen = ({navigation}) => {
     },
   ]
 useEffect(() => {
-  RetriveFeed(); 
+  FirstRefresh(); 
 }, []);
+
+
+const FirstRefresh = async () => {
+  try{
+    const RetrivedFeed = await firebase.RetriveFeed(sortsetting); 
+    console.log(RetrivedFeed); 
+
+    setfeed(RetrivedFeed); 
+
+  }catch {
+    console.log("Something went wrong @RetriveFeed"); 
+  }
+};
 
 //fetch the latest feed for 
 const RetriveFeed = async () => {

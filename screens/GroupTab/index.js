@@ -7,5 +7,5 @@ export { default as JoinGroup } from "./JoinGroupScreen";
 export { default as Scanner } from "./ScannerScreen";
 export { default as Chat} from "./ChatScreen";
 export { default as AddTask} from "./AddTaskScreen"; 
-export { default as Explore} from "./ExploreScreen"; 
+export { default as Explore} from "../Explorer/ExploreScreen"; 
 export { default as GroupFeeds} from "./GroupFeeds"; 
