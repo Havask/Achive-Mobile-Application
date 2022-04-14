@@ -3,10 +3,10 @@ import styled from "styled-components/native"
 
 
 export default TextStyle = ({...props}) => {
-    return <Text {...props}>{props.children}</Text>
+    return <Text1 {...props}>{props.children}</Text1>
 }
 
-const Text = styled.Text`
+const Text1 = styled.Text`
 
     color: ${props => props.color ?? "#414959"};
     margin: ${props => props.margin ?? 0}; 

@@ -13,8 +13,6 @@ export default AppStackScreen = () => {
     const AppStack = createStackNavigator()
     const [User, setUser] = useContext(UserContext); 
 
-
-
     return(
 
             <AppStack.Navigator header="none">

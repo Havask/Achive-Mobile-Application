@@ -21,8 +21,9 @@ export default LogInScreen = ({navigation}) => {
   const [password, setPassword] = useState(""); 
   const [loading, setLoading] = useState(false); 
 
-  const [Isloggedin, setIsloggedin] = useState(false); 
+  const [Isloggedin, setIsloggedin] = useState(""); 
   const [RememberMe, setRememberMe] = useState(true);  
+
 
   const ButtonAlert = () =>
     Alert.alert(
@@ -49,7 +50,7 @@ export default LogInScreen = ({navigation}) => {
           const uid =  await firebase.getCurrentUser().uid; 
           const userInfo = await firebase.getUserInfo(uid)
       
-          setUser({
+          await setUser({
             username: userInfo.username,
             email: userInfo.email, 
             uid, 
@@ -57,9 +58,6 @@ export default LogInScreen = ({navigation}) => {
             profilePhotoUrl: userInfo.profilePhotoUrl,
             isLoggedIn: true, 
           })
-
-          const jsonValue = JSON.stringify(User)
-          await SecureStore.setItemAsync("User", jsonValue);
         }
         }catch{
           console.log("could not find stored email and password")
@@ -87,14 +85,11 @@ export default LogInScreen = ({navigation}) => {
           setUser({
             username: userInfo.username,
             email: userInfo.email, 
-            uid, 
+            uid: uid, 
             groups: [], 
             profilePhotoUrl: userInfo.profilePhotoUrl,
             isLoggedIn: true, 
           })
-
-          const jsonValue = JSON.stringify(User)
-          await SecureStore.setItemAsync("User", jsonValue);
 
         }catch{
           ButtonAlert(); 
@@ -110,10 +105,10 @@ export default LogInScreen = ({navigation}) => {
       setUser({
         username: userInfo.username,
         email: userInfo.email, 
-        uid, 
+        uid: uid, 
         groups: [], 
         profilePhotoUrl: userInfo.profilePhotoUrl,
-        isLoggedIn: true, 
+        isLoggedIn: false, 
       })
       
     }

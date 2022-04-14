@@ -1,12 +1,16 @@
 import React, {useState, useContext, useEffect} from "react";
 import {FlatList} from 'react-native';
 import styled from "styled-components/native"; 
-import Text from "../../components/Text.js";
+import Text1 from "../../components/Text.js";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Ionicons} from "@expo/vector-icons"; 
 import {GroupContext} from "../../context/GroupContext";
 import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
+import * as SecureStore from 'expo-secure-store';
+
+import { NativeBaseProvider, Box, Text, Pressable, Heading, IconButton, Icon, HStack, Avatar, VStack, Spacer, Center } from "native-base";
+
 
 import {
   RefreshControl, Vibration
@@ -36,6 +40,10 @@ export default GroupScreen = ({navigation}) => {
   const [_, setGroup] = useContext(GroupContext); 
 
   useEffect(() => {
+    
+    const jsonValue = JSON.stringify(user)
+    SecureStore.setItemAsync("User", jsonValue);
+
     GroupData();  
   }, []);
 
@@ -87,11 +95,36 @@ export default GroupScreen = ({navigation}) => {
 
   const renderItem = ({ item }) => (
     <GroupView color={item.color} onPress={() => ChangeGroup(item)}>
-      <Text bold center color="#ffffff">
+      <Text1 bold center color="#ffffff">
               {item.groupname}
-      </Text>
+      </Text1>
     </GroupView>
   );
+
+  const renderItem1 = ({
+    item,
+    index
+  }) => <Box>
+      <Pressable onPress={() => console.log("You touched me")} _dark={{
+      bg: "coolGray.800"
+    }} _light={{
+      bg: "white"
+    }}>
+        <Box pl="4" pr="5" py="2">
+          <HStack alignItems="center" space={3}>
+            <VStack>
+              <Text color="coolGray.800" _dark={{
+              color: "warmGray.50"
+            }} bold>
+                {item.groupname}
+              </Text>
+            </VStack>
+            <Spacer />
+          </HStack>
+        </Box>
+      </Pressable>
+    </Box>;
+
 
   return(
     <Container>
@@ -119,21 +152,21 @@ export default GroupScreen = ({navigation}) => {
           
         <Create>
           <CreateContainer onPress={() => navigation.push("CreateGroup")}>
-            <Text bold center color="#ffffff">
+            <Text1 bold center color="#ffffff">
                 Create
-            </Text>
+            </Text1>
           </CreateContainer>
 
           <CreateContainer onPress={() => navigation.push("joingroup")}>
-            <Text bold center color="#ffffff">
+            <Text1 bold center color="#ffffff">
                 Join
-            </Text>
+            </Text1>
           </CreateContainer>
         </Create>
     
        <FlatList 
             data={data}
-            renderItem={renderItem}
+            renderItem={renderItem1}
             keyExtractor={item => item.groupID}
             refreshControl={<RefreshControl />}
        /> 
