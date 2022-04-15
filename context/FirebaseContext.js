@@ -637,6 +637,39 @@ SortGroupFeed: async (posts, sortsettings) => {
       console.log("Error @SortGroupFeed", error)
     }
   }, 
+
+  ExplorationFeed: async () => {
+
+  try{
+    /*
+    -Foreslå grupper som e relevant for brukeren
+    -Fetch grupper som 
+    -Trenger GroupID og GrouppeBilde
+    -Trenger flere metrics for hvodan gruppe den er 
+    -Fetch Grupper som ligner p
+    -Lag en profil på brukeren av appen. Hvordan grupper liker personen
+
+    -Query etter 20 offentlige grupper
+    -
+    */
+
+    const objectList = [];
+
+    const q = query(collectionRef, orderBy("id"), limit(3));
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach((doc) => {
+          
+      objectList.push({
+      id: doc.data().id, 
+    })
+  })
+    return objectList; 
+    
+    }catch(error){
+      console.log("Error @ExplorationFeed", error)
+    }
+  }, 
   
 }; 
 
