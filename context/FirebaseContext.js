@@ -33,6 +33,7 @@ import config from "../config/Firebase"
 import {signInWithEmailAndPassword, 
         createUserWithEmailAndPassword
         } from "firebase/auth"; 
+import * as SecureStore from 'expo-secure-store';
 
 import { getDatabase } from "firebase/database";
 
@@ -164,7 +165,7 @@ const Firebase = {
   SignOutUser: async () => {
     try{
 
-      await SecureStore.removeItemAsync("User");
+      await SecureStore.deleteItemAsync("User");
     
       await signOut(auth);
       return true; 

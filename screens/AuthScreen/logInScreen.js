@@ -23,7 +23,7 @@ export default LogInScreen = ({navigation}) => {
 
   const [Isloggedin, setIsloggedin] = useState(""); 
   const [RememberMe, setRememberMe] = useState(true);  
-  const [UserState, setUserState] = useState();
+  const [State, setState] = useState({});
 
   const ButtonAlert = () =>
     Alert.alert(
@@ -33,8 +33,7 @@ export default LogInScreen = ({navigation}) => {
         {
           text: "Cancel",
           style: "cancel"
-        },
-        { text: "Delete the account"}
+        }
       ]
   );
 
@@ -60,7 +59,7 @@ export default LogInScreen = ({navigation}) => {
             isLoggedIn: true, 
           })
 
-          setUserState({
+          setState({
             username: userInfo.username,
             email: email, 
             password: password,
@@ -69,9 +68,9 @@ export default LogInScreen = ({navigation}) => {
             profilePhotoUrl: userInfo.profilePhotoUrl,
             isLoggedIn: true, 
           })
+          console.log("Userstate", State)
             
-          const Userjson = JSON.stringify(UserState)
-          console.log(UserState)
+          const Userjson = JSON.stringify(State)
           await SecureStore.setItemAsync("User", Userjson);
 
         }catch{

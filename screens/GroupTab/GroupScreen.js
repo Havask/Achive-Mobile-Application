@@ -64,8 +64,6 @@ export default GroupScreen = ({navigation}) => {
   const GroupData = async () => {
     try{
 
-      console.log("GroupScreen")
-
       
       const value = await AsyncStorage.getItem("groups");
 
@@ -79,7 +77,6 @@ export default GroupScreen = ({navigation}) => {
 
         //henter ut hvilken grupper brukeren tilhører 
         const groups = await firebase.RetriveGroupData(); 
-
 
         //returnerer et array av json objekter
         const objectArray = await firebase.LoadGroups(groups); 
