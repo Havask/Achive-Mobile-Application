@@ -23,7 +23,7 @@ export default LogInScreen = ({navigation}) => {
 
   const [Isloggedin, setIsloggedin] = useState(""); 
   const [RememberMe, setRememberMe] = useState(true);  
-
+  const [UserState, setUserState] = useState();
 
   const ButtonAlert = () =>
     Alert.alert(
@@ -38,44 +38,12 @@ export default LogInScreen = ({navigation}) => {
       ]
   );
 
-  const Storage = async () => {
-    try{
-      const StoredEmail =  await AsyncStorage.getItem("email");
-      const StoredPassword = await AsyncStorage.getItem("password");
-
-      if (StoredEmail !== null){
-
-        await firebase.SignInUser(StoredEmail, StoredPassword);
-        
-          const uid =  await firebase.getCurrentUser().uid; 
-          const userInfo = await firebase.getUserInfo(uid)
-
-          await setUser({
-            username: userInfo.username,
-            email: userInfo.email, 
-            uid: uid, 
-            groups: userInfo.groups, 
-            profilePhotoUrl: userInfo.profilePhotoUrl,
-            isLoggedIn: true, 
-          })
-        }
-        }catch{
-          console.log("could not find stored email and password")
-      }
-  };
-
-  useEffect(() => {
-    Storage(); 
-  }, []);
-
   const handleLogin = async () => {
 
     if(RememberMe === true){
       if (email && password) {
 
-        try{          
-          await AsyncStorage.setItem("email", email);
-          await AsyncStorage.setItem("password", password);
+        try{        
 
           await firebase.SignInUser(email, password);
           
@@ -84,12 +52,27 @@ export default LogInScreen = ({navigation}) => {
 
           setUser({
             username: userInfo.username,
-            email: userInfo.email, 
+            email: email, 
+            password: password,
             uid: uid, 
             groups: userInfo.groups, 
             profilePhotoUrl: userInfo.profilePhotoUrl,
             isLoggedIn: true, 
           })
+
+          setUserState({
+            username: userInfo.username,
+            email: email, 
+            password: password,
+            uid: uid, 
+            groups: userInfo.groups, 
+            profilePhotoUrl: userInfo.profilePhotoUrl,
+            isLoggedIn: true, 
+          })
+            
+          const Userjson = JSON.stringify(UserState)
+          console.log(UserState)
+          await SecureStore.setItemAsync("User", Userjson);
 
         }catch{
           ButtonAlert(); 
@@ -105,12 +88,12 @@ export default LogInScreen = ({navigation}) => {
       setUser({
         username: userInfo.username,
         email: userInfo.email, 
+        password: userInfo.password,
         uid: uid, 
         groups: userInfo.groups, 
         profilePhotoUrl: userInfo.profilePhotoUrl,
         isLoggedIn: true, 
       })
-      
     }
   };
 

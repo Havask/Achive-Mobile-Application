@@ -187,7 +187,7 @@ export default MainStackScreens = () => {
         >
 
             <Drawer.Screen name="Achive" component={BottomTabsNavigator}/>
-            <Drawer.Screen name="Settings" component={SettingsStackScreen}/>
+            <Drawer.Screen name="Setting" component={SettingsStackScreen}/>
         </Drawer.Navigator>
     );
 }

@@ -168,8 +168,8 @@ const Loading = styled.ActivityIndicator.attrs(props => ({
 
 const ProfilePhotoContainer = styled.TouchableOpacity`
 background-color: #e1e2e6;
-  width: 80px; 
-  height: 80px; 
+  width: 128px; 
+  height: 128px; 
   border-radius: 40px; 
   align-self: center; 
   margin-top: 16px;
@@ -185,5 +185,5 @@ const DefaultProfilePhoto = styled.View`
 const ProfilePhoto = styled.Image`
   width: 128px;
   height: 128px; 
-  border-radius: 64px; 
+  border-radius: 128px; 
 `;

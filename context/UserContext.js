@@ -6,6 +6,7 @@ const UserProvider = (props) => {
     const [state, setState] = useState({
         username: "",
         email: "",
+        password: "",
         uid: "",
         groups: [], 
         isLoggedIn: "", 

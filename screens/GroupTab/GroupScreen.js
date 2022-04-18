@@ -64,9 +64,8 @@ export default GroupScreen = ({navigation}) => {
   const GroupData = async () => {
     try{
 
-  
-      const Userjson = JSON.stringify(user)
-      SecureStore.setItemAsync("User", Userjson);
+      console.log("GroupScreen")
+
       
       const value = await AsyncStorage.getItem("groups");
 
@@ -95,7 +94,7 @@ export default GroupScreen = ({navigation}) => {
       }catch {  
         console.log("Something went wrong @GroupData");
       }
-    }
+  }
 
   const RefreshGroupData = async () => {
 

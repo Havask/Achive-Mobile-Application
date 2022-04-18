@@ -19,16 +19,19 @@ export default LoadingScreen = () => {
                 
                 if (value !== null) {
                     const parsedJson = JSON.parse(value)
-                    console.log(parsedJson.uid); 
-                        
+                    
+                    await firebase.SignInUser(parsedJson.email, parsedJson.password);
                     await setUser({
                         username: parsedJson.username,
                         email: parsedJson.email, 
+                        password: parsedJson.password,
                         uid: parsedJson.uid, 
                         groups: parsedJson.groups, 
                         profilePhotoUrl: parsedJson.profilePhotoUrl,
                         isLoggedIn: parsedJson.isLoggedIn, 
                       })
+
+                    console.log("LoadingScreen: ",parsedJson.email, parsedJson.password)
             
                 }else{
                     setUser((state) => ({ ...state, isLoggedIn: false})); 

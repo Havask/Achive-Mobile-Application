@@ -64,6 +64,7 @@ const Firebase = {
       await setDoc(doc(db, "users", uid), {
         username: user.username, 
         email: user.email,
+        password: user.password,
         profilePhotoUrl, 
         groups: user.groups,
        });
@@ -162,8 +163,9 @@ const Firebase = {
 
   SignOutUser: async () => {
     try{
-      await AsyncStorage.removeItem("email"); 
-      await AsyncStorage.removeItem("password"); 
+
+      await SecureStore.removeItemAsync("User");
+    
       await signOut(auth);
       return true; 
 
@@ -264,7 +266,6 @@ const Firebase = {
         groups: arrayUnion(Group.GroupID)
       });
 
-  
       let GroupPhotoUrl = "default"
       
 
@@ -312,15 +313,8 @@ const Firebase = {
       var arrayLength = array.length;
       
       for (var i = 0; i < arrayLength; i++) {
-        
+        console.log(array[i])
         const Snap = await getDoc(doc(db, "groups", array[i]))
-  
-        console.log(Snap.data().groupname)
-        console.log(Snap.data().groupID)
-        console.log(Snap.data().color)
-        console.log(Snap.data().members)
-        console.log(Snap.data().privacy)
-        console.log(Snap.data().GroupPhotoUrl)
 
         objectList.push({
           groupname: Snap.data().groupname, 
@@ -723,20 +717,6 @@ SortGroupFeed: async (posts, sortsettings) => {
       }
     }, 
 
-    LeaveGroup: async () => {
-
-      try{
-        /*
-        Gå inn i gruppa og fjern medlemmet
-        Gå inn i din egen gruppe array å fjern gruppa
-        Trenger også å slette gruppebildet i databasen
-        */
-    
-        
-        }catch(error){
-          console.log("Error @ProfileTheUser", error)
-        }
-      }, 
 }; 
 
 
