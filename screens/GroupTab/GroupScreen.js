@@ -40,10 +40,6 @@ export default GroupScreen = ({navigation}) => {
   const [_, setGroup] = useContext(GroupContext); 
 
   useEffect(() => {
-    
-    const jsonValue = JSON.stringify(user)
-    SecureStore.setItemAsync("User", jsonValue);
-
     GroupData();  
   }, []);
 
@@ -67,6 +63,11 @@ export default GroupScreen = ({navigation}) => {
 
   const GroupData = async () => {
     try{
+
+  
+      const Userjson = JSON.stringify(user)
+      SecureStore.setItemAsync("User", Userjson);
+      
       const value = await AsyncStorage.getItem("groups");
 
       if (value !== null) {
@@ -79,6 +80,8 @@ export default GroupScreen = ({navigation}) => {
 
         //henter ut hvilken grupper brukeren tilhører 
         const groups = await firebase.RetriveGroupData(); 
+
+
         //returnerer et array av json objekter
         const objectArray = await firebase.LoadGroups(groups); 
         setData(objectArray); 
@@ -89,7 +92,7 @@ export default GroupScreen = ({navigation}) => {
            jsonValue
           );
         }
-      }catch {
+      }catch {  
         console.log("Something went wrong @GroupData");
       }
     }
@@ -98,11 +101,9 @@ export default GroupScreen = ({navigation}) => {
 
     //Returnerer en liste over hvilke grupper man tilhører 
     const groups = await firebase.RetriveGroupData(); 
-    console.log(groups)
 
     //returnerer et array av json objekter
     const objectArray = await firebase.LoadGroups(groups); 
-    console.log(objectArray)
 
     setData(objectArray); 
     setData(data); 

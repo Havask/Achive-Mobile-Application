@@ -19,7 +19,8 @@ export default LoadingScreen = () => {
                 
                 if (value !== null) {
                     const parsedJson = JSON.parse(value)
-            
+                    console.log(parsedJson.uid); 
+                        
                     await setUser({
                         username: parsedJson.username,
                         email: parsedJson.email, 

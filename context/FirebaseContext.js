@@ -65,7 +65,7 @@ const Firebase = {
         username: user.username, 
         email: user.email,
         profilePhotoUrl, 
-        groups: user.groups
+        groups: user.groups,
        });
 
       if(user.profilePhoto){
@@ -314,14 +314,21 @@ const Firebase = {
       for (var i = 0; i < arrayLength; i++) {
         
         const Snap = await getDoc(doc(db, "groups", array[i]))
-        
+  
+        console.log(Snap.data().groupname)
+        console.log(Snap.data().groupID)
+        console.log(Snap.data().color)
+        console.log(Snap.data().members)
+        console.log(Snap.data().privacy)
+        console.log(Snap.data().GroupPhotoUrl)
+
         objectList.push({
-          groupID: Snap.data().groupID, 
           groupname: Snap.data().groupname, 
+          groupID: Snap.data().groupID, 
           color: Snap.data().color, 
           members: Snap.data().members, 
-          GroupPhotoUrl: Snap.data().GroupPhotoUrl,
           privacy: Snap.data().privacy,
+          GroupPhotoUrl: Snap.data().GroupPhotoUrl,
         })
       }; 
       

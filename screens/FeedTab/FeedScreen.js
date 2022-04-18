@@ -76,7 +76,6 @@ useEffect(() => {
 const FirstRefresh = async () => {
   try{
     const RetrivedFeed = await firebase.RetriveFeed(sortsetting); 
-    console.log(RetrivedFeed); 
 
     setfeed(RetrivedFeed); 
 

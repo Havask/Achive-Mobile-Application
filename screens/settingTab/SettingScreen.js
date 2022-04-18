@@ -26,7 +26,15 @@ export default SettingScreen = ({navigation}) => {
 
   const signOut = async () => {
     firebase.SignOutUser(); 
-    setUser({isLoggedIn: null}); 
+
+    setUser({
+      username: "",
+      email: "", 
+      uid: "", 
+      groups: [], 
+      profilePhotoUrl: "default",
+      isLoggedIn: false, 
+    })
   };
   
   const deleteUser = async () => {

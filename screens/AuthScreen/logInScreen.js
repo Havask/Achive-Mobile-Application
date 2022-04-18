@@ -49,12 +49,12 @@ export default LogInScreen = ({navigation}) => {
         
           const uid =  await firebase.getCurrentUser().uid; 
           const userInfo = await firebase.getUserInfo(uid)
-      
+
           await setUser({
             username: userInfo.username,
             email: userInfo.email, 
-            uid, 
-            groups: [], 
+            uid: uid, 
+            groups: userInfo.groups, 
             profilePhotoUrl: userInfo.profilePhotoUrl,
             isLoggedIn: true, 
           })
@@ -86,7 +86,7 @@ export default LogInScreen = ({navigation}) => {
             username: userInfo.username,
             email: userInfo.email, 
             uid: uid, 
-            groups: [], 
+            groups: userInfo.groups, 
             profilePhotoUrl: userInfo.profilePhotoUrl,
             isLoggedIn: true, 
           })
@@ -106,9 +106,9 @@ export default LogInScreen = ({navigation}) => {
         username: userInfo.username,
         email: userInfo.email, 
         uid: uid, 
-        groups: [], 
+        groups: userInfo.groups, 
         profilePhotoUrl: userInfo.profilePhotoUrl,
-        isLoggedIn: false, 
+        isLoggedIn: true, 
       })
       
     }
