@@ -103,6 +103,30 @@ const Firebase = {
       console.log("Error @uploadProfilePhoto", error)
     }
   },
+
+  uploadGroupPhoto: async (uri, GroupID) => {
+
+    const uid = Firebase.getCurrentUser().uid; 
+
+    try{
+      const photo = await Firebase.getBlob(uri)
+      const imagesRef = ref(storage, 'GroupPhotos');
+      const uidRef = ref(imagesRef, GroupID);
+
+      await uploadBytes(uidRef, photo); 
+
+      const url = await getDownloadURL(ref(storage, uidRef)); 
+      const docRef = doc(db, "users", uid);
+
+      await updateDoc(docRef, {
+        profilePhotoUrl: url
+     });
+      return url; 
+
+    }catch(error){
+      console.log("Error @uploadProfilePhoto", error)
+    }
+  },
     
   getBlob: async(uri) => {
     return await new Promise((resolve, reject) => {
@@ -230,42 +254,47 @@ const Firebase = {
   }, 
   
   //For å lage ei helt ny gruppe
-  CreateNewGroup: async (Groupname, groupid, color, Privacy) => {
+  CreateNewGroup: async (Group) => {
     try{
 
       //Gå også inn på user id og oppdater groups
       const uid = Firebase.getCurrentUser().uid;
       const UserRef = doc(db, "users", uid);
       await updateDoc(UserRef, {
-        groups: arrayUnion(groupid)
+        groups: arrayUnion(Group.GroupID)
       });
 
-      //Lagre docsan på id, ikke navn
-      const docRef = doc(db, "groups", groupid);
-      const docSnap = await getDoc(docRef);
-      //Kan være greit å sjekke om brukernavnet finnes fra før
-     
-      //adds all the users to the database
-        
-      await setDoc(doc(db, "groups", groupid), {
-        groupname: Groupname, 
-        groupID: groupid, 
-        color: color, 
+  
+      let GroupPhotoUrl = "default"
+      
+
+      if(Group.GroupPhoto){
+        GroupPhotoUrl = await Firebase.uploadGroupPhoto(Group.GroupPhoto, Group.GroupID)
+      }
+
+      await setDoc(doc(db, "groups", Group.GroupID), {
+        groupname: Group.Groupname, 
+        groupID: Group.GroupID, 
+        color: Group.Color, 
         members: [uid],
-        privacy: Privacy
+        privacy: Group.Privacy,
+        GroupPhotoUrl: GroupPhotoUrl
+
         //EncodedSVG: encodedData
         //GroupPicture: picture
         });
+
+
       
     }catch(error){
       console.log("Error @CreateNewGroup", error)
     }
   }, 
 
-  //for å finne ut av hvilken gruppe profilen tilhører
+   //Returnerer en liste over hvilke grupper man tilhører 
   RetriveGroupData: async () => {
     try{
-      //Returner hvilken gruppe brukeren tilhører
+     
       const uid = Firebase.getCurrentUser().uid;
       const snap = await getDoc(doc(db, "users", uid));
       return snap.data().groups; 
@@ -281,22 +310,26 @@ const Firebase = {
       
       const objectList = [];
       var arrayLength = array.length;
-
+      
       for (var i = 0; i < arrayLength; i++) {
+        
         const Snap = await getDoc(doc(db, "groups", array[i]))
         
         objectList.push({
-          groupname: Snap.data().groupname, 
           groupID: Snap.data().groupID, 
+          groupname: Snap.data().groupname, 
           color: Snap.data().color, 
           members: Snap.data().members, 
+          GroupPhotoUrl: Snap.data().GroupPhotoUrl,
+          privacy: Snap.data().privacy,
         })
-      }
+      }; 
+      
       //returnerer en Liste med objekter.
       return objectList; 
 
-    } catch {
-      console.log("Could not Load Groups")
+    } catch(error) {
+      console.log("Could not Load Groups", error)
     }
   }, 
 
@@ -317,11 +350,10 @@ LeaveGroup: async (GroupID) => {
     // Atomically remove a region from the "regions" array field.
     await updateDoc(GroupRef, {
         groups: arrayRemove(uid)
-});
+  });
     }catch(error){
       console.log("Error @LeaveGroup", error)
     }
-  
   }, 
 
   JoinGroup: async (GroupID) => {
@@ -339,7 +371,7 @@ LeaveGroup: async (GroupID) => {
     //updates the group data
      const GroupRef = doc(db, "groups", GroupID);
      // Atomically remove a region from the "regions" array field.
-     await updateDoc(GroupRef, {
+     await updateDoc(GroupRef,{
          groups: arrayUnion(uid)
     });
     }catch(error){
@@ -432,7 +464,6 @@ LeaveGroup: async (GroupID) => {
     }
   },
 
-
   RetriveMessages: async () => {
     try{
 s
@@ -462,7 +493,6 @@ s
         id: uid,
         text, 
       });
-
       }catch(error){
         console.log("Error @SendMessage", error)
       }
@@ -584,8 +614,6 @@ UpdatePost: async (post, groupID) => {
   }
 }, 
 
-
-
 RetriveGroupsStorage: async () => {
 
   try {
@@ -653,24 +681,55 @@ SortGroupFeed: async (posts, sortsettings) => {
     -
     */
 
-    const objectList = [];
+    const GroupList = [];
 
     const q = query(collectionRef, orderBy("id"), limit(3));
     const querySnapshot = await getDocs(q);
 
     querySnapshot.forEach((doc) => {
           
-      objectList.push({
+      GroupList.push({
       id: doc.data().id, 
     })
   })
-    return objectList; 
+    return GroupList; 
     
     }catch(error){
       console.log("Error @ExplorationFeed", error)
     }
   }, 
   
+  ProfileTheUser: async () => {
+
+    try{
+      /*
+      Try and make a profile
+      What data points would i need to suggest the best content?
+      -Hvilken type grupper bruker man mest tid i. 
+      -Hvilken grupper er andre i samme gruppe med i
+      
+      */
+  
+      
+      }catch(error){
+        console.log("Error @ProfileTheUser", error)
+      }
+    }, 
+
+    LeaveGroup: async () => {
+
+      try{
+        /*
+        Gå inn i gruppa og fjern medlemmet
+        Gå inn i din egen gruppe array å fjern gruppa
+        Trenger også å slette gruppebildet i databasen
+        */
+    
+        
+        }catch(error){
+          console.log("Error @ProfileTheUser", error)
+        }
+      }, 
 }; 
 
 

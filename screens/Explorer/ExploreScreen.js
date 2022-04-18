@@ -100,7 +100,9 @@ export default ExplorerScreen = ({navigation}) => {
   const RenderGroups = ({item}) =>(
 
     <Box maxW="40" maxH="40" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="5" >
-      <Pressable >
+      <Pressable _pressed={{
+      bg: "muted.400"
+    }} >
         <Box w="100%">
             <AspectRatio w="100%" ratio={16 / 9}>
               <Image source={{

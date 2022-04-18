@@ -9,7 +9,7 @@ import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
 import * as SecureStore from 'expo-secure-store';
 
-import { NativeBaseProvider, Box, Text, Pressable, Heading, IconButton, Icon, HStack, Avatar, VStack, Spacer, Center } from "native-base";
+import { NativeBaseProvider, Box, Text, Pressable, Heading, IconButton, Icon, HStack, Avatar, VStack, Spacer, Center, Image } from "native-base";
 
 
 import {
@@ -76,6 +76,7 @@ export default GroupScreen = ({navigation}) => {
         setData(parsedJson); 
 
       }else{
+
         //henter ut hvilken grupper brukeren tilhører 
         const groups = await firebase.RetriveGroupData(); 
         //returnerer et array av json objekter
@@ -93,6 +94,27 @@ export default GroupScreen = ({navigation}) => {
       }
     }
 
+  const RefreshGroupData = async () => {
+
+    //Returnerer en liste over hvilke grupper man tilhører 
+    const groups = await firebase.RetriveGroupData(); 
+    console.log(groups)
+
+    //returnerer et array av json objekter
+    const objectArray = await firebase.LoadGroups(groups); 
+    console.log(objectArray)
+
+    setData(objectArray); 
+    setData(data); 
+
+    const jsonValue = JSON.stringify(objectArray)
+    await AsyncStorage.setItem(
+      "groups",
+      jsonValue
+    );
+  }
+  
+
   const renderItem = ({ item }) => (
     <GroupView color={item.color} onPress={() => ChangeGroup(item)}>
       <Text1 bold center color="#ffffff">
@@ -102,18 +124,19 @@ export default GroupScreen = ({navigation}) => {
   );
 
   const renderItem1 = ({
-    item,
-    index
-  }) => <Box>
-      <Pressable onPress={() => console.log("You touched me")} _dark={{
-      bg: "coolGray.800"
-    }} _light={{
-      bg: "white"
-    }}>
-        <Box pl="4" pr="5" py="2">
-          <HStack alignItems="center" space={3}>
+    item
+  }) => <Box width="100%" height="100" >
+      <Pressable onPress={() => ChangeGroup(item)}  _pressed={{
+      bg: "muted.400"
+    }} >
+        <Box>
+          <HStack alignItems="center" space={3} bg={item.color} >
+          <Image source={user.profilePhotoUrl == "default"
+                      ? require("../../assets/logo.png")
+                      : { uri: item.GroupPhotoUrl}
+              } height="90" rounded="full" width="90" alt="Aang flying and surrounded by clouds"  />
             <VStack>
-              <Text color="coolGray.800" _dark={{
+              <Text color="coolGray.800" fontSize="2xl" _dark={{
               color: "warmGray.50"
             }} bold>
                 {item.groupname}
@@ -168,7 +191,7 @@ export default GroupScreen = ({navigation}) => {
             data={data}
             renderItem={renderItem1}
             keyExtractor={item => item.groupID}
-            refreshControl={<RefreshControl />}
+            refreshControl={<RefreshControl onRefresh={RefreshGroupData}/>}
        /> 
      </Container>
     );

@@ -8,6 +8,9 @@ import QRCode from 'react-native-qrcode-svg';
 import { Svg } from "react-native-svg";
 import { ColorPicker } from 'react-native-status-color-picker';
 import Checkbox from 'expo-checkbox';
+import {AntDesign} from "@expo/vector-icons"
+import * as ImagePicker from "expo-image-picker"
+
 //https://reactnativeexample.com/customizable-color-picker-for-your-beautiful-react-native-apps/
 
 /*
@@ -25,6 +28,19 @@ export default CreateGroupScreen = ({navigation}) => {
   const [Groupname, setGroupName] = useState(""); 
   const [Color, setColor] = useState(""); 
   const [Privacy, setPrivacy] = useState(false);
+  const [GroupPhoto, setGroupPhoto] = useState(); 
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    if (!result.cancelled) {
+      setGroupPhoto(result.uri);
+    }
+  };
 
   const state = {
     colors: ["#F44336", "#E91E63", "#9C27B0", "#673AB7", "#3F51B5", "#2196F3", "#03A9F4", "#00BCD4", 
@@ -34,11 +50,14 @@ export default CreateGroupScreen = ({navigation}) => {
 
   const CreateNewGroup = async () => {
 
-    id = makeid(6); 
+    const GroupID = makeid(6); 
+
+    setLoading(true);
+    const group = {Groupname, GroupID, Color, Privacy, GroupPhoto}
 
     //qr = generateQR(id); 
 
-    const newGroup = firebase.CreateNewGroup(Groupname, id, Color, Privacy); 
+    const newGroup = firebase.CreateNewGroup(group); 
     
     //sjekker om id'n til gruppa eksiterer fra før
     if(newGroup === 1){
@@ -79,6 +98,16 @@ export default CreateGroupScreen = ({navigation}) => {
               Create new group:
          </Text>
         </Main>
+
+        <ProfilePhotoContainer onPress={pickImage}>
+          {GroupPhoto ? ( 
+            <ProfilePhoto source={{uri: GroupPhoto}}/>
+          ) : (
+            <DefaultProfilePhoto>
+              <AntDesign name="plus" size={24} color="#88d498"/>
+            </DefaultProfilePhoto>
+          )}
+        </ProfilePhotoContainer>
 
         <Auth>
           <AuthContainer>
@@ -128,8 +157,8 @@ const Container = styled.KeyboardAvoidingView`
 `;
 
 const Main = styled.View`
-  margin-top: 80px; 
-  margin-bottom: 50px; 
+  margin-top: 40px; 
+  margin-bottom: 30px; 
 `;
 
 const Auth = styled.View`
@@ -190,3 +219,25 @@ const BoxContainer = styled.View`
   margin-bottom: 32px;
   justify-content: center; 
 `; 
+
+const ProfilePhotoContainer = styled.TouchableOpacity`
+  background-color: #e1e2e6;
+  width: 90px; 
+  height: 90px; 
+  border-radius: 48px; 
+  align-self: center; 
+  overflow: hidden; 
+  margin-bottom: 32px;
+`; 
+
+const DefaultProfilePhoto = styled.View`
+  align-items: center; 
+  justify-content: center; 
+  flex: 1; 
+`; 
+
+const ProfilePhoto = styled.Image`
+  width: 90px;
+  height: 90px; 
+  border-radius: 64px; 
+`;
