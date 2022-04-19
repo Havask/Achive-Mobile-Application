@@ -37,17 +37,16 @@ export default LogInScreen = ({navigation}) => {
       ]
   );
 
-  const handleLogin = async () => {
+  const handleLogin = () => {
 
     if(RememberMe === true){
       if (email && password) {
+   
 
-        try{        
-
-          await firebase.SignInUser(email, password);
+          firebase.SignInUser(email, password);
           
-          const uid = await firebase.getCurrentUser().uid; 
-          const userInfo = await firebase.getUserInfo(uid)
+          const uid = firebase.getCurrentUser().uid; 
+          const userInfo = firebase.getUserInfo(uid)
 
           setUser({
             username: userInfo.username,
@@ -60,29 +59,22 @@ export default LogInScreen = ({navigation}) => {
           })
 
           setState({
-            username: userInfo.username,
-            email: email, 
-            password: password,
-            uid: uid, 
-            groups: userInfo.groups, 
-            profilePhotoUrl: userInfo.profilePhotoUrl,
-            isLoggedIn: true, 
+            hei: "hei",
           })
-          console.log("Userstate", State)
-            
-          const Userjson = JSON.stringify(State)
-          await SecureStore.setItemAsync("User", Userjson);
 
-        }catch{
-          ButtonAlert(); 
-        }
+          console.log(User);
+          
+          console.log(State); 
+            
+          const Userjson = JSON.stringify(User)
+          SecureStore.setItemAsync("User", Userjson);
       } 
     }
     else{
 
-      await firebase.SignInUser(email, password);
-      const uid = await firebase.getCurrentUser().uid; 
-      const userInfo = await firebase.getUserInfo(uid)
+      firebase.SignInUser(email, password);
+      const uid =  firebase.getCurrentUser().uid; 
+      const userInfo =  firebase.getUserInfo(uid)
   
       setUser({
         username: userInfo.username,

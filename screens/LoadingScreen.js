@@ -16,12 +16,19 @@ export default LoadingScreen = () => {
 
             try{
                 const value = await SecureStore.getItemAsync("User");
-                
+                console.log(value); 
+
                 if (value !== null) {
                     
                     const parsedJson = JSON.parse(value)
-                    console.log(parsedJson.email,parsedJson.password)
-                    await firebase.SignInUser(parsedJson.email, parsedJson.password);
+                    console.log(parsedJson.email, parsedJson.password)
+
+                    if (parsedJson.email && parsedJson.password){
+                        await firebase.SignInUser(parsedJson.email, parsedJson.password);
+                    }else{
+                        setUser((state) => ({ ...state, isLoggedIn: false})); 
+                        return; 
+                    }
 
                     await setUser({
                         username: parsedJson.username,

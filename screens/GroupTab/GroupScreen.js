@@ -95,6 +95,7 @@ export default GroupScreen = ({navigation}) => {
 
   const RefreshGroupData = async () => {
 
+     console.log(user)
     //Returnerer en liste over hvilke grupper man tilhører 
     const groups = await firebase.RetriveGroupData(); 
 
