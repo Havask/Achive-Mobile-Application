@@ -1,9 +1,12 @@
-import React, {useState, useContext} from "react";
+import React, {useState, useContext, Component} from "react";
 import styled from "styled-components/native"; 
-import Text from "../../components/Text.js";
 import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
 import { Alert } from "react-native";
+import { Container, Header, Content, Button, ListItem, Text, Icon, Left, Body, Right, Switch } from 'native-base';
+import { NativeBaseProvider, Box, Text, Pressable, Heading, IconButton, Icon, HStack, Avatar, VStack, Spacer, Center, Image } from "native-base";
+
+import { MaterialIcons, Ionicons, Entypo } from "@expo/vector-icons";
 
 export default SettingScreen = ({navigation}) => {
 
@@ -52,6 +55,37 @@ export default SettingScreen = ({navigation}) => {
   }; 
 
   return(
+
+<Box borderBottomWidth="1" _dark={{
+      borderColor: "gray.600"
+    }} borderColor="coolGray.200" pl="4" pr="5" py="2">
+            <HStack space={3} justifyContent="space-between">
+              <Avatar size="48px" source={{
+          uri: item.avatarUrl
+        }} />
+              <VStack>
+                <Text _dark={{
+            color: "warmGray.50"
+          }} color="coolGray.800" bold>
+                  {item.fullName}
+                </Text>
+                <Text color="coolGray.600" _dark={{
+            color: "warmGray.200"
+          }}>
+                  {item.recentText}
+                </Text>
+              </VStack>
+              <Spacer />
+              <Text fontSize="xs" _dark={{
+          color: "warmGray.50"
+        }} color="coolGray.800" alignSelf="flex-start">
+                {item.timeStamp}
+              </Text>
+      </HStack>
+  </Box>
+
+
+/*
     <Container>
        <Main>
          <Text title bold center color="#88d498">
@@ -84,10 +118,11 @@ export default SettingScreen = ({navigation}) => {
           </Text>
         </SignUp>
      </Container>
+     */
     );
 }
 
-const Container = styled.View`
+const Container1 = styled.View`
     flex: 1; 
 `;
 
