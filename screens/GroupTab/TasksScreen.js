@@ -24,7 +24,7 @@ const firebase = useContext(FirebaseContext);
 const [user, setUser] = useContext(UserContext); 
 const [Group, setGroup] = useContext(GroupContext); 
 //få også inn gruppekonteksten 
-
+const [text, settext] = useState(true)
 
 const makeid = length => {
   var result           = '';
@@ -73,12 +73,28 @@ const renderItem = ({ item }) => (
   </GroupView>
 );
 
+const RenderText = () => {
+  if(text === true){
+    return (
+    <Text title semi center color={Group.color}>
+      {Group.groupname}
+    </Text>
+    )
+  }else{
+    return(
+    <Text title semi center color={Group.color}>
+      {Group.groupID}
+    </Text>
+    )
+  }
+}
+
+const toggleSwitch = () => settext(previousState => !previousState);
+
 return(
   <Container>
-     <Main>
-       <Text title semi center color={Group.color}>
-          {Group.groupname}
-       </Text>
+     <Main onPress={toggleSwitch}>
+        <RenderText/>
       </Main>
       <IconsView>
         <Notification onPress={() => navigation.push("Scoreboard")}>
@@ -115,9 +131,9 @@ const Container = styled.View`
   flex: 1; 
 `;
 
-const Main = styled.View`
-margin-top: 30px; 
-margin-bottom: 50px; 
+const Main = styled.TouchableOpacity`
+  margin-top: 30px; 
+  margin-bottom: 50px; 
 `;
 
 const Notification = styled.TouchableOpacity`

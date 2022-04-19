@@ -57,17 +57,8 @@ export default LogInScreen = ({navigation}) => {
             profilePhotoUrl: userInfo.profilePhotoUrl,
             isLoggedIn: true, 
           })
-
-          setState({
-            hei: "hei",
-          })
-
-          console.log(User);
-          
-          console.log(State); 
             
-          const Userjson = JSON.stringify(User)
-          SecureStore.setItemAsync("User", Userjson);
+      
       } 
     }
     else{

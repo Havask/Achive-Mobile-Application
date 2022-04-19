@@ -51,6 +51,7 @@
     "react-native-screens": "~3.10.1",
     "react-native-status-color-picker": "^1.0.5",
     "react-native-svg": "12.1.1",
+    "react-native-swipe-list-view": "^3.2.9",
     "react-native-ui-lib": "^6.13.1",
     "react-native-web": "0.17.1",
     "recyclerlistview": "^3.0.5",

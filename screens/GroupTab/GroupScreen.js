@@ -3,11 +3,12 @@ import {FlatList} from 'react-native';
 import styled from "styled-components/native"; 
 import Text1 from "../../components/Text.js";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {Ionicons} from "@expo/vector-icons"; 
+import { MaterialIcons, Ionicons, Entypo } from "@expo/vector-icons";
 import {GroupContext} from "../../context/GroupContext";
 import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
 import * as SecureStore from 'expo-secure-store';
+import { SwipeListView } from "react-native-swipe-list-view";
 
 import { NativeBaseProvider, Box, Text, Pressable, Heading, IconButton, Icon, HStack, Avatar, VStack, Spacer, Center, Image } from "native-base";
 
@@ -62,14 +63,19 @@ export default GroupScreen = ({navigation}) => {
   }
 
   const GroupData = async () => {
-    try{
+    
+    console.log(user); 
 
+    const Userjson = JSON.stringify(user)
+    SecureStore.setItemAsync("User", Userjson);
+
+    try{
       
       const value = await AsyncStorage.getItem("groups");
 
       if (value !== null) {
 
-        // Hent ut data fra async storage
+        //Hent ut data fra async storage
         const parsedJson = JSON.parse(value)
         setData(parsedJson); 
 
@@ -90,7 +96,7 @@ export default GroupScreen = ({navigation}) => {
         }
       }catch {  
         console.log("Something went wrong @GroupData");
-      }
+    }
   }
 
   const RefreshGroupData = async () => {
@@ -111,7 +117,6 @@ export default GroupScreen = ({navigation}) => {
       jsonValue
     );
   }
-  
 
   const renderItem = ({ item }) => (
     <GroupView color={item.color} onPress={() => ChangeGroup(item)}>
@@ -146,11 +151,45 @@ export default GroupScreen = ({navigation}) => {
       </Pressable>
     </Box>;
 
+const closeRow = (rowMap, rowKey) => {
+  if (rowMap[rowKey]) {
+    rowMap[rowKey].closeRow();
+  }
+};
+
+const deleteRow = (rowMap, rowKey) => {
+  closeRow(rowMap, rowKey);
+
+  /*
+
+  Lager nytt arra
+  const newData = [...listData];
+  const prevIndex = listData.findIndex(item => item.key === rowKey);
+  newData.splice(prevIndex, 1);
+  setListData(newData); 
+  
+  */
+};
+
+const onRowDidOpen = rowKey => {
+  console.log("This row opened", rowKey);
+};
+
+const renderHiddenItem = (data, rowMap) => 
+  <HStack flex="1" pl="2">
+    <Pressable w="100" h="90" bg="red.500" justifyContent="center"  ml="auto" onPress={() => deleteRow(rowMap, data.item.key)} _pressed={{opacity: 0.5}}>
+      <VStack alignItems="center" space={2}>
+        <Icon as={<MaterialIcons name="delete" />} color="white" size="6" />
+        <Text color="white" fontSize="xs" fontWeight="medium">
+          Leave group
+        </Text>
+      </VStack>
+    </Pressable>
+  </HStack>;
 
   return(
     <Container>
        <Main>
-        
           <IconsView>
           <ProfilePhotoContainer onPress={() => navigation.push("drawer")}>
             <ProfilePhoto 
@@ -165,7 +204,6 @@ export default GroupScreen = ({navigation}) => {
                     name={"ios-compass-outline"} 
                     size={50} 
                     color={"#88d498"}
-                    
               />
             </Notification>
           </IconsView>
@@ -185,7 +223,14 @@ export default GroupScreen = ({navigation}) => {
           </CreateContainer>
         </Create>
     
-       <FlatList 
+       <SwipeListView  
+            renderHiddenItem={renderHiddenItem} 
+            rightOpenValue={-100}
+            leftOpenValue={10000}
+            previewRowKey={"0"} 
+            previewOpenValue={-50} 
+            previewOpenDelay={3000} 
+            onRowDidOpen={onRowDidOpen} 
             data={data}
             renderItem={renderItem1}
             keyExtractor={item => item.groupID}

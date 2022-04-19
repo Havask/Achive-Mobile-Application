@@ -16,7 +16,6 @@ export default LoadingScreen = () => {
 
             try{
                 const value = await SecureStore.getItemAsync("User");
-                console.log(value); 
 
                 if (value !== null) {
                     
@@ -39,8 +38,6 @@ export default LoadingScreen = () => {
                         profilePhotoUrl: parsedJson.profilePhotoUrl,
                         isLoggedIn: parsedJson.isLoggedIn, 
                       })
-
-                    console.log("LoadingScreen: ",parsedJson.email, parsedJson.password)
             
                 }else{
                     setUser((state) => ({ ...state, isLoggedIn: false})); 
