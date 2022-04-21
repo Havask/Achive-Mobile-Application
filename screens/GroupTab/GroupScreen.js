@@ -16,10 +16,8 @@ import { NativeBaseProvider, Box, Text, Pressable, Heading, IconButton, Icon, HS
 import {
   RefreshControl, Vibration
 } from 'react-native';
-/*
-groups can have events
 
-*/
+
 const makeid = length => {
   var result           = '';
   var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -63,8 +61,6 @@ export default GroupScreen = ({navigation}) => {
   }
 
   const GroupData = async () => {
-    
-    console.log(user); 
 
     const Userjson = JSON.stringify(user)
     SecureStore.setItemAsync("User", Userjson);

@@ -20,7 +20,7 @@ export default LoadingScreen = () => {
                 if (value !== null) {
                     
                     const parsedJson = JSON.parse(value)
-                    console.log(parsedJson.email, parsedJson.password)
+                  
 
                     if (parsedJson.email && parsedJson.password){
                         await firebase.SignInUser(parsedJson.email, parsedJson.password);
