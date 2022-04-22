@@ -84,7 +84,7 @@ export default SignUpScreen = ({navigation}) => {
               keyboardType="email-address"
               onChangeText={(email) => setEmail(email.trim())}
               value={email}
-              showSoftInputOnFocus={false}
+          
               />
           </AuthContainer>
           
@@ -96,7 +96,7 @@ export default SignUpScreen = ({navigation}) => {
               secureTextEntry={true}
               onChangeText={(password) => setPassword(password.trim())}
               value={password}
-              showSoftInputOnFocus={false}
+            
               />
           </AuthContainer>
         </Auth>

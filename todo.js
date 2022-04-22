@@ -1,4 +1,6 @@
 /*
+-Lag default bildet til å være en default profile pic
+
 
 Groupscreen:
 -Gjøre groupscreen == HomeScreen
@@ -9,6 +11,7 @@ Groupscreen:
 Settingsscreen: 
 -Lag en finere liste 
 -Finn icons
+-Lag en Return buttom
 
 FeedScreen: 
 -Få fetcha posta fra 

@@ -1,5 +1,5 @@
 import React, {useState, useContext, useEffect} from "react";
-import {FlatList} from 'react-native';
+
 import styled from "styled-components/native"; 
 import Text1 from "../../components/Text.js";
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -10,9 +10,7 @@ import {UserContext} from "../../context/UserContext";
 import * as SecureStore from 'expo-secure-store';
 import { SwipeListView } from "react-native-swipe-list-view";
 
-import { NativeBaseProvider, Box, Text, Pressable, Heading, IconButton, Icon, HStack, Avatar, VStack, Spacer, Center, Image } from "native-base";
-
-
+import {Box, Text, Pressable, Heading, IconButton, Icon, HStack, Avatar, VStack, Spacer, Center, Image,Divider } from "native-base";
 import {
   RefreshControl, Vibration
 } from 'react-native';
@@ -36,7 +34,7 @@ export default GroupScreen = ({navigation}) => {
   const [data, setData] = useState([]); 
   const firebase = useContext(FirebaseContext); 
   const [user, setUser] = useContext(UserContext); 
-  const [_, setGroup] = useContext(GroupContext); 
+  const [group, setGroup] = useContext(GroupContext); 
 
   useEffect(() => {
     GroupData();  
@@ -124,16 +122,20 @@ export default GroupScreen = ({navigation}) => {
 
   const renderItem1 = ({
     item
-  }) => <Box width="100%" height="100" >
+  }) => <Divider>
+  
+      <Box width="100%" height="100" >
+
       <Pressable onPress={() => ChangeGroup(item)}  _pressed={{
       bg: "muted.400"
     }} >
         <Box>
-          <HStack alignItems="center" space={3} bg={item.color} >
-          <Image source={user.profilePhotoUrl == "default"
-                      ? require("../../assets/logo.png")
-                      : { uri: item.GroupPhotoUrl}
-              } height="90" rounded="full" width="90" alt="Aang flying and surrounded by clouds"  />
+          <HStack alignItems="center" space={3} bg="primary.50" >
+          <Image source={group.GroupPhotoUrl == "default"
+                      ? require("../../assets/default-group.png")
+                      : { uri: group.GroupPhotoUrl}
+              
+              } height="81" rounded="full" width="81" alt="Aang flying and surrounded by clouds"  />
             <VStack>
               <Text color="coolGray.800" fontSize="2xl" _dark={{
               color: "warmGray.50"
@@ -145,7 +147,8 @@ export default GroupScreen = ({navigation}) => {
           </HStack>
         </Box>
       </Pressable>
-    </Box>;
+    </Box>
+    </Divider>;
 
 const closeRow = (rowMap, rowKey) => {
   if (rowMap[rowKey]) {
@@ -153,7 +156,8 @@ const closeRow = (rowMap, rowKey) => {
   }
 };
 
-const deleteRow = (rowMap, rowKey) => {
+const deleteGroup = (rowMap, rowKey, groupID) => {
+  firebase.LeaveGroup(groupID); 
   closeRow(rowMap, rowKey);
 
   /*
@@ -167,13 +171,10 @@ const deleteRow = (rowMap, rowKey) => {
   */
 };
 
-const onRowDidOpen = rowKey => {
-  console.log("This row opened", rowKey);
-};
-
 const renderHiddenItem = (data, rowMap) => 
   <HStack flex="1" pl="2">
-    <Pressable w="100" h="90" bg="red.500" justifyContent="center"  ml="auto" onPress={() => deleteRow(rowMap, data.item.key)} _pressed={{opacity: 0.5}}>
+    <Pressable w="100" h="79" bg="red.500" justifyContent="center"  ml="auto" 
+      onPress={() => deleteGroup(rowMap, data.item.key, data.item.groupID)} _pressed={{opacity: 0.5}}>
       <VStack alignItems="center" space={2}>
         <Icon as={<MaterialIcons name="delete" />} color="white" size="6" />
         <Text color="white" fontSize="xs" fontWeight="medium">
@@ -187,10 +188,10 @@ const renderHiddenItem = (data, rowMap) =>
     <Container>
        <Main>
           <IconsView>
-          <ProfilePhotoContainer onPress={() => navigation.push("drawer")}>
+          <ProfilePhotoContainer>
             <ProfilePhoto 
               source={user.profilePhotoUrl == "default"
-                      ? require("../../assets/logo.png")
+                      ? require("../../assets/default-profile.png")
                       : { uri: user.profilePhotoUrl}
               }
             />
@@ -226,7 +227,6 @@ const renderHiddenItem = (data, rowMap) =>
             previewRowKey={"0"} 
             previewOpenValue={-50} 
             previewOpenDelay={3000} 
-            onRowDidOpen={onRowDidOpen} 
             data={data}
             renderItem={renderItem1}
             keyExtractor={item => item.groupID}

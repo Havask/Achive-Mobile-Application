@@ -8,7 +8,7 @@ const GroupProvider = (props) => {
         groupID: "", 
         color: "", 
         members: [], 
-        profilePhotoUrl: "default"
+        GroupPhotoUrl: "default"
     })
 
     return <GroupContext.Provider value={[state, setState]}>{props.children}</GroupContext.Provider>

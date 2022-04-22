@@ -3,8 +3,8 @@ import styled from "styled-components/native";
 import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
 import { Alert } from "react-native";
-
-import { NativeBaseProvider, Box, Text, Pressable, Heading, IconButton, 
+import * as ImagePicker from "expo-image-picker"
+import {Box, Text, Pressable, Heading, IconButton, 
   Icon, HStack, Avatar, VStack, Spacer, Center, Image, Divider} from "native-base";
 import { MaterialIcons, Ionicons, Entypo } from "@expo/vector-icons";
 
@@ -12,6 +12,18 @@ export default SettingScreen = ({navigation}) => {
 
   const firebase = useContext(FirebaseContext); 
   const [user, setUser] = useContext(UserContext); 
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    if (!result.cancelled) {
+      setProfilePhoto(result.uri);
+    }
+  };
 
   const ButtonAlert = () =>
     Alert.alert(
@@ -52,24 +64,39 @@ export default SettingScreen = ({navigation}) => {
     } catch (err) {
       throw err;
     }
+
+    //<ion-icon name="return-down-back-outline"></ion-icon>
+
+    /*
+    <Pressable onPress={() => navigation.push("Achive")} _pressed={{opacity: 0.5}}>
+      <HStack justifyContent="flex-end" >
+        <Ionicons 
+                  name={"return-down-back-outline"} 
+                  size={50} />
+      </HStack>
+    </Pressable>
+
+    */
   }; 
 
   return(
     <Center w="100%">
-    <Pressable onPress={() => console.log("I'm Pressed")} _pressed={{opacity: 0.5}}>
-      <HStack justifyContent="center" space={2} p="7">
-        <Avatar bg="green.500" w="100" h="100" source={user.profilePhotoUrl == "default"
-                        ? require("../../assets/logo.png")
-                        : { uri: user.profilePhotoUrl}
+
+    <Pressable onPress={pickImage} _pressed={{opacity: 0.5}}>
+      <HStack alignItems="center" justifyContent="space-between" space={2} pb="5" pt="5">
+        <Avatar w="100" h="100" pb="1"
+            source={user.profilePhotoUrl == "default"
+                ? require("../../assets/default-profile.png")
+                : { uri: user.profilePhotoUrl}
                 }>
         </Avatar> 
-      </HStack>;
+      </HStack>
     </Pressable>
 
       <Box maxW="80%" w="100%">
         <VStack space={3}>
           <Divider />
-          <Pressable onPress={() => console.log("I'm Pressed")} _pressed={{opacity: 0.5}}>
+          <Pressable onPress={() => navigation.push("UsersSetting")} _pressed={{opacity: 0.5}}>
             <HStack w="100%" justifyContent="space-between" alignItems="center" >
 
               <Ionicons 
@@ -102,6 +129,7 @@ export default SettingScreen = ({navigation}) => {
               </HStack>
           </Pressable>
           <Divider />
+
           <Pressable onPress={() => console.log("I'm Pressed")} _pressed={{opacity: 0.5}}>
             <HStack w="100%" justifyContent="space-between" alignItems="center" >
                 <Ionicons 
@@ -117,7 +145,8 @@ export default SettingScreen = ({navigation}) => {
               </HStack>
           </Pressable>
           <Divider />
-          <Pressable onPress={() => console.log("I'm Pressed")} _pressed={{opacity: 0.5}}>
+
+          <Pressable onPress={deleteUser} _pressed={{opacity: 0.5}}>
             <HStack w="100%" justifyContent="space-between" alignItems="center" >
                 <Ionicons 
                     name={"trash-outline"} 
@@ -133,7 +162,7 @@ export default SettingScreen = ({navigation}) => {
           </Pressable>
 
           <Divider />
-          <Pressable onPress={() => console.log("I'm Pressed")} _pressed={{opacity: 0.5}}>
+          <Pressable onPress={signOut} _pressed={{opacity: 0.5}}>
             <HStack w="100%" justifyContent="space-between" alignItems="center" >
                 <Ionicons 
                     name={"log-out-outline"} 
@@ -149,7 +178,7 @@ export default SettingScreen = ({navigation}) => {
           </Pressable>
 
             <Divider />
-          <Pressable onPress={() => console.log("I'm Pressed")} _pressed={{opacity: 0.5}}>
+          <Pressable onPress={clearCache} _pressed={{opacity: 0.5}}>
             <HStack w="100%" justifyContent="space-between" alignItems="center" >
               <Ionicons 
                   name={"refresh-circle-outline"} 
@@ -162,7 +191,7 @@ export default SettingScreen = ({navigation}) => {
                   size={30} />
             </HStack>
           </Pressable>
-            <Divider />
+          <Divider />
         </VStack>
       </Box>
     </Center>

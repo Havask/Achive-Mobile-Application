@@ -37,16 +37,16 @@ export default LogInScreen = ({navigation}) => {
       ]
   );
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
 
     if(RememberMe === true){
       if (email && password) {
    
-
-          firebase.SignInUser(email, password);
+        try{
+          await firebase.SignInUser(email, password);
           
-          const uid = firebase.getCurrentUser().uid; 
-          const userInfo = firebase.getUserInfo(uid)
+          const uid = await firebase.getCurrentUser().uid; 
+          const userInfo = await firebase.getUserInfo(uid)
 
           setUser({
             username: userInfo.username,
@@ -57,27 +57,33 @@ export default LogInScreen = ({navigation}) => {
             profilePhotoUrl: userInfo.profilePhotoUrl,
             isLoggedIn: true, 
           })
-            
-      
+
+        }catch{
+          console.log("mjau")
+        }
       } 
     }
     else{
+      try{
+        await firebase.SignInUser(email, password);
+        const uid =  await firebase.getCurrentUser().uid; 
+        const userInfo =  await firebase.getUserInfo(uid)
+    
+        setUser({
+          username: userInfo.username,
+          email: userInfo.email, 
+          password: userInfo.password,
+          uid: uid, 
+          groups: userInfo.groups, 
+          profilePhotoUrl: userInfo.profilePhotoUrl,
+          isLoggedIn: true, 
+        })
 
-      firebase.SignInUser(email, password);
-      const uid =  firebase.getCurrentUser().uid; 
-      const userInfo =  firebase.getUserInfo(uid)
-  
-      setUser({
-        username: userInfo.username,
-        email: userInfo.email, 
-        password: userInfo.password,
-        uid: uid, 
-        groups: userInfo.groups, 
-        profilePhotoUrl: userInfo.profilePhotoUrl,
-        isLoggedIn: true, 
-      })
+
+      }catch{console.log("mjau")
+    }}
     }
-  };
+ 
 
   const toggleSwitch = () => setRememberMe(previousState => !previousState);
 
@@ -95,7 +101,7 @@ export default LogInScreen = ({navigation}) => {
                 autoCapitalize="none" 
                 autoCompleteType="email" 
                 autocorrect={false} 
-                autoFocus={true} 
+            
                 keyboardType="email-address"
                 value={email}
                 onChangeText={email => setEmail(email.trim())}
@@ -108,7 +114,7 @@ export default LogInScreen = ({navigation}) => {
                 autoCapitalize="none" 
                 autoCompleteType="password" 
                 autocorrect={false} 
-                autoFocus={true} 
+              
                 secureTextEntry={true}
                 value={password}
                 onChangeText={password => setPassword(password.trim())}

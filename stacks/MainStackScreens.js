@@ -53,7 +53,7 @@ function GroupStackScreen() {
     return (
         <GroupProvider>
             <GroupStack.Navigator>
-                <GroupStack.Screen name="Group" component={GroupScreen} options={{headerShown: false}}/>
+                <GroupStack.Screen name="Achive" component={DrawerNav} options={{headerShown: false}}/>
                 <GroupStack.Screen name="CreateGroup" component={CreateGroupScreen} options={{headerShown: false}}/>
                 <GroupStack.Screen name="Routine" component={RoutineScreen} options={{headerShown: false}}/>
                 <GroupStack.Screen name="Tasks" component={TasksScreen} options={{headerShown: false}}/>
@@ -90,7 +90,7 @@ function SettingsStackScreen() {
             <SettingsStack.Screen name="Username" component={NewUsername} options={{headerShown: false}}/>
             <SettingsStack.Screen name="Email" component={NewEmail} options={{headerShown: false}}/>
             <SettingsStack.Screen name="UsersSetting" component={UserSetting} options={{headerShown: false}} tabBarVisible={false} />
-
+        
         </SettingsStack.Navigator>
     );
 }
@@ -103,8 +103,30 @@ function ExploringTab() {
     );
 }
 
-const TabStack = createBottomTabNavigator(); 
-function BottomTabsNavigator() {
+
+
+function DrawerNav (){
+
+    const DrawerOptions = {
+
+        drawerStyle: {
+            width: 240,
+            },
+        };
+    
+        const Drawer = createDrawerNavigator();
+    
+        return(
+            <Drawer.Navigator
+                drawerContent={(props) => <SideBar{...props} />}
+            >
+                <Drawer.Screen name="Achive" component={GroupScreen}/>
+                <Drawer.Screen name="Setting" component={SettingsStackScreen}/>
+            </Drawer.Navigator>
+        );
+}
+
+export default MainStackScreens = () => {
 
     const screenOptions = (({route}) => ({
         tabBarStyle: { display: "none" }, 
@@ -141,9 +163,9 @@ function BottomTabsNavigator() {
                 color={focused ? "#191919" : "#666666"} 
             />;
         },
-    }
-))
-    
+    }))
+
+    const TabStack = createBottomTabNavigator(); 
     return (
         <TabStack.Navigator     
         screenOptions={screenOptions}
@@ -167,29 +189,8 @@ function BottomTabsNavigator() {
             />
         </TabStack.Navigator>
     )
-  }
-
-export default MainStackScreens = () => {
-
       
-    const DrawerOptions = {
 
-    drawerStyle: {
-        width: 240,
-        },
-    };
-
-    const Drawer = createDrawerNavigator();
-
-    return(
-        <Drawer.Navigator
-            drawerContent={(props) => <SideBar{...props} />}
-        >
-
-            <Drawer.Screen name="Achive" component={BottomTabsNavigator}/>
-            <Drawer.Screen name="Setting" component={SettingsStackScreen}/>
-        </Drawer.Navigator>
-    );
 }
 
 

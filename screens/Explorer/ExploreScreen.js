@@ -134,8 +134,8 @@ const RetriveGroups = () => {
 
   return(
     <Container>
-  
-      <VStack my="4" space={5} w="100%" maxW="300px" alignSelf="center">
+
+      <VStack my="4" space={5} w="100%" maxW="300px" alignSelf="center" pt="10">
         <VStack w="100%" space={5} alignSelf="center">
           <Heading alignSelf="center" fontSize="lg"> Find your community: </Heading>
           <Input placeholder="Search for groups" width="100%" borderRadius="4" py="3" px="1" fontSize="14" 
@@ -151,7 +151,6 @@ const RetriveGroups = () => {
         keyExtractor={item => item.id.toString()} 
         refreshControl={<RefreshControl/>}
       />
-
      </Container>
     );
 }

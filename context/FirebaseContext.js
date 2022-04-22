@@ -108,8 +108,6 @@ const Firebase = {
 
   uploadGroupPhoto: async (uri, GroupID) => {
 
-    const uid = Firebase.getCurrentUser().uid; 
-
     try{
       const photo = await Firebase.getBlob(uri)
       const imagesRef = ref(storage, 'GroupPhotos');
@@ -118,10 +116,10 @@ const Firebase = {
       await uploadBytes(uidRef, photo); 
 
       const url = await getDownloadURL(ref(storage, uidRef)); 
-      const docRef = doc(db, "users", uid);
+      const GroupRef = doc(db, "groups", GroupID);
 
-      await updateDoc(docRef, {
-        profilePhotoUrl: url
+      await updateDoc(GroupRef, {
+        GroupPhotoUrl: url
      });
       return url; 
 
@@ -340,8 +338,9 @@ LeaveGroup: async (GroupID) => {
   try{
 
     //updates the users data
-    const uid = Firebase.getCurrentUser().uid;
+    const uid = await Firebase.getCurrentUser().uid;
     const UserRef = doc(db, "users", uid);
+
     // Atomically remove a region from the "regions" array field.
     await updateDoc(UserRef, {
         groups: arrayRemove(GroupID)
