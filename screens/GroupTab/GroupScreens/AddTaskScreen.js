@@ -1,10 +1,10 @@
 import React, {useState, useContext, useEffect} from "react";
 import styled from "styled-components/native"; 
-import Text from "../../components/Text.js";
+import Text from "../../../components/Text.js";
 import { KeyboardAvoidingView, ScrollView} from "react-native";
-import {FirebaseContext} from "../../context/FirebaseContext";
-import {UserContext} from "../../context/UserContext";
-import {GroupContext} from "../../context/GroupContext";
+import {FirebaseContext} from "../../../context/FirebaseContext";
+import {UserContext} from "../../../context/UserContext";
+import {GroupContext} from "../../../context/GroupContext";
 
 
 export default AddTaskScreen = ({navigation}) => {

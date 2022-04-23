@@ -27,7 +27,7 @@ const makeid = length => {
   return result;
 }
 
-export default GroupScreen = ({navigation}) => {
+export default HomeScreen = ({navigation}) => {
   
   const [profilePhoto, setProfilePhoto] = useState(); 
   const [Groups, setGroups] = useState([]); 
@@ -40,19 +40,20 @@ export default GroupScreen = ({navigation}) => {
     GroupData();  
   }, []);
 
-  const ChangeGroup = ( item ) => {
+  const ChangeGroup = ( {item} ) => {
   
     try{
+
       setGroup({
         groupname: item.groupname, 
         groupID: item.groupID, 
         color:  item.color, 
         members: item.members, 
-        profilePhotoUrl: item.profilePhoto,
+        GroupPhotoUrl: item.GroupPhotoUrl,
       })
 
-      //Dette blir også gjort til item.groupthingy ettervært
-      navigation.push("Tasks"); 
+      navigation.push("Groups"); 
+
     }catch(error){
       alert("Unable to set up groupContext")
     }
@@ -95,15 +96,20 @@ export default GroupScreen = ({navigation}) => {
 
   const RefreshGroupData = async () => {
 
-     console.log(user)
-    //Returnerer en liste over hvilke grupper man tilhører 
+     console.log("User: ",user)
+     // User context needs to update when creating new group
+
+    //Returnerer en nylig liste over hvilke grupper man tilhører 
     const groups = await firebase.RetriveGroupData(); 
 
+    console.log("",groups)
     //returnerer et array av json objekter
     const objectArray = await firebase.LoadGroups(groups); 
 
     setData(objectArray); 
-    setData(data); 
+
+    //updates the context 
+    setUser((state) => ({ ...state, groups: groups})); 
 
     const jsonValue = JSON.stringify(objectArray)
     await AsyncStorage.setItem(
@@ -112,43 +118,26 @@ export default GroupScreen = ({navigation}) => {
     );
   }
 
-  const renderItem = ({ item }) => (
-    <GroupView color={item.color} onPress={() => ChangeGroup(item)}>
-      <Text1 bold center color="#ffffff">
-              {item.groupname}
-      </Text1>
-    </GroupView>
-  );
-
-  const renderItem1 = ({
+  const renderItem = ({
     item
-  }) => <Divider>
-  
-      <Box width="100%" height="100" >
-
-      <Pressable onPress={() => ChangeGroup(item)}  _pressed={{
-      bg: "muted.400"
-    }} >
-        <Box>
-          <HStack alignItems="center" space={3} bg="primary.50" >
-          <Image source={group.GroupPhotoUrl == "default"
-                      ? require("../../assets/default-group.png")
-                      : { uri: group.GroupPhotoUrl}
+  }) => 
+        <Pressable onPress={() => ChangeGroup({item})}  _pressed={{bg: "muted.400"}} >
+          <Box>
+            <HStack alignItems="center"  bg="primary.50" >
+            <Image source={group.GroupPhotoUrl == "default"
+                        ? require("../../assets/default-group.png")
+                        : { uri: group.GroupPhotoUrl}
               
-              } height="81" rounded="full" width="81" alt="Aang flying and surrounded by clouds"  />
-            <VStack>
-              <Text color="coolGray.800" fontSize="2xl" _dark={{
-              color: "warmGray.50"
-            }} bold>
-                {item.groupname}
-              </Text>
-            </VStack>
-            <Spacer />
-          </HStack>
-        </Box>
-      </Pressable>
-    </Box>
-    </Divider>;
+                } height="81" rounded="full" width="81" alt="GroupPhoto"  />
+              <VStack>
+                <Text color="coolGray.800" fontSize="2xl" bold>
+                  {item.groupname}
+                </Text>
+              </VStack>
+              <Spacer />
+            </HStack>
+          </Box>
+        </Pressable>;
 
 const closeRow = (rowMap, rowKey) => {
   if (rowMap[rowKey]) {
@@ -221,6 +210,7 @@ const renderHiddenItem = (data, rowMap) =>
         </Create>
     
        <SwipeListView  
+       useFlatList={true}
             renderHiddenItem={renderHiddenItem} 
             rightOpenValue={-100}
             leftOpenValue={10000}
@@ -228,7 +218,7 @@ const renderHiddenItem = (data, rowMap) =>
             previewOpenValue={-50} 
             previewOpenDelay={3000} 
             data={data}
-            renderItem={renderItem1}
+            renderItem={renderItem}
             keyExtractor={item => item.groupID}
             refreshControl={<RefreshControl onRefresh={RefreshGroupData}/>}
        /> 
@@ -239,7 +229,6 @@ const renderHiddenItem = (data, rowMap) =>
 const Container = styled.View`
     flex: 1; 
 `;
-
 
 const Main = styled.View`
   margin-top: 30px; 

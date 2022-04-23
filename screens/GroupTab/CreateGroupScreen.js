@@ -26,7 +26,7 @@ export default CreateGroupScreen = ({navigation}) => {
   const firebase = useContext(FirebaseContext); 
   const [_, setUser] = useContext(UserContext);   
   const [Groupname, setGroupName] = useState(""); 
-  const [Color, setColor] = useState(""); 
+  const [Color, setColor] = useState('#F44336'); 
   const [Privacy, setPrivacy] = useState(false);
   const [GroupPhoto, setGroupPhoto] = useState(); 
 
@@ -50,20 +50,20 @@ export default CreateGroupScreen = ({navigation}) => {
 
   const CreateNewGroup = async () => {
 
-    const GroupID = makeid(6); 
+    try{
 
-    setLoading(true);
-    const group = {Groupname, GroupID, Color, Privacy, GroupPhoto}
+      setLoading(true);
 
-    //qr = generateQR(id); 
+      const GroupID = makeid(6); 
+      const group = {Groupname, GroupID, Color, Privacy, GroupPhoto}
+  
+      //qr = generateQR(id); 
+  
+      await firebase.CreateNewGroup(group); 
+      navigation.push("Achive"); 
 
-    const newGroup = firebase.CreateNewGroup(group); 
-    
-    //sjekker om id'n til gruppa eksiterer fra før
-    if(newGroup === 1){
-      CreateNewGroup(); 
-    }else{
-      navigation.push("Group"); 
+    }catch(error){
+      console.log("Error @CreateNewGroup", error)
     }
   };
 

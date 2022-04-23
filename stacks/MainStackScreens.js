@@ -6,10 +6,10 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import SideBar from "./CustomDrawerContent"
 import {
-            GroupScreen, 
+            HomeScreen, 
             CreateGroupScreen, 
             RoutineScreen, 
-            TasksScreen,
+            GroupScreen,
             Scoreboard,
             JoinGroup, 
             Scanner,
@@ -56,7 +56,7 @@ function GroupStackScreen() {
                 <GroupStack.Screen name="Achive" component={DrawerNav} options={{headerShown: false}}/>
                 <GroupStack.Screen name="CreateGroup" component={CreateGroupScreen} options={{headerShown: false}}/>
                 <GroupStack.Screen name="Routine" component={RoutineScreen} options={{headerShown: false}}/>
-                <GroupStack.Screen name="Tasks" component={TasksScreen} options={{headerShown: false}}/>
+                <GroupStack.Screen name="Groups" component={GroupScreen} options={{headerShown: false}}/>
                 <GroupStack.Screen name="Scoreboard" component={Scoreboard} options={{headerShown: false}}/>
                 <GroupStack.Screen name="Scanner" component={Scanner} options={{headerShown: false}}/>
                 <GroupStack.Screen name="joingroup" component={JoinGroup} options={{headerShown: false}}/>
@@ -104,7 +104,6 @@ function ExploringTab() {
 }
 
 
-
 function DrawerNav (){
 
     const DrawerOptions = {
@@ -120,7 +119,7 @@ function DrawerNav (){
             <Drawer.Navigator
                 drawerContent={(props) => <SideBar{...props} />}
             >
-                <Drawer.Screen name="Achive" component={GroupScreen}/>
+                <Drawer.Screen name="Home" component={HomeScreen}/>
                 <Drawer.Screen name="Setting" component={SettingsStackScreen}/>
             </Drawer.Navigator>
         );
@@ -146,7 +145,7 @@ export default MainStackScreens = () => {
                 iconName = "ios-filter"
                 break; 
                 
-                case "Groups": 
+                case "Home": 
                 iconName = "ios-people-sharp"
                 break; 
                 
@@ -169,7 +168,7 @@ export default MainStackScreens = () => {
     return (
         <TabStack.Navigator     
         screenOptions={screenOptions}
-        initialRouteName = "Groups">
+        initialRouteName = "Home">
             
             <TabStack.Screen 
                 name="Feeds" 
@@ -177,7 +176,7 @@ export default MainStackScreens = () => {
                 options={{headerShown: false}}
             />
             <TabStack.Screen 
-                name="Groups" 
+                name="Home" 
                 component={GroupStackScreen}     
                 options={{headerShown: false}}
              

@@ -51,6 +51,11 @@ const database = getDatabase(app);
 
 
 const Firebase = {
+
+  UpdateUserContext: async () => {
+    //fetch et array med 
+
+  },
   
   getCurrentUser: () => {
       return auth.currentUser
@@ -124,7 +129,7 @@ const Firebase = {
       return url; 
 
     }catch(error){
-      console.log("Error @uploadProfilePhoto", error)
+      console.log("Error @uploadGroupPhoto", error)
     }
   },
     
@@ -267,11 +272,6 @@ const Firebase = {
 
       let GroupPhotoUrl = "default"
       
-
-      if(Group.GroupPhoto){
-        GroupPhotoUrl = await Firebase.uploadGroupPhoto(Group.GroupPhoto, Group.GroupID)
-      }
-
       await setDoc(doc(db, "groups", Group.GroupID), {
         groupname: Group.Groupname, 
         groupID: Group.GroupID, 
@@ -279,12 +279,14 @@ const Firebase = {
         members: [uid],
         privacy: Group.Privacy,
         GroupPhotoUrl: GroupPhotoUrl
-
+        
         //EncodedSVG: encodedData
         //GroupPicture: picture
-        });
-
-
+      });
+      
+      if(Group.GroupPhoto){
+        GroupPhotoUrl = await Firebase.uploadGroupPhoto(Group.GroupPhoto, Group.GroupID)
+      }
       
     }catch(error){
       console.log("Error @CreateNewGroup", error)

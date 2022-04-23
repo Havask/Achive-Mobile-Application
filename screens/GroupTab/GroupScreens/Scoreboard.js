@@ -12,10 +12,10 @@ Lag en top 3 palle for måneden
 
 import React, {useState, useContext} from "react";
 import styled from "styled-components/native"; 
-import Text from "../../components/Text.js";
-import {FirebaseContext} from "../../context/FirebaseContext";
-import {UserContext} from "../../context/UserContext";
-import {GroupContext} from "../../context/GroupContext";
+import Text from "../../../components/Text.js";
+import {FirebaseContext} from "../../../context/FirebaseContext";
+import {UserContext} from "../../../context/UserContext";
+import {GroupContext} from "../../../context/GroupContext";
 import {FlatList} from 'react-native';
 import {Ionicons} from "@expo/vector-icons"; 
 

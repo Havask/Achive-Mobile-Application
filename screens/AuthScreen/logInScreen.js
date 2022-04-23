@@ -78,8 +78,6 @@ export default LogInScreen = ({navigation}) => {
           profilePhotoUrl: userInfo.profilePhotoUrl,
           isLoggedIn: true, 
         })
-
-
       }catch{console.log("mjau")
     }}
     }

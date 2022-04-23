@@ -1,10 +1,10 @@
 import React, {useState, useContext, useEffect} from "react";
 import styled from "styled-components/native"; 
-import Text from "../../components/Text.js";
+import Text from "../../../components/Text.js";
 import {Entypo, Ionicons} from "@expo/vector-icons"; 
-import {FirebaseContext} from "../../context/FirebaseContext";
-import {UserContext} from "../../context/UserContext";
-import {GroupContext} from "../../context/GroupContext";
+import {FirebaseContext} from "../../../context/FirebaseContext";
+import {UserContext} from "../../../context/UserContext";
+import {GroupContext} from "../../../context/GroupContext";
 import { FontAwesome } from '@expo/vector-icons'
 import { Timestamp } from "firebase/firestore";
 
@@ -79,21 +79,10 @@ const FirstRefresh = async () => {
     setfeed(RetrivedFeed); 
 
   }catch {
-    console.log("Something went wrong @RetriveFeed"); 
+    console.log("Something went wrong @FirstRefresh"); 
   }
 };
 
-const RetriveFeed = async () => {
-  try{
-    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
-    const RetrivedFeed = await firebase.RetriveFeed(sortsetting); 
-
-    setfeed(RetrivedFeed); 
-
-  }catch {
-    console.log("Something went wrong @RetriveFeed"); 
-  }
-};
 
 const makeid = length => {
   var result           = '';
