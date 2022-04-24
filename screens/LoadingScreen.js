@@ -43,7 +43,7 @@ export default LoadingScreen = () => {
                     setUser((state) => ({ ...state, isLoggedIn: false})); 
                 }
             }catch(error){
-                console.log("Error @uploadProfilePhoto", error)
+                console.log("Error @LoadingScreen", error)
             }
         }, 500)
     }, [])

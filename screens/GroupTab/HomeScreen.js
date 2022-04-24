@@ -10,7 +10,7 @@ import {UserContext} from "../../context/UserContext";
 import * as SecureStore from 'expo-secure-store';
 import { SwipeListView } from "react-native-swipe-list-view";
 
-import {Box, Text, Pressable, Heading, IconButton, Icon, HStack, Avatar, VStack, Spacer, Center, Image,Divider } from "native-base";
+import {Box, Text, Pressable, Heading, IconButton, Icon, HStack, Avatar, VStack, Spacer, Center, Image,Divider,Stack, Button} from "native-base";
 import {
   RefreshControl, Vibration
 } from 'react-native';
@@ -29,7 +29,7 @@ const makeid = length => {
 
 export default HomeScreen = ({navigation}) => {
   
-  const [profilePhoto, setProfilePhoto] = useState(); 
+
   const [Groups, setGroups] = useState([]); 
   const [data, setData] = useState([]); 
   const firebase = useContext(FirebaseContext); 
@@ -96,8 +96,7 @@ export default HomeScreen = ({navigation}) => {
 
   const RefreshGroupData = async () => {
 
-     console.log("User: ",user)
-     // User context needs to update when creating new group
+    await firebase.CacheUserContext(user); 
 
     //Returnerer en nylig liste over hvilke grupper man tilhører 
     const groups = await firebase.RetriveGroupData(); 
@@ -105,6 +104,7 @@ export default HomeScreen = ({navigation}) => {
     console.log("",groups)
     //returnerer et array av json objekter
     const objectArray = await firebase.LoadGroups(groups); 
+    console.log(objectArray); 
 
     setData(objectArray); 
 
@@ -121,23 +121,27 @@ export default HomeScreen = ({navigation}) => {
   const renderItem = ({
     item
   }) => 
-        <Pressable onPress={() => ChangeGroup({item})}  _pressed={{bg: "muted.400"}} >
-          <Box>
-            <HStack alignItems="center"  bg="primary.50" >
+        <Box maxW="100%" w="100%">
+        <VStack space={3}>
+          <Divider />
+          <Pressable onPress={() => ChangeGroup({item})} >
+            <HStack w="100%" justifyContent="space-between" alignItems="center" bg="primary.50">
             <Image source={group.GroupPhotoUrl == "default"
                         ? require("../../assets/default-group.png")
-                        : { uri: group.GroupPhotoUrl}
-              
-                } height="81" rounded="full" width="81" alt="GroupPhoto"  />
-              <VStack>
-                <Text color="coolGray.800" fontSize="2xl" bold>
+                        : { uri: item.GroupPhotoUrl}
+                } height="70" rounded="full" width="70" alt="GroupPhoto"  />
+                <Text color="coolGray.800" bold>
                   {item.groupname}
                 </Text>
-              </VStack>
-              <Spacer />
-            </HStack>
-          </Box>
-        </Pressable>;
+
+                <Ionicons 
+                    name={"chevron-forward-outline"} 
+                    size={30} />
+              </HStack>
+          </Pressable>
+          <Divider />
+          </VStack>
+      </Box>;
 
 const closeRow = (rowMap, rowKey) => {
   if (rowMap[rowKey]) {
@@ -161,8 +165,8 @@ const deleteGroup = (rowMap, rowKey, groupID) => {
 };
 
 const renderHiddenItem = (data, rowMap) => 
-  <HStack flex="1" pl="2">
-    <Pressable w="100" h="79" bg="red.500" justifyContent="center"  ml="auto" 
+  <HStack flex="1" pl="2" alignItems="center">
+    <Pressable w="100" h="60" bg="red.500" justifyContent="center"  ml="auto" 
       onPress={() => deleteGroup(rowMap, data.item.key, data.item.groupID)} _pressed={{opacity: 0.5}}>
       <VStack alignItems="center" space={2}>
         <Icon as={<MaterialIcons name="delete" />} color="white" size="6" />
@@ -175,55 +179,35 @@ const renderHiddenItem = (data, rowMap) =>
 
   return(
     <Container>
-       <Main>
-          <IconsView>
-          <ProfilePhotoContainer>
-            <ProfilePhoto 
-              source={user.profilePhotoUrl == "default"
-                      ? require("../../assets/default-profile.png")
-                      : { uri: user.profilePhotoUrl}
-              }
-            />
-          </ProfilePhotoContainer>
-            <Notification onPress={() => navigation.push("Explore")}>
-              <Ionicons 
-                    name={"ios-compass-outline"} 
-                    size={50} 
-                    color={"#88d498"}
-              />
-            </Notification>
-          </IconsView>
-        </Main>
-          
-        <Create>
-          <CreateContainer onPress={() => navigation.push("CreateGroup")}>
-            <Text1 bold center color="#ffffff">
-                Create
-            </Text1>
-          </CreateContainer>
 
-          <CreateContainer onPress={() => navigation.push("joingroup")}>
-            <Text1 bold center color="#ffffff">
-                Join
-            </Text1>
-          </CreateContainer>
-        </Create>
-    
-       <SwipeListView  
-       useFlatList={true}
-            renderHiddenItem={renderHiddenItem} 
-            rightOpenValue={-100}
-            leftOpenValue={10000}
-            previewRowKey={"0"} 
-            previewOpenValue={-50} 
-            previewOpenDelay={3000} 
-            data={data}
-            renderItem={renderItem}
-            keyExtractor={item => item.groupID}
-            refreshControl={<RefreshControl onRefresh={RefreshGroupData}/>}
-       /> 
-     </Container>
-    );
+      <HStack space={12} justifyContent="center" pt="7">
+          <Box w="100" h="100">
+            <Button height="50" width="110" leftIcon={<Icon as={Ionicons} name="create-outline" size="sm" onPress={() => navigation.push("CreateGroup")} />}>
+              Create
+            </Button>
+          </Box>
+          <Box>
+            <Button height="50" width="110" leftIcon={<Icon as={Ionicons} name="log-in-outline" size="sm" onPress={() => navigation.push("joingroup")} />}>
+              Join
+            </Button>
+          </Box>
+      </HStack>
+
+      <SwipeListView  
+      useFlatList={true}
+          renderHiddenItem={renderHiddenItem} 
+          rightOpenValue={-100}
+          leftOpenValue={10000}
+          previewRowKey={"0"} 
+          previewOpenValue={-50} 
+          previewOpenDelay={3000} 
+          data={data}
+          renderItem={renderItem}
+          keyExtractor={item => item.groupID}
+          refreshControl={<RefreshControl onRefresh={RefreshGroupData}/>}
+      /> 
+    </Container>
+  );
 }
 
 const Container = styled.View`

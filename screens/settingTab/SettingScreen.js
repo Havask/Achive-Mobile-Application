@@ -20,8 +20,9 @@ export default SettingScreen = ({navigation}) => {
       aspect: [4, 3],
       quality: 1,
     });
-    if (!result.cancelled) {
-      setProfilePhoto(result.uri);
+    if (!result.cancelled){
+      firebase.uploadProfilePhoto(result.uri)
+      setUser((state) => ({ ...state, profilePhotoUrl: result.uri})); 
     }
   };
 

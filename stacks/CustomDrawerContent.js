@@ -20,12 +20,8 @@ export default SideBar = ({...props}) => {
         <DrawerContentScrollView>
             <ImageBackground
                 source = {require("../assets/Header.jpg")}
-                style = {{width: undefined, padding: 16, paddingTop: 48}}
+                style = {{hight : 10, width: undefined, padding: 16, paddingTop: 48}}
                 >
-            <Image source = {user.profilePhotoUrl == "default"
-                        ? require("../assets/logo.png")
-                        : { uri: user.profilePhotoUrl}
-                }/>
             <View>
                 <Text style={{flexDirection: "row"}}>101</Text>
                 <Ionicons name="md-people" size={16} color="rgba(255,255, 255,0.8)"/> 

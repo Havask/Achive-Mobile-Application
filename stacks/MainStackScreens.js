@@ -53,7 +53,7 @@ function GroupStackScreen() {
     return (
         <GroupProvider>
             <GroupStack.Navigator>
-                <GroupStack.Screen name="Achive" component={DrawerNav} options={{headerShown: false}}/>
+                <GroupStack.Screen name="HomeScreen" component={HomeScreen} options={{headerShown: false}}/>
                 <GroupStack.Screen name="CreateGroup" component={CreateGroupScreen} options={{headerShown: false}}/>
                 <GroupStack.Screen name="Routine" component={RoutineScreen} options={{headerShown: false}}/>
                 <GroupStack.Screen name="Groups" component={GroupScreen} options={{headerShown: false}}/>
@@ -64,7 +64,6 @@ function GroupStackScreen() {
                 <GroupStack.Screen name="Chat" component={Chat} options={{headerShown: false}}/>
                 <GroupStack.Screen name="GroupFeeds" component={GroupFeeds} options={{headerShown: false}}/>
                 <GroupStack.Screen name="DrawerScreen" component={DrawerScreen} options={{ headerShown: false }} />
-        
             </GroupStack.Navigator>
         </GroupProvider>
     );
@@ -103,7 +102,6 @@ function ExploringTab() {
     );
 }
 
-
 function DrawerNav (){
 
     const DrawerOptions = {
@@ -119,7 +117,7 @@ function DrawerNav (){
             <Drawer.Navigator
                 drawerContent={(props) => <SideBar{...props} />}
             >
-                <Drawer.Screen name="Home" component={HomeScreen}/>
+                <Drawer.Screen name="Group" component={GroupStackScreen}/>
                 <Drawer.Screen name="Setting" component={SettingsStackScreen}/>
             </Drawer.Navigator>
         );
@@ -129,14 +127,14 @@ export default MainStackScreens = () => {
 
     const screenOptions = (({route}) => ({
         tabBarStyle: { display: "none" }, 
+        unmountOnBlur: true , 
 
         tabBarStyle: {
             backgroundColor: "#FFFFFF", 
             paddingBottom: 20,
             height: 80,
         },
-        
-        
+    
         tabBarIcon: ({focused}) => {
             let iconName = "ios-home"
             
@@ -168,6 +166,7 @@ export default MainStackScreens = () => {
     return (
         <TabStack.Navigator     
         screenOptions={screenOptions}
+
         initialRouteName = "Home">
             
             <TabStack.Screen 
@@ -177,7 +176,7 @@ export default MainStackScreens = () => {
             />
             <TabStack.Screen 
                 name="Home" 
-                component={GroupStackScreen}     
+                component={DrawerNav}     
                 options={{headerShown: false}}
              
             />
@@ -191,6 +190,5 @@ export default MainStackScreens = () => {
       
 
 }
-
 
 

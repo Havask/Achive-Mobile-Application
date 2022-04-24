@@ -60,7 +60,7 @@ export default CreateGroupScreen = ({navigation}) => {
       //qr = generateQR(id); 
   
       await firebase.CreateNewGroup(group); 
-      navigation.push("Achive"); 
+      navigation.push("HomeScreen"); 
 
     }catch(error){
       console.log("Error @CreateNewGroup", error)

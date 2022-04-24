@@ -23,4 +23,14 @@ ExploreScreen:
 -Få joina fetcha grupper
 -Få Joina grupper
 
+
+
+
+    MVP: 
+
+    -Trenger å lage grupper 
+    -Trenger å Joine grupper 
+    -Gruppene trenger å ha litt innhold 
+    -Innholdet trenger å dukke oppp i feeden 
+
 */

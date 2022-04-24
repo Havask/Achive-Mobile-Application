@@ -1,7 +1,6 @@
 import React, {createContext, useState,useEffect,
         useLayoutEffect,useCallback } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 import { initializeApp } from 'firebase/app';
 import {getAuth, 
   deleteUser, 
@@ -52,10 +51,11 @@ const database = getDatabase(app);
 
 const Firebase = {
 
-  UpdateUserContext: async () => {
-    //fetch et array med 
+  CacheUserContext: async (user) => {
 
-  },
+    const jsonValue = JSON.stringify(user)
+    await SecureStore.setItemAsync("User", jsonValue)
+  },    
   
   getCurrentUser: () => {
       return auth.currentUser

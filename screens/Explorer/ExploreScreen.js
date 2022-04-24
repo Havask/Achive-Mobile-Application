@@ -120,7 +120,6 @@ export default ExplorerScreen = ({navigation}) => {
         </Stack>
         </Pressable>
       </Box>
-  
   )
 
   const SearchHandler = () => {
