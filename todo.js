@@ -27,10 +27,10 @@ ExploreScreen:
 
 
     MVP: 
-
-    -Trenger å lage grupper 
-    -Trenger å Joine grupper 
+    -Lage brukera : CHECK 
+    -Trenger å lage grupper : CHECK 
+    -Trenger å Joine grupper : 
     -Gruppene trenger å ha litt innhold 
     -Innholdet trenger å dukke oppp i feeden 
-
+    -Strenger å ha et bra UI : 
 */

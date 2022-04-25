@@ -23,6 +23,7 @@ export default SettingScreen = ({navigation}) => {
     if (!result.cancelled){
       firebase.uploadProfilePhoto(result.uri)
       setUser((state) => ({ ...state, profilePhotoUrl: result.uri})); 
+      //navigation.navigate('Group');
     }
   };
 

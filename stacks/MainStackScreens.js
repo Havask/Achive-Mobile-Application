@@ -105,7 +105,6 @@ function ExploringTab() {
 function DrawerNav (){
 
     const DrawerOptions = {
-
         drawerStyle: {
             width: 240,
             },
