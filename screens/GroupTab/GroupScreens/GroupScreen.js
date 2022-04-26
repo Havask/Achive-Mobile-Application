@@ -5,7 +5,7 @@ import {FirebaseContext} from "../../../context/FirebaseContext";
 import {UserContext} from "../../../context/UserContext";
 import {GroupContext} from "../../../context/GroupContext";
 import {Ionicons} from "@expo/vector-icons"; 
-import {Box, Text, Pressable, Heading, IconButton, Icon, HStack, Avatar, VStack, Spacer, Center, Image,Divider,Stack, Button} from "native-base";
+import {Flex,Box, Text, Pressable, Heading, IconButton, Icon, HStack, Avatar, VStack, Spacer, Center, Image,Divider,Stack, Button} from "native-base";
 
 import {
   RefreshControl
@@ -47,26 +47,49 @@ const DATA = [
   },
 ];
 
-const renderItem = ({ item }) => (
-  <GroupView color={item.color} onPress={() => ChangeGroup(item)}>
-    <Text bold center color="#ffffff">
-        {item.title}
-    </Text>
-  </GroupView>
-);
+
+const renderitem = ({
+  item
+}) => 
+      <Box maxW="100%">
+      <VStack >
+        <Divider />
+          <Pressable onPress={() => ChangeGroup(item)} >
+            <Box>
+            <HStack space={2} w="100%" h="70" justifyContent="center" alignItems="center" bg="primary.50">
+                <Text color="coolGray.800" bold fontSize="xl" >
+                  {item.title}
+                </Text>
+                <Ionicons 
+                    name={"chevron-forward-outline"} 
+                    size={30} />
+              </HStack>
+            </Box>
+          </Pressable>
+        <Divider />
+      </VStack>
+    </Box>;
 
 const RenderText = () => {
   if(text === true){
     return (
-    <Text title semi center color={Group.color}>
-      {Group.groupname}
-    </Text>
+    <Pressable onPress={toggleSwitch}>
+      <Stack alignItems="center">
+        <Heading fontSize="3xl" color={Group.color}>
+          {Group.groupname}
+        </Heading>
+      </Stack>
+    </Pressable>
     )
   }else{
     return(
-    <Text title semi center color={Group.color}>
-      {Group.groupID}
-    </Text>
+      <Pressable onPress={toggleSwitch}>
+        <Stack alignItems="center">
+          <Heading fontSize="3xl" color={Group.color}>
+            {Group.groupID}
+          </Heading>
+        </Stack>
+      </Pressable>
     )
   }
 }
@@ -74,75 +97,24 @@ const RenderText = () => {
 const toggleSwitch = () => settext(previousState => !previousState);
 
 return(
-  <Container>
-     <Main onPress={toggleSwitch}>
-        <RenderText/>
-      </Main>
-      <IconsView>
-        <Notification onPress={() => navigation.push("Chat")}>
-          <Ionicons 
-            name={"ios-chatbubbles-outline"} 
-            size={50} 
-            color={Group.color}
-          />
-        </Notification>
-      </IconsView>
-      <FlatList 
-        data={DATA}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-        refreshControl={<RefreshControl />}
-       /> 
-        <SignUp color={Group.color} onPress={() => navigation.push(item.title)}>
-          <Text title center> 
-            <Text title bold color="#ffffff">+</Text>
-          </Text>
-        </SignUp>
-   </Container>
+  <Flex >
+    <Box p="5">
+      <RenderText/>
+    </Box>
+    
+    <FlatList 
+      data={DATA}
+      renderItem={renderitem}
+      keyExtractor={item => item.id}
+      refreshControl={<RefreshControl />}
+    /> 
+
+    <Stack pb="5" alignItems="center" mb="2.5" mt="1.5">
+      <Button  variant="link" onPress={() => navigation.push("AddTask")} height="50" width="150" leftIcon={<Icon as={Ionicons} name="create-outline" size="sm"  />}>
+        Add more feature
+      </Button>
+    </Stack>
+   </Flex>
   );
 }
 
-const Container = styled.View`
-  flex: 1; 
-`;
-
-const Main = styled.TouchableOpacity`
-  margin-top: 30px; 
-  margin-bottom: 20px; 
-`;
-
-const Notification = styled.TouchableOpacity`
-  margin: 0px 200px 0px 20px; 
-  height: 50px; 
-  width: 50px
-  align-items: center; 
-  justify-content: center; 
-  border-radius: 6px;
-`;
-
-const IconsView = styled.View`
-  flex-direction: row; 
-  margin-bottom: 30px; 
-`;
-
-const GroupView = styled.TouchableOpacity`
-
-margin: 0 32px; 
-  height: 68px; 
-  align-items: center; 
-  justify-content: center; 
-  background-color: ${props => props.color};
-  border-radius: 6px;
-  margin-bottom: 16px;
-`;
-
-const SignUp = styled.TouchableOpacity`
-  margin: 0 150px; 
-  width: 80px; 
-  height: 80px; 
-  align-items: center; 
-  justify-content: center; 
-  background-color: ${props => props.color};
-  border-radius: 50px;
-  margin-bottom: 32px;
-`; 

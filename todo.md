@@ -33,6 +33,9 @@ ExploreScreen:
     -Trenger å lage grupper : CHECK 
     -Trenger å Joine grupper : CHECK
     -Kan forlate grupper: CHECK 
+
+    -Lag en admin rolle til de som lager gruppene. 
+    -En oversikt over alle medlemmene i gruppen
     
 
     -Gruppene trenger å ha en egen post feed

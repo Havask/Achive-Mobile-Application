@@ -83,17 +83,16 @@ export default SettingScreen = ({navigation}) => {
 
   return(
     <Center w="100%">
-
-    <Pressable onPress={pickImage} _pressed={{opacity: 0.5}}>
-      <HStack alignItems="center" justifyContent="space-between" space={2} pb="5" pt="5">
-        <Avatar w="100" h="100" pb="1"
-            source={user.profilePhotoUrl == "default"
-                ? require("../../assets/default-profile.png")
-                : { uri: user.profilePhotoUrl}
-                }>
-        </Avatar> 
-      </HStack>
-    </Pressable>
+      <Pressable onPress={pickImage} _pressed={{opacity: 0.5}}>
+        <HStack alignItems="center" justifyContent="space-between" space={2} pb="5" pt="5">
+          <Avatar w="100" h="100" pb="1"
+              source={user.profilePhotoUrl == "default"
+                  ? require("../../assets/default-profile.png")
+                  : { uri: user.profilePhotoUrl}
+                  }>
+          </Avatar> 
+        </HStack>
+      </Pressable>
 
       <Box maxW="80%" w="100%">
         <VStack space={3}>

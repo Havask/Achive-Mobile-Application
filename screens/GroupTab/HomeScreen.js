@@ -189,17 +189,17 @@ const renderHiddenItem = (data, rowMap) =>
       </HStack>
       <Box>
         <SwipeListView  
-        useFlatList={true}
-            renderHiddenItem={renderHiddenItem} 
-            rightOpenValue={-100}
-            leftOpenValue={10000}
-            previewRowKey={"0"} 
-            previewOpenValue={-50} 
-            previewOpenDelay={3000} 
-            data={data}
-            renderItem={renderItem}
-            keyExtractor={item => item.groupID}
-            refreshControl={<RefreshControl onRefresh={RefreshGroupData}/>}
+          useFlatList={true}
+          renderHiddenItem={renderHiddenItem} 
+          rightOpenValue={-100}
+          leftOpenValue={10000}
+          previewRowKey={"0"} 
+          previewOpenValue={-50} 
+          previewOpenDelay={3000} 
+          data={data}
+          renderItem={renderItem}
+          keyExtractor={item => item.groupID}
+          refreshControl={<RefreshControl onRefresh={RefreshGroupData}/>}
         /> 
       </Box>
     </Box>
