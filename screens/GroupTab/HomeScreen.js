@@ -29,7 +29,6 @@ const makeid = length => {
 
 export default HomeScreen = ({navigation}) => {
   
-
   const [Groups, setGroups] = useState([]); 
   const [data, setData] = useState([]); 
   const firebase = useContext(FirebaseContext); 
@@ -43,7 +42,6 @@ export default HomeScreen = ({navigation}) => {
   const ChangeGroup = ( {item} ) => {
   
     try{
-
       setGroup({
         groupname: item.groupname, 
         groupID: item.groupID, 
@@ -100,12 +98,8 @@ export default HomeScreen = ({navigation}) => {
 
     //Returnerer en nylig liste over hvilke grupper man tilhører 
     const groups = await firebase.RetriveGroupData(); 
-
-    console.log("",groups)
     //returnerer et array av json objekter
     const objectArray = await firebase.LoadGroups(groups); 
-    console.log(objectArray); 
-
     setData(objectArray); 
 
     //updates the context 
@@ -121,23 +115,25 @@ export default HomeScreen = ({navigation}) => {
   const renderItem = ({
     item
   }) => 
-        <Box maxW="100%" w="100%">
-        <VStack space={3}>
+        <Box maxW="100%">
+        <VStack >
           <Divider />
           <Pressable onPress={() => ChangeGroup({item})} >
-            <HStack w="100%" justifyContent="space-between" alignItems="center" bg="primary.50">
+            <Box>
+            <HStack w="100%" h="70" justifyContent="space-between" alignItems="center" bg="primary.50">
+              
             <Image source={group.GroupPhotoUrl == "default"
                         ? require("../../assets/default-group.png")
                         : { uri: item.GroupPhotoUrl}
-                } height="70" rounded="full" width="70" alt="GroupPhoto"  />
-                <Text color="coolGray.800" bold>
+                } height="60" rounded="full" width="60" alt="GroupPhoto"  />
+                <Text color="coolGray.800" bold fontSize="xl" >
                   {item.groupname}
                 </Text>
-
                 <Ionicons 
                     name={"chevron-forward-outline"} 
                     size={30} />
               </HStack>
+            </Box>
           </Pressable>
           <Divider />
           </VStack>
@@ -178,113 +174,34 @@ const renderHiddenItem = (data, rowMap) =>
   </HStack>;
 
   return(
-    <Container>
-
+    <Box>
       <HStack space={12} justifyContent="center" pt="7">
           <Box w="100" h="100">
-            <Button height="50" width="110" leftIcon={<Icon as={Ionicons} name="create-outline" size="sm" onPress={() => navigation.push("CreateGroup")} />}>
+            <Button onPress={() => navigation.push("CreateGroup")} height="50" width="110" leftIcon={<Icon as={Ionicons} name="create-outline" size="sm"  />}>
               Create
             </Button>
           </Box>
           <Box>
-            <Button height="50" width="110" leftIcon={<Icon as={Ionicons} name="log-in-outline" size="sm" onPress={() => navigation.push("joingroup")} />}>
+            <Button onPress={() => navigation.push("joingroup")} height="50" width="110" leftIcon={<Icon as={Ionicons} name="log-in-outline" size="sm"  />}>
               Join
             </Button>
           </Box>
       </HStack>
-
-      <SwipeListView  
-      useFlatList={true}
-          renderHiddenItem={renderHiddenItem} 
-          rightOpenValue={-100}
-          leftOpenValue={10000}
-          previewRowKey={"0"} 
-          previewOpenValue={-50} 
-          previewOpenDelay={3000} 
-          data={data}
-          renderItem={renderItem}
-          keyExtractor={item => item.groupID}
-          refreshControl={<RefreshControl onRefresh={RefreshGroupData}/>}
-      /> 
-    </Container>
+      <Box>
+        <SwipeListView  
+        useFlatList={true}
+            renderHiddenItem={renderHiddenItem} 
+            rightOpenValue={-100}
+            leftOpenValue={10000}
+            previewRowKey={"0"} 
+            previewOpenValue={-50} 
+            previewOpenDelay={3000} 
+            data={data}
+            renderItem={renderItem}
+            keyExtractor={item => item.groupID}
+            refreshControl={<RefreshControl onRefresh={RefreshGroupData}/>}
+        /> 
+      </Box>
+    </Box>
   );
 }
-
-const Container = styled.View`
-    flex: 1; 
-`;
-
-const Main = styled.View`
-  margin-top: 30px; 
-  align-items: center; 
-  justify-content: center; 
-`;
-
-const IconsView = styled.View`
-  flex-direction: row; 
-  
-`;
-
-const ProfilePhotoContainer = styled.TouchableOpacity`
-  background-color: #e1e2e6;
-  width: 50px; 
-  height: 50px; 
-  border-radius: 48px; 
-  align-self: center; 
-  overflow: hidden; 
-  margin-bottom: 32px;
-`; 
-
-const ProfilePhoto = styled.Image`
-  width: 50px;
-  height: 50px; 
-  border-radius: 64px; 
-`;
-
-const CreateContainer = styled.TouchableOpacity`
-  margin: 0 10px; 
-  height: 60px; 
-  width: 140px
-  align-items: center; 
-  justify-content: center; 
-  background-color: #88d498;
-  border-radius: 20px;
-  margin-bottom: 32px;
-`;
-
-const Create = styled.View`
-  flex-direction: row; 
-  align-items: center; 
-  justify-content: center; 
- 
-`;
-
-const Notification = styled.TouchableOpacity`
-  margin: 0px 0px 0px 190px; 
-  height: 50px; 
-  width: 50px
-  align-items: center; 
-  justify-content: center; 
-  border-radius: 6px;
-`;
-
-const Reload = styled.TouchableOpacity`
-  height: 50px; 
-  width: 50px
-  align-items: center; 
-  justify-content: center; 
-  border-radius: 6px;
-`;
-
-const GroupView = styled.TouchableOpacity`
-  margin: 0 32px; 
-  height: 68px; 
-  align-items: center; 
-  justify-content: center; 
-  background-color: ${props => props.color};
-  border-radius: 6px;
-  margin-bottom: 16px;
-`;
-
-
-

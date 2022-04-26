@@ -1,22 +1,15 @@
 import {FlatList} from 'react-native';
 import React, {useState, useContext} from "react";
 import styled from "styled-components/native"; 
-import Text from "../../../components/Text.js";
 import {FirebaseContext} from "../../../context/FirebaseContext";
 import {UserContext} from "../../../context/UserContext";
 import {GroupContext} from "../../../context/GroupContext";
 import {Ionicons} from "@expo/vector-icons"; 
-import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+import {Box, Text, Pressable, Heading, IconButton, Icon, HStack, Avatar, VStack, Spacer, Center, Image,Divider,Stack, Button} from "native-base";
+
 import {
-  RefreshControl, Vibration
+  RefreshControl
 } from 'react-native';
-
-/* 
-Lag en egen knapp for QR koden. La de enkelt screene og dele den 
--Lag sånn at man kan legge til de tingan man ønske fra pluss knappen
-
-Lag egne drawers for gruppene med scoreboard, chats osv.
-*/
 
 export default GroupScreen = ({navigation}) => {
 
@@ -50,16 +43,6 @@ const DATA = [
   {
     id: makeid(6),
     title: "Posts",
-    color: Group.color, 
-  },
-  {
-    id: makeid(6),
-    title: "Rutiner",
-    color: Group.color, 
-  },
-  {
-    id: makeid(6),
-    title: "Oppgaver",
     color: Group.color, 
   },
 ];
@@ -96,13 +79,6 @@ return(
         <RenderText/>
       </Main>
       <IconsView>
-        <Notification onPress={() => navigation.push("Scoreboard")}>
-        <MaterialCommunityIcons 
-          name="podium-gold" 
-          size={50} 
-          color={Group.color} />
-        </Notification>
-
         <Notification onPress={() => navigation.push("Chat")}>
           <Ionicons 
             name={"ios-chatbubbles-outline"} 
@@ -132,7 +108,7 @@ const Container = styled.View`
 
 const Main = styled.TouchableOpacity`
   margin-top: 30px; 
-  margin-bottom: 50px; 
+  margin-bottom: 20px; 
 `;
 
 const Notification = styled.TouchableOpacity`
@@ -146,7 +122,7 @@ const Notification = styled.TouchableOpacity`
 
 const IconsView = styled.View`
   flex-direction: row; 
-  margin-bottom: 60px; 
+  margin-bottom: 30px; 
 `;
 
 const GroupView = styled.TouchableOpacity`

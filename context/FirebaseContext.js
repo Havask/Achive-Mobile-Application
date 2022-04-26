@@ -25,8 +25,7 @@ import {getFirestore,
   onSnapshot,
   collection,
   arrayUnion,
-  arrayRemove,
-  where
+  arrayRemove
   } from "firebase/firestore";
 import config from "../config/Firebase"
 import {signInWithEmailAndPassword, 
@@ -48,7 +47,6 @@ const database = getDatabase(app);
 // DOCS: 
 //https://firebase.google.com/docs
 
-
 const Firebase = {
 
   CacheUserContext: async (user) => {
@@ -58,13 +56,16 @@ const Firebase = {
   },    
   
   getCurrentUser: () => {
-      return auth.currentUser
-    },
+
+    return auth.currentUser; 
+  },
 
   createUser: async (user) => {
     try{
       await createUserWithEmailAndPassword(auth, user.email, user.password);
+
       const uid = Firebase.getCurrentUser().uid;
+
       let profilePhotoUrl = "default";
 
       await setDoc(doc(db, "users", uid), {
@@ -72,7 +73,7 @@ const Firebase = {
         email: user.email,
         password: user.password,
         profilePhotoUrl, 
-        groups: user.groups,
+        groups:[],
        });
 
       if(user.profilePhoto){
@@ -362,7 +363,7 @@ LeaveGroup: async (GroupID) => {
   JoinGroup: async (GroupID) => {
 
     try{
-    //sjekk om ting eksisterer i det hele tatt
+
      //updates the users data
      const uid = Firebase.getCurrentUser().uid;
      const UserRef = doc(db, "users", uid);
@@ -375,8 +376,9 @@ LeaveGroup: async (GroupID) => {
      const GroupRef = doc(db, "groups", GroupID);
      // Atomically remove a region from the "regions" array field.
      await updateDoc(GroupRef,{
-         groups: arrayUnion(uid)
+         members: arrayUnion(uid)
     });
+    
     }catch(error){
       console.log("Error @JoinGroup", error)
     }

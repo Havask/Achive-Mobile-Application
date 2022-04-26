@@ -20,7 +20,8 @@ export default JoinGroup = ({navigation}) => {
         try{
             //Search the code in the database and add this user to the group
             firebase.JoinGroup(enteredCode); 
-            () => navigation.push("groups")
+            navigation.navigate('Group')
+            
 
         }catch(err){
             alert("Could not join group"); 
@@ -36,7 +37,7 @@ export default JoinGroup = ({navigation}) => {
                 </Main>
                 <Input 
                     placeholder = "Code" 
-                    maxLength = {5}
+                    maxLength = {6}
                     textAlign="center"
                     onChangeText = {CodeInputHandler}
                     value={enteredCode}

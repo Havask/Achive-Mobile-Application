@@ -1,4 +1,4 @@
-/*
+
 -Lag default bildet til å være en default profile pic
 
 
@@ -26,11 +26,17 @@ ExploreScreen:
 
 
 
-    MVP: 
+                    MVP: 
+    
+    -Logge in : CHECK 
     -Lage brukera : CHECK 
     -Trenger å lage grupper : CHECK 
-    -Trenger å Joine grupper : 
-    -Gruppene trenger å ha litt innhold 
-    -Innholdet trenger å dukke oppp i feeden 
-    -Strenger å ha et bra UI : 
-*/
+    -Trenger å Joine grupper : CHECK
+    -Kan forlate grupper: CHECK 
+    
+
+    -Gruppene trenger å ha en egen post feed
+    -Innholdet trenger å dukke oppp i felles feeden 
+    -Strenger å ha et bra UI. Implenetere alt i nativeBase: 
+    -Få en finere drawer
+    

@@ -5,8 +5,6 @@ import Text from "../../components/Text.js";
 import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
 import {Switch} from "react-native";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as SecureStore from 'expo-secure-store';
 
 //https://hilalyldz.medium.com/keep-user-logged-in-with-asyncstorage-and-authenticatication-on-expo-and-firebase-4617b206e481
 
@@ -20,10 +18,8 @@ export default LogInScreen = ({navigation}) => {
   const [email, setEmail] = useState(""); 
   const [password, setPassword] = useState(""); 
   const [loading, setLoading] = useState(false); 
-
   const [Isloggedin, setIsloggedin] = useState(""); 
   const [RememberMe, setRememberMe] = useState(true);  
-  const [State, setState] = useState({});
 
   const ButtonAlert = () =>
     Alert.alert(
@@ -59,7 +55,7 @@ export default LogInScreen = ({navigation}) => {
           })
 
         }catch{
-          console.log("mjau")
+          console.log("wut")
         }
       } 
     }

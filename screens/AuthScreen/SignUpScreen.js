@@ -30,9 +30,25 @@ export default SignUpScreen = ({navigation}) => {
       setProfilePhoto(result.uri);
     }
   };
+  const ButtonAlert = () =>
+    Alert.alert(
+      "Password should be at least 6 characters",
+      [
+        {
+          text: "Okey",
+          style: "cancel"
+        }
+      ]
+  );
 
   const signUp = async () => {
 
+    if(password.length <=6){
+      console.log("Password should be at least 6 characters (auth/weak-password)")
+      ButtonAlert()
+      return; 
+    }
+    
     setLoading(true);
     const user = {username, email, password, profilePhoto}
 
