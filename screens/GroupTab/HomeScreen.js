@@ -1,7 +1,4 @@
 import React, {useState, useContext, useEffect} from "react";
-
-import styled from "styled-components/native"; 
-import Text1 from "../../components/Text.js";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { MaterialIcons, Ionicons, Entypo } from "@expo/vector-icons";
 import {GroupContext} from "../../context/GroupContext";
@@ -11,9 +8,7 @@ import * as SecureStore from 'expo-secure-store';
 import { SwipeListView } from "react-native-swipe-list-view";
 
 import {Box, Text, Pressable, Heading, IconButton, Icon, HStack, Avatar, VStack, Spacer, Center, Image,Divider,Stack, Button} from "native-base";
-import {
-  RefreshControl, Vibration
-} from 'react-native';
+import {RefreshControl, Vibration} from 'react-native';
 
 
 const makeid = length => {

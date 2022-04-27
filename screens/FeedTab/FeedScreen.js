@@ -7,12 +7,11 @@ import {UserContext} from "../../context/UserContext";
 import {GroupContext} from "../../context/GroupContext";
 import { FontAwesome } from '@expo/vector-icons'
 import { Timestamp } from "firebase/firestore";
+import {Flex,Box, Pressable, Heading, IconButton, Icon, HStack, Avatar, VStack, Spacer, Center, Image,Divider,Stack, Button} from "native-base";
 
 import * as Haptics from 'expo-haptics';
 
-import {
-  RefreshControl, Vibration
-} from 'react-native';
+import {RefreshControl} from 'react-native';
 
 /* 
 -Kan kun lese å delta på tråder som blir displayet i feeden. 
