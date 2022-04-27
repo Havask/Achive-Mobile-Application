@@ -82,6 +82,20 @@ const FirstRefresh = async () => {
 };
 
 
+//fetch the latest feed for 
+const RetriveFeed = async () => {
+  try{
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
+    const RetrivedFeed = await firebase.RetriveFeed(sortsetting); 
+    console.log(RetrivedFeed); 
+
+    setfeed(RetrivedFeed); 
+
+  }catch {
+    console.log("Something went wrong @RetriveFeed"); 
+  }
+};
+
 const makeid = length => {
   var result           = '';
   var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

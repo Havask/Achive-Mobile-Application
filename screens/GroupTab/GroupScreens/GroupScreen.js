@@ -47,28 +47,27 @@ const DATA = [
   },
 ];
 
-
 const renderitem = ({
   item
 }) => 
-      <Box maxW="100%">
-      <VStack >
-        <Divider />
-          <Pressable onPress={() => ChangeGroup(item)} >
-            <Box>
-            <HStack space={2} w="100%" h="70" justifyContent="center" alignItems="center" bg="primary.50">
-                <Text color="coolGray.800" bold fontSize="xl" >
-                  {item.title}
-                </Text>
-                <Ionicons 
-                    name={"chevron-forward-outline"} 
-                    size={30} />
-              </HStack>
-            </Box>
-          </Pressable>
-        <Divider />
-      </VStack>
-    </Box>;
+    <Box maxW="100%">
+    <VStack >
+      <Divider />
+        <Pressable onPress={() => ChangeGroup(item)} >
+          <Box>
+          <HStack space={2} w="100%" h="70" justifyContent="center" alignItems="center" bg="primary.50">
+              <Text color="coolGray.800" bold fontSize="xl" >
+                {item.title}
+              </Text>
+              <Ionicons 
+                  name={"chevron-forward-outline"} 
+                  size={30} />
+            </HStack>
+          </Box>
+        </Pressable>
+      <Divider />
+    </VStack>
+  </Box>;
 
 const RenderText = () => {
   if(text === true){
