@@ -1,22 +1,17 @@
 import React, {useState, useContext} from "react";
-import styled from "styled-components/native"; 
-import Text from "../../components/Text.js";
-import {AntDesign} from "@expo/vector-icons"
 import * as ImagePicker from "expo-image-picker"
-import * as MediaLibrary from 'expo-media-library';
-import { KeyboardAvoidingView, ScrollView} from "react-native";
 import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
+import {Box, Text, Pressable, Heading, IconButton, Icon, HStack, Avatar, 
+  VStack, Spacer, Center, Image,Divider,Stack, Button, FormControl, Input, Link} from "native-base";
 
 export default SignUpScreen = ({navigation}) => {
 
   const firebase = useContext(FirebaseContext); 
   const [_, setUser] = useContext(UserContext); 
-
   const [username, setUsername] = useState(); 
   const [email, setEmail] = useState(); 
   const [password, setPassword] = useState(); 
-  const [loading, setLoading] = useState(false); 
   const [profilePhoto, setProfilePhoto] = useState(); 
 
   const pickImage = async () => {
@@ -30,6 +25,7 @@ export default SignUpScreen = ({navigation}) => {
       setProfilePhoto(result.uri);
     }
   };
+
   const ButtonAlert = () =>
     Alert.alert(
       "Password should be at least 6 characters",
@@ -49,157 +45,97 @@ export default SignUpScreen = ({navigation}) => {
       return; 
     }
     
-    setLoading(true);
     const user = {username, email, password, profilePhoto}
 
     try{
       const createdUser = await firebase.createUser(user)
       setUser({...createdUser, isLoggedIn: true}); 
-    }catch{
+    }catch(error){
       console.log("Error @SignUp", error); 
     }finally{
       setLoading(false); 
     }
   };
 
+  const signUpFacebook = async () => {
+  
+    try{
+      firebase.SignInUserWithFacebook()
+
+    }catch(error){
+      console.log("Error @signUpFacebook", error); 
+    }
+  };
+
   return(
-    <Container>
-      <ScrollView>
-      <KeyboardAvoidingView>
-       <Main>
-         <Text title semi center color="#88d498">
-              Sign up to get started:
-         </Text>
-        </Main>
+    <Box p="7">
+       <Box pb="10" pt="81" justifyContent="center" alignItems="center" >
+         <Heading fontSize="2xl">
+              Sign up to get started
+         </Heading>
+        </Box>
 
-        <ProfilePhotoContainer onPress={pickImage}>
-          {profilePhoto ? ( 
-            <ProfilePhoto source={{uri: profilePhoto}}/>
-          ) : (
-            <DefaultProfilePhoto>
-              <AntDesign name="plus" size={24} color="#88d498"/>
-            </DefaultProfilePhoto>
-          )}
-        </ProfilePhotoContainer>
+        <Box justifyContent="center" alignItems="center">
+          <Pressable  _pressed={{opacity: 0.5}} onPress={pickImage}>
+            <Avatar w="100" h="100" pb="1"
+            source={{uri: profilePhoto}}
+            >
+            </Avatar> 
+          </Pressable> 
+        </Box>
 
-        <Auth>
-          <AuthContainer>
-            <AuthTitle>Name</AuthTitle>
-            <AuthField 
+        <VStack space={3} mt="5">
+          <FormControl>
+            <FormControl.Label>Name</FormControl.Label>
+            <Input 
               autocorrect={false} 
               onChangeText={(username) => setUsername(username.trim())}
-              value={username}
-              />
-          </AuthContainer>
-
-          <AuthContainer>
-            <AuthTitle>Email address</AuthTitle>
-            <AuthField 
+              value={username}/>
+          </FormControl>
+          <FormControl>
+            <FormControl.Label>Email</FormControl.Label>
+            <Input              
               autoCapitalize="none" 
               autocorrect={false} 
               keyboardType="email-address"
               onChangeText={(email) => setEmail(email.trim())}
               value={email}
-          
-              />
-          </AuthContainer>
-          
-          <AuthContainer>
-            <AuthTitle>password</AuthTitle>
-            <AuthField 
+            />
+          </FormControl>
+          <FormControl>
+            <FormControl.Label>Password</FormControl.Label>
+            <Input 
+              type="password"       
               autoCapitalize="none" 
               autocorrect={false} 
               secureTextEntry={true}
               onChangeText={(password) => setPassword(password.trim())}
-              value={password}
-            
-              />
-          </AuthContainer>
-        </Auth>
-        
-        <SignUpContainer onPress={signUp} disable={loading}>
-          {loading ? (<Loading/>) : (
-          <Text bold center color="#ffffff">
-            Sign Up</Text>
-          )}
-        </SignUpContainer>
+              value={password}/>
+          </FormControl>
+          <Button mt="2"  onPress={signUp}>
+            Sign up
+          </Button>
 
-        <SignUp onPress={() => navigation.push("LogInScreen")}>
-          <Text small center> 
-              Already a user? <Text bold color="#88d498">Sign In</Text></Text>
-        </SignUp>
-        </KeyboardAvoidingView>
-      </ScrollView>
-     </Container>
+          <HStack mt="2" justifyContent="center">
+            <Text fontSize="sm"  >
+              Already a user?{" "}
+            </Text>
+            <Link onPress={() => navigation.push("LogInScreen")} _text={{
+              color: "#88d498",
+              fontWeight: "medium",
+              fontSize: "sm"
+            }} href="#">
+              Sign Up
+            </Link>
+          </HStack>
+
+          <Box justifyContent="center" alignItems="center" pt="10">
+            <Button h="50" w="140" mt="2" justifyContent="center" onPress={signUpFacebook}>
+              Facebook login
+            </Button>
+        </Box>
+          
+        </VStack>
+     </Box>
     );
 }
-
-const Container = styled.KeyboardAvoidingView`
-    flex: 1; 
-`;
-
-const Main = styled.View`
-  margin-top: 80px; 
-  margin-bottom: 50px; 
-`;
-
-const Auth = styled.View`
-  margin: 16px 32px 32px; 
-`; 
-
-const AuthContainer = styled.View`
-  margin-bottom: 32px;
-`; 
-
-const AuthTitle = styled(Text)`
-  color: #8e93a1;
-  font-size: 12px; 
-  text-transform: uppercase; 
-  font-weight: 300; 
-`; 
-
-const AuthField = styled.TextInput`
-  border-bottom-color: #8e93a1; 
-  border-bottom-width: 1px;
-  height: 48px; 
-`; 
-
-const SignUpContainer = styled.TouchableOpacity`
-  margin: 0 32px; 
-  height: 48px; 
-  align-items: center; 
-  justify-content: center; 
-  background-color: #88d498;
-  border-radius: 6px;
-`;
-
-const SignUp = styled.TouchableOpacity`
-  margin-top: 16px; 
-`; 
-
-const Loading = styled.ActivityIndicator.attrs(props => ({
-  color: "#fffffff",
-  size: "small", 
-}))``; 
-
-const ProfilePhotoContainer = styled.TouchableOpacity`
-background-color: #e1e2e6;
-  width: 128px; 
-  height: 128px; 
-  border-radius: 40px; 
-  align-self: center; 
-  margin-top: 16px;
-  overflow: hidden; 
-`; 
-
-const DefaultProfilePhoto = styled.View`
-  align-items: center; 
-  justify-content: center; 
-  flex: 1; 
-`; 
-
-const ProfilePhoto = styled.Image`
-  width: 128px;
-  height: 128px; 
-  border-radius: 128px; 
-`;

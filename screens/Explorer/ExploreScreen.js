@@ -9,7 +9,7 @@
 
 import React, {useState, useContext, useEffect} from "react";
 import styled from "styled-components/native"; 
-import { KeyboardAvoidingView, ScrollView, } from "react-native";
+import { FlatList } from "react-native";
 import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
 import {GroupContext} from "../../context/GroupContext";
@@ -49,60 +49,27 @@ export default ExplorerScreen = ({navigation}) => {
       id: "122314134",
       group: "Synnøves Gruppe"
     },
-    {
-      id: "112234341",
-      group: "Siverts Gruppe"
-    },
-    {
-      id: "1223423411",
-      group: "Gruppe"
-    },
-    {
-      id: "1223434",
-      group: "Håvards Gruppe"
-    },
-    {
-      id: "122341134",
-      group: "Synnøves Gruppe"
-    },
-    {
-      id: "112234341",
-      group: "Siverts Gruppe"
-    },
-    {
-      id: "1223423421",
-      group: "Gruppe"
-    },
-    {
-      id: "122343341",
-      group: "Håvards Gruppe"
-    },
-    {
-      id: "1223144134",
-      group: "Synnøves Gruppe"
-    },
-    {
-      id: "1122345341",
-      group: "Siverts Gruppe"
-    },
-    {
-      id: "12234236411",
-      group: "Gruppe"
-    },
   ]
   
   const firebase = useContext(FirebaseContext); 
-  const [_, setUser] = useContext(UserContext); 
+  const [User, setUser] = useContext(UserContext); 
   const [Group, setGroup] = useContext(GroupContext); 
   const [GroupName, setGroupName] = useState(""); 
   const [loading, setLoading] = useState(false); 
 
+  const SearchHandler = () => {
+//queryes the database for groups to join
+}; 
+
+const RetriveGroups = () => {
+  firebase.ExplorationFeed()
+  //Hent ut forslag til grupper 
+  return;  
+}
   const RenderGroups = ({item}) =>(
 
-    <Box maxW="40" maxH="40" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="5" >
-      <Pressable _pressed={{
-      bg: "muted.400"
-    }} >
+    <Box w="200" h="200" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="5" >
+      <Pressable _pressed={{bg: "muted.400"}} >
         <Box w="100%">
             <AspectRatio w="100%" ratio={16 / 9}>
               <Image source={{
@@ -122,17 +89,8 @@ export default ExplorerScreen = ({navigation}) => {
       </Box>
   )
 
-  const SearchHandler = () => {
-//queryes the database for groups to join
-}; 
-
-const RetriveGroups = () => {
-  //Hent ut forslag til grupper 
-  return; 
-}
-
   return(
-    <Container>
+    <Box>
 
       <VStack my="4" space={5} w="100%" maxW="300px" alignSelf="center" pt="10">
         <VStack w="100%" space={5} alignSelf="center">
@@ -142,7 +100,7 @@ const RetriveGroups = () => {
         </VStack>
       </VStack>
 
-      <Feed 
+      <FlatList 
         contentContainerStyle={{alignSelf: 'center'}}
         numColumns={2}
         data={Groups} 
@@ -150,65 +108,7 @@ const RetriveGroups = () => {
         keyExtractor={item => item.id.toString()} 
         refreshControl={<RefreshControl/>}
       />
-     </Container>
-    );
+    </Box>
+  );
 }
 
-const Container = styled.KeyboardAvoidingView`
-    flex: 1; 
-`;
-
-const Main = styled.View`
-  margin-top: 80px; 
-  margin-bottom: 50px; 
-`;
-
-const Auth = styled.View`
-  margin: 16px 32px 32px; 
-`; 
-
-const AuthContainer = styled.View`
-  margin-bottom: 32px;
-`; 
-
-const AuthTitle = styled(Text)`
-  color: #8e93a1;
-  font-size: 12px; 
-  text-transform: uppercase; 
-  font-weight: 300; 
-`; 
-
-const AuthField = styled.TextInput`
-  border-bottom-color: #8e93a1; 
-  border-bottom-width: 1px;
-  height: 48px; 
-`; 
-
-const SignUpContainer = styled.TouchableOpacity`
-  margin: 0 32px; 
-  height: 48px; 
-  align-items: center; 
-  justify-content: center; 
-  background-color: #88d498; 
-  border-radius: 6px;
-  margin-bottom: 50px; 
-`;
-
-const Loading = styled.ActivityIndicator.attrs(props => ({
-  color: "#fffffff",
-  size: "small", 
-}))``; 
-
-const ProfilePhotoContainer = styled.TouchableOpacity`
-  background-color: #e1e2e6;
-  width: 80px; 
-  height: 80px; 
-  border-radius: 40px; 
-  align-self: center; 
-  margin-top: 16px;
-  overflow: hidden; 
-`; 
-
-const Feed = styled.FlatList`
-
-`;

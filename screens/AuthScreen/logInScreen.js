@@ -79,7 +79,7 @@ export default LogInScreen = ({navigation}) => {
 
   return(
     <Box>
-        <Box pt="150" p="10">
+        <Box pt="150" p="7">
           <Box justifyContent="center" alignItems="center">
             <Image h="100" w="200" source={require("../../logo/logo.png")} alt="Logo"/>
           </Box>
@@ -96,6 +96,8 @@ export default LogInScreen = ({navigation}) => {
                 value={email}
                 onChangeText={email => setEmail(email.trim())}/>
             </FormControl>
+
+
           <FormControl>
             <FormControl.Label>Password</FormControl.Label>
               <Input 
@@ -116,12 +118,20 @@ export default LogInScreen = ({navigation}) => {
               </Link>
           </FormControl>
 
-          
+          <HStack alignItems="center" justifyContent="center" space={4}>
+            <Text>Keep me logged in</Text>
+            <Switch 
+              size="sm" 
+              onValueChange={toggleSwitch}
+              value={RememberMe}
+              />
+          </HStack>
 
-            <Button mt="2" onPress={handleLogin}>
-              Sign in
-            </Button>
-          <HStack mt="6" justifyContent="center">
+          <Button  mt="3"  onPress={handleLogin}>
+            Sign in
+          </Button>
+
+          <HStack mt="6" justifyContent="center" >
             <Text fontSize="sm"  >
               I'm a new user.{" "}
             </Text>
@@ -136,7 +146,6 @@ export default LogInScreen = ({navigation}) => {
         </VStack>
       </Box>
     </Box>
-  
   );
 }
 
@@ -197,74 +206,5 @@ export default LogInScreen = ({navigation}) => {
 
       </Box>
       */
-const AchiveLogo = styled.Image`
-    align-items: center; 
-    justify-content: center; 
-    width: 200px;
-    height: 100px;
-    margin: 0px 90px 0px; 
-`;
-
-const Container = styled.ScrollView`
-    flex: 1; 
-`;
-
-const Main = styled.View`
-  margin-top: 150px; 
-`;
-
-const Auth = styled.View`
-  margin: 50px 32px 32px; 
-`; 
-
-const AuthContainer = styled.View`
-  margin-bottom: 32px;
-`; 
-
-const AuthTitle = styled(Text)`
-  color: #8e93a1;
-  font-size: 12px; 
-  text-transform: uppercase; 
-  font-weight: 300; 
-`; 
-
-const AuthField = styled.TextInput`
-  border-bottom-color: #8e93a1; 
-  border-bottom-width: 1px;
-  height: 48px; 
-`; 
-
-const SignInContainer = styled.TouchableOpacity`
-  margin: 0 32px; 
-  margin-bottom: 10px;
-  height: 48px; 
-  align-items: center; 
-  justify-content: center; 
-  background-color: #88d498;
-  border-radius: 6px;
-`;
-
-const SignUp = styled.TouchableOpacity`
-  margin-top: 0px; 
-  margin-bottom: 20px;
-`; 
-
-const Loading = styled.ActivityIndicator.attrs(props => ({
-  color: "#fffffff",
-  size: "small", 
-}))``; 
-
-
-const StayLoggedIn = styled.View`
-  flex-direction: row; 
-  align-items: center; 
-  justify-content: center; 
-  margin-bottom: 20px;
-`; 
-
-const SwitchView = styled.View`
-
-`; 
-
 
 

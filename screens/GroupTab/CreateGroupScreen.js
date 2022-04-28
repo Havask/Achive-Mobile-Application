@@ -19,7 +19,6 @@ import * as ImagePicker from "expo-image-picker"
 -Prøv å join en gruppe  
 */
 
-
 export default CreateGroupScreen = ({navigation}) => {
 
   const [loading, setLoading] = useState(false); 

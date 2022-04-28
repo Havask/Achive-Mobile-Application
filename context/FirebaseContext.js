@@ -8,6 +8,10 @@ import {getAuth,
   signOut, 
   updatePassword, 
   updateEmail, 
+  FacebookAuthProvider,
+  getRedirectResult,
+  signInWithRedirect,
+
   } from "firebase/auth";
 import {getStorage, 
   ref,
@@ -25,7 +29,7 @@ import {getFirestore,
   onSnapshot,
   collection,
   arrayUnion,
-  arrayRemove
+  arrayRemove, limit, getDocs
   } from "firebase/firestore";
 import config from "../config/Firebase"
 import {signInWithEmailAndPassword, 
@@ -42,7 +46,6 @@ const auth = getAuth(app);
 const db = getFirestore(app); 
 const FirebaseContext = createContext(); 
 const database = getDatabase(app);
-
 
 // DOCS: 
 //https://firebase.google.com/docs
@@ -188,6 +191,25 @@ const Firebase = {
     }
   },
 
+  SignInUserWithFacebook: async () => {
+    try{
+      const provider = new FacebookAuthProvider();
+      console.log(provider)
+      // This will trigger a full page redirect away from your app
+      await signInWithRedirect(auth, provider);
+      // After returning from the redirect when your app initializes you can obtain the result
+      const result = await getRedirectResult(auth);
+      if (result) {
+        // This is the signed-in user
+        const user = result.user;
+        // This gives you a Facebook Access Token.
+        const credential = FacebookAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+      }
+    }catch(error){
+      console.log("Error @SignInUserWithFacebook", error)
+    }
+  },
   DeleteUser: async () => {
     try{
       const user = auth.currentUser
@@ -546,19 +568,18 @@ s
 
       const groups = await Firebase.RetriveGroupsStorage(); 
       
-      console.log(groups); 
       groups.forEach((doc) => {
         GroupArray.push({
           groupname: doc.groupID, 
         })
       })
 
-      console.log(GroupArray); 
-      console.log("asd",GroupArray[1].groupID); 
+      console.log(GroupArray[0].groupname); 
+    
 
       for (let i = 0; i < GroupArray.length; i++) {
 
-        const docRef = doc(db, "groups", GroupArray[i].groupID); 
+        const docRef = doc(db, "groups", GroupArray[i].groupname); 
         const collectionRef = collection(docRef, "posts"); 
   
         const q = query(collectionRef, orderBy("id"), limit(3));
@@ -577,7 +598,7 @@ s
           })
         })
       }
-      
+      console.log(objectList)
       return objectList; 
 
       const SortedFeed = SortGroupFeed(objectList, SortSettings); 
@@ -686,18 +707,25 @@ SortGroupFeed: async (posts, sortsettings) => {
     -
     */
 
-    const GroupList = [];
+    for (let i = 0; i < GroupArray.length; i++) {
+      const q = query(collection(db, "groups"), where("privacy", "==", false), limit(3));
+      const querySnapshot = await getDocs(q);
 
-    const q = query(collectionRef, orderBy("id"), limit(3));
-    const querySnapshot = await getDocs(q);
-
-    querySnapshot.forEach((doc) => {
-          
-      GroupList.push({
-      id: doc.data().id, 
-    })
-  })
-    return GroupList; 
+      querySnapshot.forEach((doc) => {
+        
+          objectList.push({
+          id: doc.data().id, 
+          user: doc.data().user, 
+          avatar: doc.data().avatar, 
+          postedAt: doc.data().postedAt, 
+          post: doc.data().post,   
+          Upvotes: doc.data().Upvotes, 
+          Downvotes: doc.data().Downvotes, 
+        })
+      })
+    }
+    console.log(objectList)
+    return objectList; 
     
     }catch(error){
       console.log("Error @ExplorationFeed", error)
