@@ -10,3 +10,4 @@ export { default as AddTask} from "./GroupScreens/AddTaskScreen";
 export { default as GroupFeeds} from "./GroupScreens/GroupFeeds"; 
 export { default as GroupScreen } from "./GroupScreens/GroupScreen";
 export { default as Scoreboard } from "./GroupScreens/Scoreboard";
+export { default as GroupSettings } from "./GroupScreens/GroupSettingScreen";

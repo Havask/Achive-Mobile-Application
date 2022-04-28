@@ -177,6 +177,7 @@ const renderHiddenItem = (data, rowMap) =>
               Create
             </Button>
           </Box>
+   
           <Box>
             <Button onPress={() => navigation.push("joingroup")} height="50" width="110" leftIcon={<Icon as={Ionicons} name="log-in-outline" size="sm"  />}>
               Join

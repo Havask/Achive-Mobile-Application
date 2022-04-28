@@ -1,14 +1,13 @@
 import React, {useState, useContext, Component} from "react";
-import styled from "styled-components/native"; 
-import {FirebaseContext} from "../../context/FirebaseContext";
-import {UserContext} from "../../context/UserContext";
+import {FirebaseContext} from "../../../context/FirebaseContext";
+import {UserContext} from "../../../context/UserContext";
 import { Alert } from "react-native";
 import * as ImagePicker from "expo-image-picker"
 import {Box, Text, Pressable, Heading, IconButton, 
   Icon, HStack, Avatar, VStack, Spacer, Center, Image, Divider} from "native-base";
 import { MaterialIcons, Ionicons, Entypo } from "@expo/vector-icons";
 
-export default SettingScreen = ({navigation}) => {
+export default GroupSettingScreen = ({navigation}) => {
 
   const firebase = useContext(FirebaseContext); 
   const [user, setUser] = useContext(UserContext); 
@@ -87,7 +86,7 @@ export default SettingScreen = ({navigation}) => {
         <HStack alignItems="center" justifyContent="space-between" space={2} pb="5" pt="5">
           <Avatar w="100" h="100" pb="1"
               source={user.profilePhotoUrl == "default"
-                  ? require("../../assets/default-profile.png")
+                  ? require("../../../assets/default-profile.png")
                   : { uri: user.profilePhotoUrl}
                   }>
           </Avatar> 
@@ -196,41 +195,6 @@ export default SettingScreen = ({navigation}) => {
         </VStack>
       </Box>
     </Center>
-  );
-  }
 
-
-/*
-    <Container>
-       <Main>
-         <Text title bold center color="#88d498">
-              Settings:
-         </Text>
-        </Main>
-
-        <SignUp onPress={() => navigation.push("UsersSetting")}>
-          <Text small center> 
-            <Text bold color="#ffffff">User settings</Text>
-          </Text>
-        </SignUp>
-
-
-        <SignUp onPress={deleteUser}>
-          <Text small center> 
-            <Text bold color="#ffffff">Delete User</Text>
-          </Text>
-        </SignUp>
-
-        <SignUp onPress={signOut}>
-          <Text small center> 
-            <Text bold color="#ffffff">Log Out</Text>
-          </Text>
-        </SignUp>
-
-        <SignUp onPress={clearCache}>
-          <Text small center> 
-            <Text bold color="#ffffff">Clear Cache</Text>
-          </Text>
-        </SignUp>
-     </Container>
-     */
+    );
+}

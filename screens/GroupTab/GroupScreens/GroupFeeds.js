@@ -52,7 +52,6 @@ const FirstRefresh = async () => {
   }
 };
 
-
 //fetch the latest feed for 
 const RetriveFeed = async () => {
   try{
@@ -78,25 +77,10 @@ const makeid = length => {
   return result;
 }
 
-const sett = async () => {
-  setPost(
-    {
-      id: makeid(10), 
-      user: {
-        uid: user.uid,
-        username: user.username, 
-      }, 
-      avatar:{uri: user.profilePhotoUrl},
-      postedAt: new Date(),
-      post: text,   
-      Upvotes: 0, 
-      Downvotes: 0, 
-    }); 
-}
 
 //Ha en max lengde på posten. 
 const SendPost = async () => {
-
+  
   await sett(); 
   console.log(post)
   console.log(group.groupID)
@@ -108,7 +92,7 @@ const SendPost = async () => {
 };
 
 const Upvote = async () => {
-
+  
   await sett(); 
   try{
     await firebase.AddPost(post, group.groupID)
@@ -117,63 +101,80 @@ const Upvote = async () => {
   }
 };
 
-  const renderPost = ({item}) =>(
-    <Box bg="#ffffff" p="3">
-      <HStack>
+const sett = async () => {
+  setPost(
+    {
+      id: makeid(10), 
+      user: {
+        uid: user.uid,
+        username: user.username, 
+      }, 
+      avatar: {uri: user.profilePhotoUrl},
+      postedAt: new Date(),
+      post: text,   
+      Upvotes: 0, 
+      Downvotes: 0, 
+    }); 
+}
 
-        <Flex Flex direction="row" pr="3" > 
-      
-          <Avatar w="16" h="16"   source={{uri: item.user.profilePhotoUrl}}/>
+const renderPost = ({item}) =>(
+    <Box pb="3">
+      <Box bg="#ffffff" p="3">
+        <HStack>
+          <Flex Flex direction="row" pr="3" > 
+        
+            <Avatar w="12" h="12"   source={item.avatar}/>
 
-          <Box flex="1">
-            <Text>{item.username}</Text>
-            <Text>
-              {item.user.postedAt}
-            </Text>
-          </Box>
-        </Flex>
-
-      <Box>
-        <VStack>
-          <Flex Flex direction="row" justifyContent="space-between" alignItems="center"> 
-            <Text>{item.post}</Text>
-            <IconButton onPress={SendPost}
-                icon={ <Entypo name="dots-three-horizontal" size={16} color="#73788b" />}
-                />
-          </Flex>
-        </VStack>
-
-        <Stack w="300" justifyContent="space-between" alignItems="center">
-          <Image source={{uri: item.photoUrl}} size="xl" w="100%" alt="ProfilePhoto" /> 
-        </Stack>
-
-        <Flex Flex direction="row">
-
-          <Flex direction="row" justifyContent="space-between" alignItems="center">
-              <IconButton onPress={Upvote}
-                  icon={ <Ionicons name ="ios-arrow-up-circle-outline" size={24} color="#73788b"/>}
-                  />
-              <Text>
-                {item.Upvotes}
+            <Box flex="1">
+              <Text>{item.user.username}</Text>
+              <Text>  
+                {item.user.postedAt}
               </Text>
-            </Flex>
-            <Flex direction="row" justifyContent="space-between" alignItems="center">
+            </Box>
+          </Flex>
+
+        <Box>
+          <VStack>
+            <Flex Flex direction="row" justifyContent="space-between" alignItems="center"> 
+              <Text fontSize="xl">{item.post}</Text>
               <IconButton onPress={SendPost}
-                icon={  <Ionicons name ="ios-chatbox-ellipses-outline" size={24} color="#73788b"/>}
-                />
-              <Text >
-              {item.comments}
-              </Text>
+                  icon={ <Entypo name="dots-three-horizontal" size={16} color="#73788b" />}
+                  />
             </Flex>
-          </Flex>
-        </Box>
-      </HStack>
+          </VStack>
+
+          <Stack w="300" justifyContent="space-between" alignItems="center">
+            <Image source={{uri: item.photoUrl}} size="xl" w="100%" alt="ProfilePhoto" /> 
+          </Stack>
+
+          <Flex Flex direction="row">
+
+            <Flex direction="row" justifyContent="space-between" alignItems="center">
+                <IconButton onPress={Upvote}
+                    icon={ <Ionicons name ="ios-arrow-up-circle-outline" size={24} color="#73788b"/>}
+                    />
+                <Text>
+                  {item.Upvotes}
+                </Text>
+              </Flex>
+              <Flex direction="row" justifyContent="space-between" alignItems="center">
+                <IconButton onPress={SendPost}
+                  icon={  <Ionicons name ="ios-chatbox-ellipses-outline" size={24} color="#73788b"/>}
+                  />
+                <Text >
+                {item.comments}
+                </Text>
+              </Flex>
+            </Flex>
+          </Box>
+        </HStack>
+      </Box>
     </Box>
   )
 
   return(
     <Box pt="3">
-      <Box >
+      <Box p="3">
         <Flex Flex direction="row" pb="4" >
           <Input 
             size="md" mx="4" placeholder="What on your mind?" w="75%" maxWidth="500px" 

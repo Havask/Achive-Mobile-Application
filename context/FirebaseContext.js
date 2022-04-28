@@ -29,7 +29,7 @@ import {getFirestore,
   onSnapshot,
   collection,
   arrayUnion,
-  arrayRemove, limit, getDocs
+  arrayRemove, limit, getDocs, where, 
   } from "firebase/firestore";
 import config from "../config/Firebase"
 import {signInWithEmailAndPassword, 
@@ -337,7 +337,7 @@ const Firebase = {
       var arrayLength = array.length;
       
       for (var i = 0; i < arrayLength; i++) {
-        console.log(array[i])
+        
         const Snap = await getDoc(doc(db, "groups", array[i]))
 
         objectList.push({
@@ -574,9 +574,6 @@ s
         })
       })
 
-      console.log(GroupArray[0].groupname); 
-    
-
       for (let i = 0; i < GroupArray.length; i++) {
 
         const docRef = doc(db, "groups", GroupArray[i].groupname); 
@@ -598,7 +595,7 @@ s
           })
         })
       }
-      console.log(objectList)
+  
       return objectList; 
 
       const SortedFeed = SortGroupFeed(objectList, SortSettings); 
@@ -707,23 +704,21 @@ SortGroupFeed: async (posts, sortsettings) => {
     -
     */
 
-    for (let i = 0; i < GroupArray.length; i++) {
-      const q = query(collection(db, "groups"), where("privacy", "==", false), limit(3));
-      const querySnapshot = await getDocs(q);
+    const objectList = [];
 
-      querySnapshot.forEach((doc) => {
-        
-          objectList.push({
-          id: doc.data().id, 
-          user: doc.data().user, 
-          avatar: doc.data().avatar, 
-          postedAt: doc.data().postedAt, 
-          post: doc.data().post,   
-          Upvotes: doc.data().Upvotes, 
-          Downvotes: doc.data().Downvotes, 
-        })
+    const q = query(collection(db, "groups"), where("privacy", "==", false));
+    const querySnapshot = await getDocs(q);
+    //console.log(querySnapshot)
+
+    querySnapshot.forEach((doc) => {
+      
+        objectList.push({
+        groupID: doc.data().groupID, 
+        groupname: doc.data().groupname, 
+        GroupPhotoUrl: doc.data().GroupPhotoUrl
       })
-    }
+    })
+    
     console.log(objectList)
     return objectList; 
     

@@ -97,8 +97,15 @@ const toggleSwitch = () => settext(previousState => !previousState);
 
 return(
   <Flex >
-    <Box p="5">
+    <Box pt="5">
       <RenderText/>
+    </Box>
+
+    <Box pl="75%">
+      <IconButton onPress={() => navigation.push("GroupSetting")} icon={<Ionicons 
+          name={"settings-outline"} 
+          size={30} />}
+      />
     </Box>
     
     <FlatList 

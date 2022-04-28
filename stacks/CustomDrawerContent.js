@@ -3,14 +3,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {Ionicons} from "@expo/vector-icons"
 import {GroupProvider} from "../context/GroupContext"
 import {UserContext} from "../context/UserContext";
+import {Flex,Box, Pressable, Heading, IconButton, Icon, HStack, 
+    Avatar, VStack, Spacer, Center,Divider,Stack, Button, Input, Text, Image} from "native-base";
+import {ImageBackground} from "react-native"; 
 
-
-import {View, Text, StyleSheet, ImageBackground, Image} from "react-native"; 
-
-import {
-    DrawerContentScrollView,
-    DrawerItemList,
-  } from '@react-navigation/drawer';
+import {DrawerContentScrollView,DrawerItemList,} from '@react-navigation/drawer';
 
 export default SideBar = ({...props}) => {
 
@@ -20,32 +17,22 @@ export default SideBar = ({...props}) => {
         <DrawerContentScrollView>
             <ImageBackground
                 source = {require("../assets/Header.jpg")}
-                style = {{hight : 10, width: undefined, padding: 16, paddingTop: 48}}
+                style = {{hight : 10, width: undefined, padding: 16, paddingTop: 30}}
                 >
-            <View>
-                <Text style={{flexDirection: "row"}}>101</Text>
-                <Ionicons name="md-people" size={16} color="rgba(255,255, 255,0.8)"/> 
-            </View>
+            <Avatar w="16" h="16" pb="1"
+              source={user.profilePhotoUrl == "default"
+                  ? require("../assets/default-profile.png")
+                  : { uri: user.profilePhotoUrl}
+                  }>
+            </Avatar> 
+            <Box pb="2" >
+                <Text fontSize="2xl">{user.username}</Text>
+            </Box>
             </ImageBackground>
-
-            <View styles={styles.container}>
-                <DrawerItemList {...props}/> 
-            </View>
-        </DrawerContentScrollView>
+        <Box>
+            <DrawerItemList {...props}/> 
+        </Box>
+    </DrawerContentScrollView>
     );
   }
 
-const styles = StyleSheet.create({
-
-    container: {
-        flex: 1, 
-    },
-    
-    profile: {
-        width: 80,
-        height: 80, 
-        borderRadius: 40, 
-        borderWidth: 3, 
-        borderColor: "#FFF"
-    }
-})

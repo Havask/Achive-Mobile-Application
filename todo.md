@@ -37,6 +37,7 @@ ExploreScreen:
     -Lag en admin rolle til de som lager gruppene. 
     -En oversikt over alle medlemmene i gruppen
     
+    -Lag en gruppesettingskjerm
 
     -Gruppene trenger å ha en egen post feed
     -Innholdet trenger å dukke oppp i felles feeden 

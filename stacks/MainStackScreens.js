@@ -17,6 +17,7 @@ import {
             AddTask, 
             Explore, 
             GroupFeeds,
+            GroupSettings
         
         } from "../screens/GroupTab"
 import {
@@ -64,6 +65,7 @@ function GroupStackScreen() {
                 <GroupStack.Screen name="Chat" component={Chat} options={{headerShown: false}}/>
                 <GroupStack.Screen name="GroupFeeds" component={GroupFeeds} options={{headerShown: false}}/>
                 <GroupStack.Screen name="DrawerScreen" component={DrawerScreen} options={{ headerShown: false }} />
+                <GroupStack.Screen name="GroupSetting" component={GroupSettings} options={{ headerShown: false }} />
             </GroupStack.Navigator>
         </GroupProvider>
     );

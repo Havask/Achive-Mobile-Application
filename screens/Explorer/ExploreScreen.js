@@ -23,53 +23,42 @@ import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 
 export default ExplorerScreen = ({navigation}) => {
-
-  const Groups = [
-    {
-      id: "1223434",
-      group: "Håvards Gruppe"
-    },
-    {
-      id: "12234134",
-      group: "Synnøves Gruppe"
-    },
-    {
-      id: "12234341",
-      group: "Siverts Gruppe"
-    },
-    {
-      id: "122342341",
-      group: "Gruppe"
-    },
-    {
-      id: "12234341",
-      group: "Håvards Gruppe"
-    },
-    {
-      id: "122314134",
-      group: "Synnøves Gruppe"
-    },
-  ]
   
   const firebase = useContext(FirebaseContext); 
   const [User, setUser] = useContext(UserContext); 
   const [Group, setGroup] = useContext(GroupContext); 
+  const [Suggestion, setSuggestion] = useState(); 
   const [GroupName, setGroupName] = useState(""); 
   const [loading, setLoading] = useState(false); 
 
+  useEffect(() => {
+    RetriveGroups();  
+  }, []);
+
   const SearchHandler = () => {
 //queryes the database for groups to join
+
 }; 
 
-const RetriveGroups = () => {
-  firebase.ExplorationFeed()
-  //Hent ut forslag til grupper 
-  return;  
+const JoinGroup = (groupID) => {
+    //queryes the database for groups to join
+    firebase.JoinGroup(groupID)
+  }; 
+
+const RetriveGroups = async () => {
+  try{
+    const Sug = await firebase.ExplorationFeed()
+    console.log("sug",Sug)
+    setSuggestion(Sug); 
+
+    }catch(error){
+      console.log("Error @RetriveGroups", error)
+    }
 }
   const RenderGroups = ({item}) =>(
 
     <Box w="200" h="200" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="5" >
-      <Pressable _pressed={{bg: "muted.400"}} >
+      <Pressable _pressed={{bg: "muted.400"}} onPress={JoinGroup(item.groupID)}>
         <Box w="100%">
             <AspectRatio w="100%" ratio={16 / 9}>
               <Image source={{
@@ -81,7 +70,7 @@ const RetriveGroups = () => {
         <Stack p="4" space={3}>
           <Stack space={2}>
             <Heading size="md" ml="-1">
-            {item.group}
+            {item.groupname}
             </Heading>
           </Stack>
         </Stack>
@@ -103,10 +92,10 @@ const RetriveGroups = () => {
       <FlatList 
         contentContainerStyle={{alignSelf: 'center'}}
         numColumns={2}
-        data={Groups} 
+        data={Suggestion} 
         renderItem={RenderGroups} 
-        keyExtractor={item => item.id.toString()} 
-        refreshControl={<RefreshControl/>}
+        keyExtractor={item => item.groupID.toString()} 
+        refreshControl={<RefreshControl onRefresh={RetriveGroups} />}
       />
     </Box>
   );
