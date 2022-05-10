@@ -32,9 +32,7 @@ import {getFirestore,
   arrayRemove, limit, getDocs, where, 
   } from "firebase/firestore";
 import config from "../config/Firebase"
-import {signInWithEmailAndPassword, 
-        createUserWithEmailAndPassword
-        } from "firebase/auth"; 
+import {signInWithEmailAndPassword, createUserWithEmailAndPassword} from "firebase/auth"; 
 import * as SecureStore from 'expo-secure-store';
 
 import { getDatabase } from "firebase/database";
@@ -57,13 +55,46 @@ const Firebase = {
     const jsonValue = JSON.stringify(user)
     await SecureStore.setItemAsync("User", jsonValue)
   },    
-  
-  getCurrentUser: () => {
 
+  CacheGroupData: async (Group) => {
+
+    const value = await AsyncStorage.getItem("groups");
+
+    if(value !== null){
+      //Hent ut data fra async storage
+      const parsedJson = JSON.parse(value)
+
+      const jsonValue = JSON.stringify(parsedJson)
+      
+      await AsyncStorage.setItem(
+        "groups",
+        jsonValue
+      );
+
+    }else{
+      await AsyncStorage.setItem("groups", Group);
+    }
+  },
+
+  RemoveCacheGroupData: async (groupID) => {
+
+    const value = await AsyncStorage.getItem("groups");
+    if (value !== null) {
+      //Hent ut data fra async storage
+      const parsedJson = JSON.parse(value)
+      console.log("Cached Groups: ", parsedJson)
+
+    }else{
+     console.log(" no groups to remove in persistent storage") 
+    }
+ },  
+
+  getCurrentUser: () => {
     return auth.currentUser; 
   },
 
   createUser: async (user) => {
+
     try{
       await createUserWithEmailAndPassword(auth, user.email, user.password);
 
@@ -71,6 +102,8 @@ const Firebase = {
 
       let profilePhotoUrl = "default";
 
+      console.log("Sets the docs to database")
+      
       await setDoc(doc(db, "users", uid), {
         username: user.username, 
         email: user.email,
@@ -118,18 +151,20 @@ const Firebase = {
   uploadGroupPhoto: async (uri, GroupID) => {
 
     try{
+      console.log("1")
       const photo = await Firebase.getBlob(uri)
       const imagesRef = ref(storage, 'GroupPhotos');
       const uidRef = ref(imagesRef, GroupID);
 
       await uploadBytes(uidRef, photo); 
-
+      console.log("2")
       const url = await getDownloadURL(ref(storage, uidRef)); 
       const GroupRef = doc(db, "groups", GroupID);
 
       await updateDoc(GroupRef, {
         GroupPhotoUrl: url
      });
+     console.log("3")
       return url; 
 
     }catch(error){
@@ -265,15 +300,6 @@ const Firebase = {
     }
   },
 
-  ClearCache: async () => {
-    try{
-      //erases all async storage for all clients libaries
-      AsyncStorage.clear();
-    } catch {
-      console.log("Could not clear cache")
-    }
-  }, 
-
   retrieveQR: async () => {
     try{
 
@@ -284,11 +310,12 @@ const Firebase = {
   
   //For å lage ei helt ny gruppe
   CreateNewGroup: async (Group) => {
-    try{
 
+    try{
       //Gå også inn på user id og oppdater groups
       const uid = Firebase.getCurrentUser().uid;
       const UserRef = doc(db, "users", uid);
+
       await updateDoc(UserRef, {
         groups: arrayUnion(Group.GroupID)
       });
@@ -310,7 +337,10 @@ const Firebase = {
       if(Group.GroupPhoto){
         GroupPhotoUrl = await Firebase.uploadGroupPhoto(Group.GroupPhoto, Group.GroupID)
       }
-      
+
+      //update persistent storage with the new group
+      Firebase.CacheGroupData(Group)
+        
     }catch(error){
       console.log("Error @CreateNewGroup", error)
     }
@@ -363,7 +393,7 @@ LeaveGroup: async (GroupID) => {
   try{
 
     //updates the users data
-    const uid = await Firebase.getCurrentUser().uid;
+    const uid = Firebase.getCurrentUser().uid;
     const UserRef = doc(db, "users", uid);
 
     // Atomically remove a region from the "regions" array field.
@@ -376,7 +406,16 @@ LeaveGroup: async (GroupID) => {
     // Atomically remove a region from the "regions" array field.
     await updateDoc(GroupRef, {
         groups: arrayRemove(uid)
-  });
+    });
+
+    //fjern den gruppen som skal slettes fra cachen 
+    const grouparray = await AsyncStorage.getItem(
+      "groups",
+      jsonValue
+    );
+
+    console.log(grouparray)
+
     }catch(error){
       console.log("Error @LeaveGroup", error)
     }
@@ -385,7 +424,6 @@ LeaveGroup: async (GroupID) => {
   JoinGroup: async (GroupID) => {
 
     try{
-
      //updates the users data
      const uid = Firebase.getCurrentUser().uid;
      const UserRef = doc(db, "users", uid);
@@ -400,6 +438,24 @@ LeaveGroup: async (GroupID) => {
      await updateDoc(GroupRef,{
          members: arrayUnion(uid)
     });
+
+    //get the group data
+    let arrayObject = [];
+    const Snap = await getDoc(doc(db, "groups", GroupID ))
+
+    arrayObject.push({
+      groupname: Snap.data().groupname, 
+      groupID: Snap.data().groupID, 
+      color: Snap.data().color, 
+      members: Snap.data().members, 
+      privacy: Snap.data().privacy,
+      GroupPhotoUrl: Snap.data().GroupPhotoUrl,
+    })
+
+    console.log(arrayObject); 
+
+    //update persistent storage with the new group
+    Firebase.CacheGroupData(arrayObject)
     
     }catch(error){
       console.log("Error @JoinGroup", error)
@@ -525,7 +581,6 @@ s
       }
     
     }, 
-
 
   RetrivingMessages: async (text) => {
   
@@ -744,6 +799,34 @@ SortGroupFeed: async (posts, sortsettings) => {
       }
     }, 
 
+  SearchForCommunities: async (Query) => {
+
+    try{
+
+      const groupList = [];
+
+      //Search the database for the words. Either in the group name or 
+      //Lag en god blanding 
+      const q = query(GroupRef, where("groupname", "==", "Query"));
+      const querySnapshot = await getDocs(q);
+
+      querySnapshot.forEach((doc) => {
+      
+        groupList.push({
+        groupID: doc.data().groupID, 
+        groupname: doc.data().groupname, 
+        GroupPhotoUrl: doc.data().GroupPhotoUrl
+      })
+
+      console.log(groupList)
+      return groupList; 
+
+    })
+      
+      }catch(error){
+        console.log("Error @SearchForCommunities", error)
+      }
+    }, 
 }; 
 
 

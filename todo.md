@@ -1,46 +1,45 @@
 
--Lag default bildet til å være en default profile pic
+
+HomeScreen: 
+-Få sletta grupper
+-Få displaya gruppebildet
 
 
 Groupscreen:
--Gjøre groupscreen == HomeScreen
--Implementer group delete funksjonen 
--Få fetcha grupper
-
+-Lage group settings 
+-En oversikt over alle medlemmene i gruppen
+-Lag en admin rolle til de som lager gruppene. 
 
 Settingsscreen: 
--Lag en finere liste 
--Finn icons
--Lag en Return buttom
+
 
 FeedScreen: 
--Få fetcha posta fra 
+-Innholdet trenger å dukke oppp i felles feeden 
+-Få skrevet den i native base  
 
-Drawer: 
--Lag en finere drawer
 
 ExploreScreen:
--Få joina fetcha grupper
--Få Joina grupper
+- Ordne søkefunksjonen
+- Query databasen med det søkeordet som skrives inn
+
+AuthScreens
+-Lag Form control
+
+Annet: 
+-Fiks hjem knappen 
+-Lag sikrere regler 
+
+Søknad: 
+
+-Få lest gjennom den og skrevet den bedre 
+-Få ordnet bank konto 
 
 
 
 
-                    MVP: 
-    
-    -Logge in : CHECK 
-    -Lage brukera : CHECK 
-    -Trenger å lage grupper : CHECK 
-    -Trenger å Joine grupper : CHECK
-    -Kan forlate grupper: CHECK 
 
-    -Lag en admin rolle til de som lager gruppene. 
-    -En oversikt over alle medlemmene i gruppen
-    
-    -Lag en gruppesettingskjerm
+CreateGroup in nativebase 
+-Fjern fargevalget 
+-Fiks uploadinga av image
 
-    -Gruppene trenger å ha en egen post feed
-    -Innholdet trenger å dukke oppp i felles feeden 
-    -Strenger å ha et bra UI. Implenetere alt i nativeBase: 
-    -Få en finere drawer
-    
+

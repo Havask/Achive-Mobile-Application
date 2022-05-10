@@ -76,9 +76,8 @@ export default GroupSettingScreen = ({navigation}) => {
                   size={50} />
       </HStack>
     </Pressable>
-
     */
-  }; 
+  };  
 
   return(
     <Center w="100%">

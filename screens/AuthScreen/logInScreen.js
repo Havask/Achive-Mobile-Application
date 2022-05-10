@@ -5,7 +5,7 @@ import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
 import {Switch} from "react-native";
 import {Box, Text, Pressable, Heading, IconButton, Icon, HStack, Avatar, 
-  VStack, Spacer, Center, Image,Divider,Stack, Button, FormControl, Input, Link} from "native-base";
+  VStack, Spacer, Center, Image,Divider,Stack, Button, FormControl, Input, Link, WarningOutlineIcon} from "native-base";
 
 export default LogInScreen = ({navigation}) => {
 
@@ -81,11 +81,12 @@ export default LogInScreen = ({navigation}) => {
     <Box>
         <Box pt="150" p="7">
           <Box justifyContent="center" alignItems="center">
-            <Image h="100" w="200" source={require("../../logo/logo.png")} alt="Logo"/>
+            <Image h="100" w="200" source={require("../../assets/logo.png")} alt="Logo"/>
           </Box>
 
           <VStack space={3} mt="5" pt="12">
-            <FormControl>
+        
+              <FormControl isInvalid >
               <FormControl.Label>Email</FormControl.Label>
               <Input 
                 autoCapitalize="none" 
@@ -95,11 +96,8 @@ export default LogInScreen = ({navigation}) => {
                 keyboardType="email-address"
                 value={email}
                 onChangeText={email => setEmail(email.trim())}/>
-            </FormControl>
 
-
-          <FormControl>
-            <FormControl.Label>Password</FormControl.Label>
+          <FormControl.Label>Password</FormControl.Label>
               <Input 
                type="password" 
                autoCapitalize="none" 
@@ -109,6 +107,13 @@ export default LogInScreen = ({navigation}) => {
                secureTextEntry={true}
                value={password}
                onChangeText={password => setPassword(password.trim())}/>
+
+              <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
+                Wrong password or email.
+              </FormControl.ErrorMessage>
+
+            </FormControl>
+
               <Link _text={{
                 fontSize: "xs",
                 fontWeight: "500",
@@ -116,7 +121,6 @@ export default LogInScreen = ({navigation}) => {
             }} alignSelf="flex-end" mt="1">
                 Forgot Password?
               </Link>
-          </FormControl>
 
           <HStack alignItems="center" justifyContent="center" space={4}>
             <Text>Keep me logged in</Text>

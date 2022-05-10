@@ -10,14 +10,8 @@ import { Timestamp } from "firebase/firestore";
 import {Flex,Box, Pressable, Heading, IconButton, Icon, HStack, Avatar, VStack, Spacer, Center, Image,Divider,Stack, Button} from "native-base";
 
 import * as Haptics from 'expo-haptics';
-
 import {RefreshControl} from 'react-native';
 
-/* 
--Kan kun lese å delta på tråder som blir displayet i feeden. 
--
-
-*/ 
 export default FeedScreen = ({navigation}) => {
 
   const [group, setGroup] = useContext(GroupContext); 

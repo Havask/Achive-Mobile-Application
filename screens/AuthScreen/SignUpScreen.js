@@ -3,7 +3,7 @@ import * as ImagePicker from "expo-image-picker"
 import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
 import {Box, Text, Pressable, Heading, IconButton, Icon, HStack, Avatar, 
-  VStack, Spacer, Center, Image,Divider,Stack, Button, FormControl, Input, Link} from "native-base";
+  VStack, Spacer, Center, Image,Divider,Stack, Button, FormControl, Input, Link, WarningOutlineIcon} from "native-base";
 
 export default SignUpScreen = ({navigation}) => {
 
@@ -15,35 +15,21 @@ export default SignUpScreen = ({navigation}) => {
   const [profilePhoto, setProfilePhoto] = useState(); 
 
   const pickImage = async () => {
+
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
+    
     if (!result.cancelled) {
       setProfilePhoto(result.uri);
+      setUser((state) => ({ ...state, profilePhotoUrl: result.uri})); 
     }
   };
 
-  const ButtonAlert = () =>
-    Alert.alert(
-      "Password should be at least 6 characters",
-      [
-        {
-          text: "Okey",
-          style: "cancel"
-        }
-      ]
-  );
-
   const signUp = async () => {
-
-    if(password.length <=6){
-      console.log("Password should be at least 6 characters (auth/weak-password)")
-      ButtonAlert()
-      return; 
-    }
     
     const user = {username, email, password, profilePhoto}
 
@@ -52,8 +38,6 @@ export default SignUpScreen = ({navigation}) => {
       setUser({...createdUser, isLoggedIn: true}); 
     }catch(error){
       console.log("Error @SignUp", error); 
-    }finally{
-      setLoading(false); 
     }
   };
 

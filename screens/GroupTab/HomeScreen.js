@@ -1,5 +1,4 @@
 import React, {useState, useContext, useEffect} from "react";
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { MaterialIcons, Ionicons, Entypo } from "@expo/vector-icons";
 import {GroupContext} from "../../context/GroupContext";
@@ -7,21 +6,8 @@ import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
 import * as SecureStore from 'expo-secure-store';
 import { SwipeListView } from "react-native-swipe-list-view";
-
 import {Box, Text, Pressable, Heading, IconButton, Icon, HStack, Avatar, VStack, Spacer, Center, Image,Divider,Stack, Button} from "native-base";
-import {RefreshControl, Vibration} from 'react-native';
-
-
-const makeid = length => {
-  var result           = '';
-  var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  var charactersLength = characters.length;
-  for ( var i = 0; i < length; i++ ) {
-    result += characters.charAt(Math.floor(Math.random() * 
-    charactersLength));
- }
-  return result;
-}
+import {RefreshControl} from 'react-native';
 
 export default HomeScreen = ({navigation}) => {
   
@@ -32,12 +18,16 @@ export default HomeScreen = ({navigation}) => {
   const [group, setGroup] = useContext(GroupContext); 
 
   useEffect(() => {
-    GroupData();  
+    let isMounted = true; 
+    if(isMounted === true){
+      RefreshGroupData();  
+    }
+    return () => { isMounted = false };
   }, []);
 
   const ChangeGroup = ( {item} ) => {
-  
     try{
+
       setGroup({
         groupname: item.groupname, 
         groupID: item.groupID, 
@@ -53,65 +43,46 @@ export default HomeScreen = ({navigation}) => {
     }
   }
 
-  const GroupData = async () => {
-
-    const Userjson = JSON.stringify(user)
-    SecureStore.setItemAsync("User", Userjson);
-
+  //Henter enten ut fra persistent storage eller så hentes det fra databasen og lagres der
+  const RefreshGroupData = async () => {
+ 
     try{
-      
+
+      /*
+        -Når en gruppe lages
+        -Når en gruppe slettes 
+        -Når en gruppe joines 
+
+        Default === persistent storage
+      */
+     
+      firebase.CacheUserContext(user); 
+
       const value = await AsyncStorage.getItem("groups");
 
       if (value !== null) {
 
         //Hent ut data fra async storage
         const parsedJson = JSON.parse(value)
+        console.log("Cached Groups: ", parsedJson)
         setData(parsedJson); 
 
-      }else{
-
-        //henter ut hvilken grupper brukeren tilhører 
         const groups = await firebase.RetriveGroupData(); 
+        //updates the user context with the groups
+        setUser((state) => ({ ...state, groups: groups})); 
 
-        //returnerer et array av json objekter
-        const objectArray = await firebase.LoadGroups(groups); 
-        setData(objectArray); 
-       
-         const jsonValue = JSON.stringify(objectArray)
-         await AsyncStorage.setItem(
-           "groups",
-           jsonValue
-          );
-        }
+      }else{
+       console.log("Nothing was no groups in persistent storage") 
+      }
       }catch {  
         console.log("Something went wrong @GroupData");
     }
   }
 
-  const RefreshGroupData = async () => {
-
-    await firebase.CacheUserContext(user); 
-
-    //Returnerer en nylig liste over hvilke grupper man tilhører 
-    const groups = await firebase.RetriveGroupData(); 
-    //returnerer et array av json objekter
-    const objectArray = await firebase.LoadGroups(groups); 
-    setData(objectArray); 
-
-    //updates the context 
-    setUser((state) => ({ ...state, groups: groups})); 
-
-    const jsonValue = JSON.stringify(objectArray)
-    await AsyncStorage.setItem(
-      "groups",
-      jsonValue
-    );
-  }
-
   const renderItem = ({
     item
   }) => 
-        <Box maxW="100%">
+      <Box maxW="100%">
         <VStack >
           <Divider />
           <Pressable onPress={() => ChangeGroup({item})} >
@@ -122,7 +93,7 @@ export default HomeScreen = ({navigation}) => {
                         ? require("../../assets/default-group.png")
                         : { uri: item.GroupPhotoUrl}
                 } height="60" rounded="full" width="60" alt="GroupPhoto"  />
-                <Text color="coolGray.800" bold fontSize="xl" >
+                <Text bold fontSize="xl" >
                   {item.groupname}
                 </Text>
                 <Ionicons 
@@ -132,8 +103,9 @@ export default HomeScreen = ({navigation}) => {
             </Box>
           </Pressable>
           <Divider />
-          </VStack>
+        </VStack>
       </Box>;
+
 
 const closeRow = (rowMap, rowKey) => {
   if (rowMap[rowKey]) {
@@ -142,18 +114,10 @@ const closeRow = (rowMap, rowKey) => {
 };
 
 const deleteGroup = (rowMap, rowKey, groupID) => {
+
   firebase.LeaveGroup(groupID); 
+  firebase.RemoveCacheGroupData(groupID)
   closeRow(rowMap, rowKey);
-
-  /*
-
-  Lager nytt arra
-  const newData = [...listData];
-  const prevIndex = listData.findIndex(item => item.key === rowKey);
-  newData.splice(prevIndex, 1);
-  setListData(newData); 
-  
-  */
 };
 
 const renderHiddenItem = (data, rowMap) => 
@@ -171,7 +135,7 @@ const renderHiddenItem = (data, rowMap) =>
 
   return(
     <Box>
-      <HStack space={12} justifyContent="center" pt="7">
+      <HStack space={12} justifyContent="center" pt="10" >
           <Box w="100" h="100">
             <Button onPress={() => navigation.push("CreateGroup")} height="50" width="110" leftIcon={<Icon as={Ionicons} name="create-outline" size="sm"  />}>
               Create

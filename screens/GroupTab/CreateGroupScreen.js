@@ -13,12 +13,6 @@ import * as ImagePicker from "expo-image-picker"
 
 //https://reactnativeexample.com/customizable-color-picker-for-your-beautiful-react-native-apps/
 
-/*
--Lag en privat/offentlig checkbox 
--Sett gruppene inn i async storage for å raskt laste de inn når man starter appen
--Prøv å join en gruppe  
-*/
-
 export default CreateGroupScreen = ({navigation}) => {
 
   const [loading, setLoading] = useState(false); 
