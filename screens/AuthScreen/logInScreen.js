@@ -16,18 +16,7 @@ export default LogInScreen = ({navigation}) => {
   const [loading, setLoading] = useState(false); 
   const [Isloggedin, setIsloggedin] = useState(""); 
   const [RememberMe, setRememberMe] = useState(true);  
-
-  const ButtonAlert = () =>
-    Alert.alert(
-      "User not found",
-      "My Alert Msg",
-      [
-        {
-          text: "Cancel",
-          style: "cancel"
-        }
-      ]
-  );
+  const [Valid, setValid] = useState(false);  
 
   const handleLogin = async () => {
 
@@ -51,7 +40,7 @@ export default LogInScreen = ({navigation}) => {
           })
 
         }catch{
-          console.log("wut")
+          setValid(true)
         }
       } 
     }
@@ -70,7 +59,8 @@ export default LogInScreen = ({navigation}) => {
           profilePhotoUrl: userInfo.profilePhotoUrl,
           isLoggedIn: true, 
         })
-      }catch{console.log("mjau")
+      }catch{
+        setValid(true)
     }}
     }
  
@@ -86,7 +76,7 @@ export default LogInScreen = ({navigation}) => {
 
           <VStack space={3} mt="5" pt="12">
         
-              <FormControl isInvalid >
+              <FormControl isInvalid={Valid}>
               <FormControl.Label>Email</FormControl.Label>
               <Input 
                 autoCapitalize="none" 

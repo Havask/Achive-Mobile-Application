@@ -5,7 +5,12 @@ import {UserContext} from "../../context/UserContext";
 import {Box, Text, Pressable, Heading, IconButton, Icon, HStack, Avatar, 
   VStack, Spacer, Center, Image,Divider,Stack, Button, FormControl, Input, Link, WarningOutlineIcon} from "native-base";
 
-export default SignUpScreen = ({navigation}) => {
+  
+  export default SignUpScreen = ({navigation}) => {
+    
+  const [ValidPassword, setValidPassword] = useState(false); 
+  const [ValidUsername, setValidUsername] = useState(false); 
+  const [ValidEmail, setValidEmail] = useState(false); 
 
   const firebase = useContext(FirebaseContext); 
   const [_, setUser] = useContext(UserContext); 
@@ -31,23 +36,37 @@ export default SignUpScreen = ({navigation}) => {
 
   const signUp = async () => {
     
-    const user = {username, email, password, profilePhoto}
-
     try{
+
+      const user = {username, email, password, profilePhoto}
+      const int = await firebase.ValidateSignUpForm(email, password)
+
+      //valides the form
+      if(int === 1){
+        console.log("Password too weak")
+        
+        setValidEmail(false)
+        setValidPassword(true)
+        return; 
+      }
+      if(int === 2){
+        console.log("Email already exist")
+        setValidEmail(true)
+        setEmail("")
+        return;
+      }
+      if(int === 3){
+        console.log("Username already exist")
+        setValidUsername(true)
+        return; 
+       }
+
       const createdUser = await firebase.createUser(user)
       setUser({...createdUser, isLoggedIn: true}); 
+
+
     }catch(error){
       console.log("Error @SignUp", error); 
-    }
-  };
-
-  const signUpFacebook = async () => {
-  
-    try{
-      firebase.SignInUserWithFacebook()
-
-    }catch(error){
-      console.log("Error @signUpFacebook", error); 
     }
   };
 
@@ -69,14 +88,15 @@ export default SignUpScreen = ({navigation}) => {
         </Box>
 
         <VStack space={3} mt="5">
-          <FormControl>
+          <FormControl isInvalid={ValidUsername}>
             <FormControl.Label>Name</FormControl.Label>
             <Input 
               autocorrect={false} 
               onChangeText={(username) => setUsername(username.trim())}
               value={username}/>
           </FormControl>
-          <FormControl>
+
+          <FormControl isInvalid={ValidEmail}>
             <FormControl.Label>Email</FormControl.Label>
             <Input              
               autoCapitalize="none" 
@@ -85,8 +105,12 @@ export default SignUpScreen = ({navigation}) => {
               onChangeText={(email) => setEmail(email.trim())}
               value={email}
             />
+            <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
+              E-mail is already taken
+            </FormControl.ErrorMessage>
           </FormControl>
-          <FormControl>
+
+          <FormControl isRequired isInvalid={ValidPassword}>
             <FormControl.Label>Password</FormControl.Label>
             <Input 
               type="password"       
@@ -95,6 +119,13 @@ export default SignUpScreen = ({navigation}) => {
               secureTextEntry={true}
               onChangeText={(password) => setPassword(password.trim())}
               value={password}/>
+            <FormControl.HelperText>
+              Must be atleast 6 characters.
+            </FormControl.HelperText>
+
+            <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
+              Atleast 6 characters are required.
+            </FormControl.ErrorMessage>
           </FormControl>
           <Button mt="2"  onPress={signUp}>
             Sign up
@@ -112,12 +143,6 @@ export default SignUpScreen = ({navigation}) => {
               Sign Up
             </Link>
           </HStack>
-
-          <Box justifyContent="center" alignItems="center" pt="10">
-            <Button h="50" w="140" mt="2" justifyContent="center" onPress={signUpFacebook}>
-              Facebook login
-            </Button>
-        </Box>
           
         </VStack>
      </Box>

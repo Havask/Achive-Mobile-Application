@@ -53,27 +53,23 @@ const Firebase = {
   CacheUserContext: async (user) => {
 
     const jsonValue = JSON.stringify(user)
-    await SecureStore.setItemAsync("User", jsonValue)
+    await AsyncStorage.setItem("User", jsonValue)
   },    
 
-  CacheGroupData: async (Group) => {
+  //hent ting fra databasen for å oppdatere. Ikke fra telefonen. Consistency
+  CacheGroupData: async () => {
 
-    const value = await AsyncStorage.getItem("groups");
+      //henter ut hvilken grupper brukeren tilhører 
+      const groups = await Firebase.RetriveGroupData(); 
 
-    if(value !== null){
-      //Hent ut data fra async storage
-      const parsedJson = JSON.parse(value)
+      //returnerer et array av json objekter
+      const objectArray = await Firebase.LoadGroups(groups); 
 
-      const jsonValue = JSON.stringify(parsedJson)
-      
+      const jsonValue = JSON.stringify(objectArray)
       await AsyncStorage.setItem(
         "groups",
         jsonValue
       );
-
-    }else{
-      await AsyncStorage.setItem("groups", Group);
-    }
   },
 
   RemoveCacheGroupData: async (groupID) => {
@@ -82,12 +78,75 @@ const Firebase = {
     if (value !== null) {
       //Hent ut data fra async storage
       const parsedJson = JSON.parse(value)
-      console.log("Cached Groups: ", parsedJson)
+      console.log(parsedJson)
+
+      const indexOfObject = parsedJson.findIndex(object => {
+        return object.groupID === groupID;
+      });
+      
+      parsedJson.splice(indexOfObject, 1);
+      console.log(parsedJson)
+
+      //prøver å stringifye en tom 
+      if (parsedJson.length === 0) {
+         console.log("Array is empty!") 
+         AsyncStorage.removeItem("groups")
+        return 1; 
+      }
+
+      //check if the array is empty. If it is put Null inside it. 
+      const jsonValue = JSON.stringify(parsedJson)
+      await AsyncStorage.setItem(
+        "groups",
+        jsonValue
+      );
+
+      return parsedJson; 
 
     }else{
      console.log(" no groups to remove in persistent storage") 
     }
  },  
+
+ ClearCacheGroupData: async () => {
+
+  const value = await AsyncStorage.getItem("groups");
+  if (value !== null) {
+
+    AsyncStorage.removeItem("groups")
+
+  }else{
+   console.log(" no groups to remove in persistent storage") 
+  }
+},  
+
+ValidateSignUpForm: async (email, password) => {
+  try{
+    
+    //query databasen for en epost
+    const UserRef = collection(db, "user");
+    const q = query(UserRef, where("email", "==", email));
+
+    if(q != null){
+      return 2; 
+    } 
+
+    //Sjekk først om legden på passordet er bra nok 
+    if(password.length < 6){
+      return 1; 
+    } 
+
+
+    //Sjekk med databasen om en bruker har samme epost, brukernavn 
+    return; 
+
+  
+  } catch(error) {
+    console.log("Error @ValidateSignUpForm:", error.message)
+  }
+
+
+},  
 
   getCurrentUser: () => {
     return auth.currentUser; 
@@ -339,7 +398,7 @@ const Firebase = {
       }
 
       //update persistent storage with the new group
-      Firebase.CacheGroupData(Group)
+      Firebase.CacheGroupData()
         
     }catch(error){
       console.log("Error @CreateNewGroup", error)
@@ -389,32 +448,24 @@ const Firebase = {
   }, 
 
 
-LeaveGroup: async (GroupID) => {
-  try{
+  LeaveGroup: async (GroupID) => {
+    try{
 
-    //updates the users data
-    const uid = Firebase.getCurrentUser().uid;
-    const UserRef = doc(db, "users", uid);
+      //updates the users data
+      const uid = Firebase.getCurrentUser().uid;
+      const UserRef = doc(db, "users", uid);
 
-    // Atomically remove a region from the "regions" array field.
-    await updateDoc(UserRef, {
-        groups: arrayRemove(GroupID)
-    }); 
+      // Atomically remove a region from the "regions" array field.
+      await updateDoc(UserRef, {
+          groups: arrayRemove(GroupID)
+      }); 
 
-   //updates the group data
-    const GroupRef = doc(db, "groups", GroupID);
-    // Atomically remove a region from the "regions" array field.
-    await updateDoc(GroupRef, {
-        groups: arrayRemove(uid)
-    });
-
-    //fjern den gruppen som skal slettes fra cachen 
-    const grouparray = await AsyncStorage.getItem(
-      "groups",
-      jsonValue
-    );
-
-    console.log(grouparray)
+    //updates the group data
+      const GroupRef = doc(db, "groups", GroupID);
+      // Atomically remove a region from the "regions" array field.
+      await updateDoc(GroupRef, {
+          members: arrayRemove(uid)
+      });
 
     }catch(error){
       console.log("Error @LeaveGroup", error)
@@ -704,9 +755,9 @@ RetriveGroupsStorage: async () => {
 
     }else{
       //henter ut hvilken grupper brukeren tilhører 
-      const groups = await firebase.RetriveGroupData(); 
+      const groups = await Firebase.RetriveGroupData(); 
       //returnerer et array av json objekter
-      const objectArray = await firebase.LoadGroups(groups); 
+      const objectArray = await Firebase.LoadGroups(groups); 
 
       const jsonValue = JSON.stringify(objectArray)
       await AsyncStorage.setItem(

@@ -16,13 +16,14 @@ export default HomeScreen = ({navigation}) => {
   const firebase = useContext(FirebaseContext); 
   const [user, setUser] = useContext(UserContext); 
   const [group, setGroup] = useContext(GroupContext); 
+  const [CleanUp, setCleanUp] = useState(true); 
 
   useEffect(() => {
-    let isMounted = true; 
-    if(isMounted === true){
+  
+    if(CleanUp === true){
       RefreshGroupData();  
     }
-    return () => { isMounted = false };
+    return () => {setCleanUp(false)};
   }, []);
 
   const ChangeGroup = ( {item} ) => {
@@ -48,28 +49,24 @@ export default HomeScreen = ({navigation}) => {
  
     try{
 
-      /*
-        -Når en gruppe lages
-        -Når en gruppe slettes 
-        -Når en gruppe joines 
+      console.log("UserContext groups",user.groups); 
+      console.log("UserContext groups",Groups); 
 
-        Default === persistent storage
-      */
-     
+      //kanskje man må oppdatere group contexten også 
+
       firebase.CacheUserContext(user); 
 
       const value = await AsyncStorage.getItem("groups");
 
       if (value !== null) {
-
+        
         //Hent ut data fra async storage
         const parsedJson = JSON.parse(value)
-        console.log("Cached Groups: ", parsedJson)
-        setData(parsedJson); 
+        console.log("1",parsedJson)
 
-        const groups = await firebase.RetriveGroupData(); 
+        setData(parsedJson); 
         //updates the user context with the groups
-        setUser((state) => ({ ...state, groups: groups})); 
+        setUser((state) => ({ ...state, groups: parsedJson})); 
 
       }else{
        console.log("Nothing was no groups in persistent storage") 
@@ -89,10 +86,12 @@ export default HomeScreen = ({navigation}) => {
             <Box>
             <HStack w="100%" h="70" justifyContent="space-between" alignItems="center" bg="primary.50">
               
-            <Image source={group.GroupPhotoUrl == "default"
+            <Avatar
+                  source={item.GroupPhotoUrl == "default"
                         ? require("../../assets/default-group.png")
                         : { uri: item.GroupPhotoUrl}
-                } height="60" rounded="full" width="60" alt="GroupPhoto"  />
+                } height="60" rounded="full" width="60" alt="GroupPhoto">
+                  </Avatar> 
                 <Text bold fontSize="xl" >
                   {item.groupname}
                 </Text>
@@ -113,11 +112,30 @@ const closeRow = (rowMap, rowKey) => {
   }
 };
 
-const deleteGroup = (rowMap, rowKey, groupID) => {
+const deleteGroup = async (rowMap, rowKey, groupID) => {
 
-  firebase.LeaveGroup(groupID); 
-  firebase.RemoveCacheGroupData(groupID)
-  closeRow(rowMap, rowKey);
+  try{
+    //leaves the groups on the database
+    await firebase.LeaveGroup(groupID); 
+
+    //removes the groups from the cache and updates the usercache
+    const newArray = await firebase.RemoveCacheGroupData(groupID)
+    console.log("newarray", newArray) 
+    
+    if(newArray === 1){
+      console.log("No more groups")
+      setUser((state) => ({ ...state, groups:[] })); 
+      return; 
+    }
+
+
+    setUser((state) => ({ ...state, groups: newArray})); 
+    setData(newArray); 
+    closeRow(rowMap, rowKey);
+  
+    } catch {
+      console.log("Something went wrong @deleteGroup")
+    }
 };
 
 const renderHiddenItem = (data, rowMap) => 

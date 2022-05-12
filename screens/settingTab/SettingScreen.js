@@ -62,7 +62,7 @@ export default SettingScreen = ({navigation}) => {
 
   const clearCache = async () => {
     try {
-      await firebase.ClearCache()
+      await firebase.ClearCacheGroupData()
     } catch (err) {
       throw err;
     }
