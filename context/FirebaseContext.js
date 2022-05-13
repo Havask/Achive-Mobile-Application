@@ -798,26 +798,13 @@ SortGroupFeed: async (posts, sortsettings) => {
   ExplorationFeed: async () => {
 
   try{
-    /*
-    -Foreslå grupper som e relevant for brukeren
-    -Fetch grupper som 
-    -Trenger GroupID og GrouppeBilde
-    -Trenger flere metrics for hvodan gruppe den er 
-    -Fetch Grupper som ligner p
-    -Lag en profil på brukeren av appen. Hvordan grupper liker personen
-
-    -Query etter 20 offentlige grupper
-    -
-    */
 
     const objectList = [];
 
     const q = query(collection(db, "groups"), where("privacy", "==", false));
     const querySnapshot = await getDocs(q);
-    //console.log(querySnapshot)
 
     querySnapshot.forEach((doc) => {
-      
         objectList.push({
         groupID: doc.data().groupID, 
         groupname: doc.data().groupname, 
@@ -825,7 +812,6 @@ SortGroupFeed: async (posts, sortsettings) => {
       })
     })
     
-    console.log(objectList)
     return objectList; 
     
     }catch(error){
@@ -856,8 +842,6 @@ SortGroupFeed: async (posts, sortsettings) => {
 
       const groupList = [];
 
-      //Search the database for the words. Either in the group name or 
-      //Lag en god blanding 
       const q = query(GroupRef, where("groupname", "==", "Query"));
       const querySnapshot = await getDocs(q);
 

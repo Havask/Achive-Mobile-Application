@@ -1,26 +1,22 @@
 
 import React, {useState, useContext, useEffect} from "react";
-import styled from "styled-components/native"; 
 import { FlatList } from "react-native";
 import {FirebaseContext} from "../../context/FirebaseContext";
 import {UserContext} from "../../context/UserContext";
 import {GroupContext} from "../../context/GroupContext";
 
-import {
-  RefreshControl, Vibration
-} from 'react-native';
+import {RefreshControl, Vibration} from 'react-native';
 
-import { VStack, Input, Button, IconButton, Icon, Text, NativeBaseProvider, Center, Box, Divider, Heading,Stack,Pressable, AspectRatio,  Image} from "native-base";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { VStack, Input, Button, Icon, Box, Heading,Stack,Pressable, AspectRatio, Image} from "native-base";
+import {MaterialIcons } from "@expo/vector-icons";
 
 export default ExplorerScreen = ({navigation}) => {
   
   const firebase = useContext(FirebaseContext); 
   const [User, setUser] = useContext(UserContext); 
   const [Group, setGroup] = useContext(GroupContext); 
+  
   const [Suggestion, setSuggestion] = useState(); 
-  const [GroupName, setGroupName] = useState(""); 
-  const [loading, setLoading] = useState(false); 
   const [Query, setQuery] = useState(""); 
 
   useEffect(() => {
