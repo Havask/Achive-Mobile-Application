@@ -1,10 +1,6 @@
 ## Achive mobile app
 
-#### Example:
-
-TweetWorld 
-
-An application used to filter data form Twitter based on user preference, built with React, Redux, JavaScript, and CSS.
+An mobile application used to socialize and create groups, built with React native, firebase and JavaScript.
 
 ## Project Status
 (only necessary if incomplete)
