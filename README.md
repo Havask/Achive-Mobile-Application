@@ -7,7 +7,7 @@ An mobile application used to socialize and create groups, built with React nati
 
 #### Example:
 
-This project is currently in development. Users can filter tweets by username and keyword and see visual data representation. Functionality to sort by additional parameters is in progress.
+This project is currently not in development. Users can register users, create, join and leave groups.
 
 ## Project Screen Shot(s)
 
