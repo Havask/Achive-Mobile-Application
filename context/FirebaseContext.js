@@ -122,10 +122,13 @@ const Firebase = {
 
 ValidateSignUpForm: async (email, password) => {
   try{
-    
+
+    console.log("email",email)
     //query databasen for en epost
     const UserRef = collection(db, "user");
+    console.log(UserRef)
     const q = query(UserRef, where("email", "==", email));
+    console.log("q",q)
 
     if(q != null){
       return 2; 
@@ -135,17 +138,12 @@ ValidateSignUpForm: async (email, password) => {
     if(password.length < 6){
       return 1; 
     } 
-
-
     //Sjekk med databasen om en bruker har samme epost, brukernavn 
     return; 
-
   
   } catch(error) {
     console.log("Error @ValidateSignUpForm:", error.message)
   }
-
-
 },  
 
   getCurrentUser: () => {
@@ -255,8 +253,9 @@ ValidateSignUpForm: async (email, password) => {
 
       if(user.exists()){
         return user.data(); 
-      } else {
+      }else{
         console.log("Can't get document @getUserInfo!");
+        
       }
       }catch(error){
         console.log("error @getUserInfo", error)

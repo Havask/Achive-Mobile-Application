@@ -1,0 +1,1 @@
+{"ast":null,"code":"export { default as FeedScreen } from \"./FeedScreen\";","map":{"version":3,"names":["default","FeedScreen"],"sources":["/Users/havardskjaerstein/Desktop/Achive/screens/FeedTab/index.js"],"sourcesContent":["\nexport { default as FeedScreen } from \"./FeedScreen\";\n\n"],"mappings":"AACA,SAASA,OAAO,IAAIC,UAApB"},"metadata":{},"sourceType":"module"}

@@ -27,11 +27,11 @@ export default FeedScreen = ({navigation}) => {
     {
       id: "1223434",
       user: {
-        username: "Synnøve", 
+        username: "Football Team", 
         profilePhotoUrl: "https://picsum.photos/96/96"
       },
       postedAt: Timestamp,
-      post: "Hei Håvard",
+      post: "Next training session will be at the football field at 18:00",
       photoUrl: "https://picsum.photos/200/300",
       Upvotes: 21,
       Downvotes: 3
@@ -39,11 +39,11 @@ export default FeedScreen = ({navigation}) => {
     {
       id: "12234134",
       user: {
-        username: "Synnøve", 
-        profilePhotoUrl: "https://picsum.photos/96/96"
+        username: "Flower Group", 
+        profilePhotoUrl: "https://picsum.photos/200/300"
       },
       postedAt: Timestamp,
-      post: "Hei Håvard",
+      post: "We will be planting flowers at the park at 10:00",
       photoUrl: "https://picsum.photos/200/300",
       Upvotes: 21,
       Downvotes: 3
@@ -51,11 +51,11 @@ export default FeedScreen = ({navigation}) => {
     {
       id: "12234341",
       user: {
-        username: "Synnøve", 
-        profilePhotoUrl: "https://picsum.photos/96/96"
+        username: "Howard", 
+        profilePhotoUrl: "https://picsum.photos/200/300"
       },
       postedAt: Timestamp,
-      post: "Hei Håvard",
+      post: "Some random text that is not very long and is just a test to see how it looks on the screen. I hope it looks good.",
       photoUrl: "https://picsum.photos/200/300",
       Upvotes: 21,
       Downvotes: 3

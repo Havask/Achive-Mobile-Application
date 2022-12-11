@@ -17,7 +17,8 @@ export default LogInScreen = ({navigation}) => {
   const [Isloggedin, setIsloggedin] = useState(""); 
   const [RememberMe, setRememberMe] = useState(true);  
   const [Valid, setValid] = useState(false);  
-
+    
+    
   const handleLogin = async () => {
 
     if(RememberMe === true){
@@ -25,8 +26,9 @@ export default LogInScreen = ({navigation}) => {
    
         try{
           await firebase.SignInUser(email, password);
-          
+          console.log("uid");
           const uid = await firebase.getCurrentUser().uid; 
+          console.log("uid",uid);
           const userInfo = await firebase.getUserInfo(uid)
 
           setUser({
@@ -48,6 +50,7 @@ export default LogInScreen = ({navigation}) => {
       try{
         await firebase.SignInUser(email, password);
         const uid =  await firebase.getCurrentUser().uid; 
+        console.log("uid");
         const userInfo =  await firebase.getUserInfo(uid)
     
         setUser({

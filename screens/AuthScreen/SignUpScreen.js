@@ -38,9 +38,12 @@ import {Box, Text, Pressable, Heading, IconButton, Icon, HStack, Avatar,
     
     try{
 
-      const user = {username, email, password, profilePhoto}
-      const int = await firebase.ValidateSignUpForm(email, password)
+      console.log("email", email)
+      console.log("password", password)
 
+      const user = {username, email, password, profilePhoto}
+      //const int = await firebase.ValidateSignUpForm(email, password)
+/*
       //valides the form
       if(int === 1){
         console.log("Password too weak")
@@ -60,6 +63,7 @@ import {Box, Text, Pressable, Heading, IconButton, Icon, HStack, Avatar,
         setValidUsername(true)
         return; 
        }
+       */
 
       const createdUser = await firebase.createUser(user)
       setUser({...createdUser, isLoggedIn: true}); 
