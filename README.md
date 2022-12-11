@@ -1,3 +1,4 @@
+
 ## Achive mobile app
 
 An mobile application used to socialize and create groups, built with React native, firebase and JavaScript.
@@ -8,7 +9,9 @@ This project is currently not in development. Users can register users, create, 
 
 ## Project Screen Shots
 
-<img width="223" alt="Reg" src="https://user-images.githubusercontent.com/69583492/206919116-5e8f70e0-d9d1-4dd8-aa0b-a53c292bf9bd.png"><img width="228" alt="Login" src="https://user-images.githubusercontent.com/69583492/206919108-e49fccc7-1495-441a-bcc7-f631a293f2fa.png"> <img width="223" alt="groups" src="https://user-images.githubusercontent.com/69583492/206919011-7d4bd9c5-066b-48cd-b13b-1479020fbeb9.png"><img width="223" alt="Discover" src="https://user-images.githubusercontent.com/69583492/206919021-3b8f96f8-b2a5-4454-921e-b8b31218fa80.png"><img width="223" alt="Create" src="https://user-images.githubusercontent.com/69583492/206919042-c490249b-87de-4763-bea2-6bfd829e5262.png"><img width="223" alt="settings" src="https://user-images.githubusercontent.com/69583492/206919026-73be84ff-d1c8-4559-b907-5b1a9b88ad60.png"><img width="223" alt="Feed" src="https://user-images.githubusercontent.com/69583492/206919033-9aa933ce-30c1-47d8-b20a-4dc21414b32f.png">
+<img width="223" alt="Reg" src="https://user-images.githubusercontent.com/69583492/206919116-5e8f70e0-d9d1-4dd8-aa0b-a53c292bf9bd.png"><img width="228" alt="Login" src="https://user-images.githubusercontent.com/69583492/206919108-e49fccc7-1495-441a-bcc7-f631a293f2fa.png"> <img width="223" alt="groups" src="https://user-images.githubusercontent.com/69583492/206919011-7d4bd9c5-066b-48cd-b13b-1479020fbeb9.png"><img width="223" alt="Discover" src="https://user-images.githubusercontent.com/69583492/206919021-3b8f96f8-b2a5-4454-921e-b8b31218fa80.png"><img width="223" alt="Create" src="https://user-images.githubusercontent.com/69583492/206919042-c490249b-87de-4763-bea2-6bfd829e5262.png"><img width="223" alt="settings" src="https://user-images.githubusercontent.com/69583492/206919026-73be84ff-d1c8-4559-b907-5b1a9b88ad60.png"><img width="223" alt="Feed" src="https://user-images.githubusercontent.com/69583492/206919033-9aa933ce-30c1-47d8-b20a-4dc21414b32f.png"><img width="223" alt="Feed" src="https://user-images.githubusercontent.com/69583492/206921792-4518873d-aee2-4ef8-8ad3-951ea970cfba.png ">
+
+
 
 
 
