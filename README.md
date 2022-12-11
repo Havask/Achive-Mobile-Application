@@ -11,11 +11,6 @@ This project is currently not in development. Users can register users, create, 
 
 ## Project Screen Shot(s)
 
-#### Example:   
-
-[ PRETEND SCREEN SHOT IS HERE ]
-
-[ PRETEND OTHER SCREEN SHOT IS HERE ]
 
 ## Installation and Setup Instructions
 
