@@ -1,14 +1,4 @@
-/*
-TODO: 
 
--Finn en lønsning for å måle hvor mye som er gjort
--Lag en Scoreboard skjerm 
--Koble til en scoreboard docs til hver gruppe. 
--Der alle grupper starter med 0 i poeng til hver, 
-- 
-
-Lag en top 3 palle for måneden
-*/
 
 import React, {useState, useContext} from "react";
 import styled from "styled-components/native"; 

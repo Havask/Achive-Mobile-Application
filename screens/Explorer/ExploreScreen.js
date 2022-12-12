@@ -38,7 +38,6 @@ const JoinGroup = (groupID) => {
 const RetriveGroups = async () => {
   try{
     const NewSuggestion = await firebase.ExplorationFeed() 
-    //console.log("sug",NewSuggestion)
     setSuggestion(NewSuggestion);  
 
     }catch(error){

@@ -1,9 +1,4 @@
-/*
-TODO: 
 
--Finn en måte å rullere på rutinene
-
-*/
 
 import React, {useState, useContext} from "react";
 import styled from "styled-components/native"; 

@@ -1,0 +1,1 @@
+{"ast":null,"code":"export default{get name(){return'ExpoHaptics';}};","map":{"version":3,"mappings":"AAAA,cAAe,CACb,GAAIA,KAAJ,EAAQ,CACN,MAAO,aAAP,CACD,CAHY,CAAf","names":["name"],"sourceRoot":"","sources":["../src/ExpoHaptics.web.ts"],"sourcesContent":["export default {\n  get name(): string {\n    return 'ExpoHaptics';\n  },\n};\n"]},"metadata":{},"sourceType":"module"}

@@ -818,22 +818,6 @@ SortGroupFeed: async (posts, sortsettings) => {
     }
   }, 
   
-  ProfileTheUser: async () => {
-
-    try{
-      /*
-      Try and make a profile
-      What data points would i need to suggest the best content?
-      -Hvilken type grupper bruker man mest tid i. 
-      -Hvilken grupper er andre i samme gruppe med i
-      
-      */
-  
-      
-      }catch(error){
-        console.log("Error @ProfileTheUser", error)
-      }
-    }, 
 
   SearchForCommunities: async (Query) => {
 

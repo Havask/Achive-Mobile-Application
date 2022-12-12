@@ -15,7 +15,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.haask.achive1236123"
     },
     "android": {
       "adaptiveIcon": {
@@ -23,6 +24,11 @@
       }
     },
     "web": {},
-    "description": ""
+    "description": "",
+    "extra": {
+      "eas": {
+        "projectId": "b01de45a-6363-4f11-85b8-415df80e3019"
+      }
+    }
   }
 }
