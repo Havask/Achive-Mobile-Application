@@ -1,7 +1,7 @@
 
 ## Achive mobile app
 
-An mobile application used to socialize and create groups, built with React native, firebase and JavaScript.
+A mobile application built with React native, firebase, and JavaScript that is used to socialize and create groups would likely have a variety of features to help users connect and interact with each other. It would likely have a user-friendly interface that allows users to easily create and manage their own groups, invite other users to join their groups, and participate in group discussions and activities. The application would likely use firebase to store and manage user data, such as user profiles and group information, and to provide real-time updates and notifications to users. It might also use JavaScript to add interactive and dynamic elements to the user interface, such as animations and other visual effects. Overall, this type of mobile application would be a useful tool for people who want to connect and socialize with others, and to create and manage their own online communities.
 
 ## Project Status
 
