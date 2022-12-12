@@ -29,5 +29,7 @@ To Start app:
 
 ## Reflection
 
-This was a 4 month long project built and developed in collaberation with a startup incubator norrinova. Project goals included using technologies learned up until this point and familiarizing myself with both backend and frontend development.  
+This project was a collaborative effort between me and a startup incubator called Norrinova. The project involved learning about app development and also about startups. The goals of the project included using the technologies I had learned up until that point in my studies, as well as gaining experience with both backend and frontend development. 
+
+Working with a startup incubator like Norrinova was a great way to gain practical experience and learn new skills. Incubators often provide resources, mentorship, and support to help entrepreneurs and startups develop their ideas and grow their businesses. This project may have given me the opportunity to work with other team members, develop my problem-solving and collaboration skills, and learn more about the process of creating and launching a startup. Overall, it was valuable and exciting learning experience.
 
