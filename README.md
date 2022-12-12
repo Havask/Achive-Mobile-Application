@@ -5,7 +5,7 @@ A mobile application built with React native, firebase, and JavaScript that is u
 
 ## Project Status
 
-This project is currently not in development. Users can register users, create, join and leave groups.
+Since this project is not currently in development, its performance and the status of its packages may be compromised. Users may still be able to register, create, join, and leave groups, but some features may not work as expected. The application is still hosted by firebase.
 
 ## Project Screen Shots
 
